@@ -1,0 +1,67 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 26px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Variants */
+.default {
+  background-color: var(--color-neutral-100);
+  color: var(--color-text-primary);
+}
+
+.genre {
+  background-color: rgba(108, 71, 255, 0.08);
+  color: var(--color-brand-primary);
+}
+
+.skill {
+  background-color: var(--color-neutral-100);
+  color: var(--color-text-secondary);
+}
+
+/* When removable, tighten right padding */
+.removable {
+  padding-right: var(--space-2);
+}
+
+.label {
+  line-height: 1;
+}
+
+/* Remove button */
+.removeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: currentColor;
+  opacity: 0.6;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: opacity var(--transition-fast), background-color var(--transition-fast);
+  margin-left: 2px;
+}
+
+.removeBtn:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.removeBtn:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 1px;
+}

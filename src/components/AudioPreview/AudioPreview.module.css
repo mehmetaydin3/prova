@@ -1,0 +1,167 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface-subtle);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--color-border-default);
+  width: 100%;
+}
+
+/* Play / Pause button */
+.playBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.playBtn:hover:not(:disabled) {
+  background-color: #5835e0;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(108, 71, 255, 0.4);
+}
+
+.playBtn:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow: none;
+}
+
+.playBtn:focus-visible {
+  outline: 3px solid rgba(108, 71, 255, 0.4);
+  outline-offset: 2px;
+}
+
+.playBtn:disabled {
+  background-color: var(--color-neutral-300);
+  cursor: not-allowed;
+}
+
+.playing {
+  background-color: #5835e0;
+}
+
+/* Loading spinner inside button */
+.loadingSpinner {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Body */
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+}
+
+.titleText {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+}
+
+/* Waveform row */
+.waveformRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Waveform */
+.waveform {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 32px;
+  cursor: pointer;
+}
+
+/* Individual bars */
+.bar {
+  flex: 1;
+  min-width: 2px;
+  height: var(--bar-height);
+  border-radius: 1px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.bar:hover {
+  opacity: 0.75;
+  transform: scaleY(1.05);
+}
+
+.barPlayed {
+  background-color: var(--color-brand-primary);
+}
+
+.barUnplayed {
+  background-color: var(--color-neutral-300);
+}
+
+/* Time display */
+.timeDisplay {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.currentTime {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.separator {
+  color: var(--color-text-disabled);
+}
+
+.totalTime {
+  color: var(--color-text-secondary);
+}
+
+.errorText {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+}

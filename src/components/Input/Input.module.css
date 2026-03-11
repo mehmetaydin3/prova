@@ -1,0 +1,122 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+.label {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-normal);
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface-default);
+  border: 1.5px solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  gap: var(--space-2);
+  overflow: hidden;
+}
+
+.inputWrap:focus-within {
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.15);
+}
+
+.inputWrap:hover:not(.disabled):not(.error):not(:focus-within) {
+  border-color: var(--color-border-strong);
+}
+
+/* Sizes */
+.sm {
+  height: 36px;
+  padding: 0 var(--space-3);
+}
+
+.md {
+  height: 44px;
+  padding: 0 var(--space-4);
+}
+
+/* States */
+.error {
+  border-color: var(--color-error);
+}
+
+.error:focus-within {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.disabled {
+  background-color: var(--color-neutral-100);
+  cursor: not-allowed;
+}
+
+.disabled .input {
+  cursor: not-allowed;
+}
+
+/* Input element */
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-family-base);
+  color: var(--color-text-primary);
+  min-width: 0;
+}
+
+.sm .input {
+  font-size: var(--font-size-sm);
+}
+
+.md .input {
+  font-size: var(--font-size-md);
+}
+
+.input::placeholder {
+  color: var(--color-text-disabled);
+}
+
+.input:disabled {
+  color: var(--color-text-disabled);
+}
+
+/* Icons */
+.icon,
+.iconRight {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  font-size: var(--font-size-md);
+  line-height: 1;
+}
+
+/* Helper / Error text */
+.helperText {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+}
+
+.errorText {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+  line-height: var(--line-height-normal);
+}
