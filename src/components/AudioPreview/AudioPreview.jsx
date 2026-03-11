@@ -180,26 +180,38 @@ export function AudioPreview({
           <span className={styles.titleText}>{title}</span>
         </div>
         <div className={styles.waveformRow}>
-          {/* Waveform bars */}
-          <div
-            className={styles.waveform}
-            aria-hidden="true"
-            role="presentation"
-          >
-            {bars.map((height, i) => (
-              <button
-                key={i}
-                type="button"
-                className={[
-                  styles.bar,
-                  i < playedBars ? styles.barPlayed : styles.barUnplayed,
-                ].join(' ')}
-                style={{ '--bar-height': `${Math.max(0.1, height) * 100}%` }}
-                onClick={() => seekToBar(i)}
-                tabIndex={-1}
-                aria-hidden="true"
-              />
-            ))}
+          {/* Waveform wrapper with absolute input for keyboard seeking */}
+          <div className={styles.waveformContainer}>
+            <input
+              type="range"
+              min="0"
+              max={BAR_COUNT - 1}
+              step="1"
+              value={Math.min(BAR_COUNT - 1, playedBars)}
+              onChange={(e) => seekToBar(Number(e.target.value))}
+              className={styles.visuallyHiddenRange}
+              aria-label="Seek waveform"
+            />
+            <div
+              className={styles.waveform}
+              aria-hidden="true"
+              role="presentation"
+            >
+              {bars.map((height, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={[
+                    styles.bar,
+                    i < playedBars ? styles.barPlayed : styles.barUnplayed,
+                  ].join(' ')}
+                  style={{ '--bar-height': `${Math.max(0.1, height) * 100}%` }}
+                  onClick={() => seekToBar(i)}
+                  tabIndex={-1}
+                  aria-hidden="true"
+                />
+              ))}
+            </div>
           </div>
 
           {/* Time counter */}

@@ -20,7 +20,7 @@ function StarIcon({ fill = 'empty', size = 14 }) {
         <defs>
           <linearGradient id={id} x1="0" x2="1" y1="0" y2="0">
             <stop offset="50%" stopColor="#F59E0B" />
-            <stop offset="50%" stopColor="#EBEBEB" />
+            <stop offset="50%" stopColor="#A1A1AA" />
           </linearGradient>
         </defs>
         <path
@@ -35,7 +35,7 @@ function StarIcon({ fill = 'empty', size = 14 }) {
     <svg width={size} height={size} viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path
         d="M7 1l1.545 3.13L12 4.635l-2.5 2.437.59 3.441L7 8.875l-3.09 1.638L4.5 7.072 2 4.635l3.455-.505L7 1z"
-        fill="#EBEBEB"
+        fill="#A1A1AA"
       />
     </svg>
   );

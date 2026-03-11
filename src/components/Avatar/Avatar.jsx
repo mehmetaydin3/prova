@@ -77,7 +77,7 @@ export function Avatar({
         )}
       </div>
       {online && (
-        <span className={styles.onlineDot} aria-label="Online" />
+        <span className={styles.onlineDot} aria-label="Online" role="status" />
       )}
     </div>
   );

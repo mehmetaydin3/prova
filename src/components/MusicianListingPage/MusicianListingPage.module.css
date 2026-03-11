@@ -1,0 +1,21 @@
+.page {
+  padding: var(--space-400);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  color: var(--color-neutral-900);
+  margin-bottom: var(--space-200);
+}
+
+.description {
+  color: var(--color-neutral-600);
+  margin-bottom: var(--space-600);
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-600);
+}

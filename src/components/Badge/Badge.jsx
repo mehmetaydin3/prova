@@ -32,7 +32,7 @@ export function Badge({ variant = 'verified', size = 'md', className = '' }) {
     .join(' ');
 
   return (
-    <span className={classNames} aria-label={config.label}>
+    <span className={classNames}>
       {config.icon && (
         <span className={styles.icon} aria-hidden="true">
           {config.icon}
