@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 
 export default {
   stories: ['../src/**/*.stories.@(js|jsx)'],
-  addons: ['@storybook/addon-essentials', '@storybook/addon-a11y'],
+  addons: ['@storybook/addon-a11y', '@storybook/addon-docs'],
   framework: {
     name: '@storybook/react-vite',
     options: {},

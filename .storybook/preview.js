@@ -37,6 +37,6 @@ export const parameters = {
     },
   },
   backgrounds: {
-    disable: true, // We will use the theme CSS to handle backgrounds
+    disabled: true,
   },
 };
