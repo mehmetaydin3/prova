@@ -4,7 +4,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/mehmetaydin3/prova)](https://github.com/mehmetaydin3/prova/issues)
 [![GitHub last commit](https://img.shields.io/github/last-commit/mehmetaydin3/prova)](https://github.com/mehmetaydin3/prova/commits/main)
 
-Marketplace for musicians to showcase services and get paid work globally.
+A global marketplace where musicians can offer services and clients can hire them for gigs, sessions, lessons, and recordings.
 
 ## The global marketplace for musicians
 
