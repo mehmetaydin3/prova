@@ -9,9 +9,7 @@ import { FeaturedMusicianRow } from '../../features/FeaturedMusicianRow/Featured
 import { BookingDrawer } from '../../features/BookingDrawer/BookingDrawer';
 import { HowItWorks } from '../../features/HowItWorks/HowItWorks';
 import { Footer } from '../../features/Footer/Footer';
-import { NetworkSection } from '../../features/NetworkSection/NetworkSection';
 import { Typography } from '../../ui/Typography/Typography';
-import { musiciansData } from '../../../mocks/musicians';
 import styles from './MusicianDetailPage.module.css';
 
 export function MusicianDetailPage({
@@ -26,8 +24,21 @@ export function MusicianDetailPage({
   const [selectedServiceIdx, setSelectedServiceIdx] = useState(0);
   const [friendshipStatus, setFriendshipStatus] = useState('none');
 
+  // Normalize API field names to the canonical shape expected by child components.
+  // API uses headline/ratingAverage/ratingCount/completedJobs/audioSamples[];
+  // mocks use tagline/rating/reviewCount/completedGigs/audioSample.
+  // This adapter is additive — mock data passes through unchanged.
+  const m = {
+    ...musician,
+    tagline:       musician.tagline      ?? musician.headline     ?? '',
+    rating:        musician.rating       ?? musician.ratingAverage ?? 0,
+    reviewCount:   musician.reviewCount  ?? musician.ratingCount   ?? 0,
+    completedGigs: musician.completedGigs ?? musician.completedJobs ?? null,
+    audioSample:   musician.audioSample  ?? musician.audioSamples?.[0] ?? null,
+  };
+
   // Adapt API services shape or fall back to mock packages for Storybook compatibility.
-  const rawServices = Array.isArray(musician.services) ? musician.services : [];
+  const rawServices = Array.isArray(m.services) ? m.services : [];
   const services = rawServices.length > 0
     ? rawServices.map(s => ({
         name: s.title,
@@ -36,7 +47,7 @@ export function MusicianDetailPage({
         revisions: s.revisionsIncluded ?? null,
         features: Array.isArray(s.deliverables) ? s.deliverables : [],
       }))
-    : (musician.packages || []);
+    : (m.packages || []);
 
   const handleFriendAction = () => {
     if (friendshipStatus === 'none') setFriendshipStatus('pending');
@@ -50,7 +61,7 @@ export function MusicianDetailPage({
 
       <main>
         <MusicianDetailHero
-          musician={musician}
+          musician={m}
           onBook={() => setDrawerOpen(true)}
           onContact={() => {}}
           friendshipStatus={friendshipStatus}
@@ -62,17 +73,17 @@ export function MusicianDetailPage({
             {/* About section */}
             <section className={styles.section}>
               <Typography as="h2" className={styles.sectionTitle}>About the Musician</Typography>
-              {musician.bio && <p className={styles.bio}>{musician.bio}</p>}
+              {m.bio && <p className={styles.bio}>{m.bio}</p>}
             </section>
 
-            {/* Media section */}
-            {musician.audioSample && (
+            {/* Media section — uses first item from audioSamples[] or legacy audioSample */}
+            {m.audioSample && (
               <section className={styles.section}>
                 <Typography as="h2" className={styles.sectionTitle}>Featured Media</Typography>
                 <AudioPreview
-                  src={musician.audioSample.src}
-                  title={musician.audioSample.title}
-                  duration={musician.audioSample.duration}
+                  src={m.audioSample.src}
+                  title={m.audioSample.title}
+                  duration={m.audioSample.duration}
                 />
               </section>
             )}
@@ -82,12 +93,13 @@ export function MusicianDetailPage({
               <HowItWorks />
             </section>
 
-            {/* Reviews */}
+            {/* Reviews — individual review cards deferred until reviews API exists;
+                rating summary block uses real ratingAverage/ratingCount from API */}
             <section className={styles.section}>
               <ReviewList
-                reviews={musician.reviews || []}
-                rating={musician.rating}
-                reviewCount={musician.reviewCount}
+                reviews={m.reviews || []}
+                rating={m.rating}
+                reviewCount={m.reviewCount}
               />
             </section>
           </div>
@@ -97,7 +109,7 @@ export function MusicianDetailPage({
             {services.length > 0 && (
               <ServicePackages
                 packages={services}
-                currency={musician.currency}
+                currency={m.currency}
                 onSelect={(pkg) => {
                   const idx = services.indexOf(pkg);
                   if (idx !== -1) setSelectedServiceIdx(idx);
@@ -105,14 +117,7 @@ export function MusicianDetailPage({
                 }}
               />
             )}
-
-            {/* Network section */}
-            <div className={styles.section}>
-              <Typography as="h3" variant="heading3">Musical Network</Typography>
-              <NetworkSection 
-                friends={musiciansData.filter(m => musician.friends?.includes(m.id))} 
-              />
-            </div>
+            {/* Network section deferred — no friends/connections API yet */}
           </aside>
         </div>
 
@@ -133,7 +138,7 @@ export function MusicianDetailPage({
         <div className={styles.stickyBarContent}>
           <div className={styles.stickyBarInfo}>
             <span className={styles.stickyBarPrice}>
-              {musician.currency || '$'}{musician.startingPrice || '0'}
+              {m.currency || '$'}{m.startingPrice || '0'}
             </span>
             <span className={styles.stickyBarLabel}>Starting price</span>
           </div>
@@ -146,7 +151,7 @@ export function MusicianDetailPage({
 
       <BookingDrawer
         isOpen={drawerOpen}
-        musician={musician}
+        musician={m}
         initialSelectedPkg={selectedServiceIdx}
         onClose={() => setDrawerOpen(false)}
       />
