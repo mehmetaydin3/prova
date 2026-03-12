@@ -7,5 +7,3 @@ storybook-static/
 .env.local
 *.db
 .claude/
-.claude/
-.claude/
