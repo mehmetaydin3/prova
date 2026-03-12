@@ -45,6 +45,9 @@ export { FeatureSpotlight } from './components/FeatureSpotlight/FeatureSpotlight
 export { MetricsGrid } from './components/MetricsGrid/MetricsGrid';
 export { ContextBlock } from './components/ContextBlock/ContextBlock';
 
+// --- Profile Management ---
+export { ProfileEditForm } from './components/ProfileEditForm/ProfileEditForm';
+
 // --- Page Compositions ---
 export { LandingPage } from './components/LandingPage/LandingPage';
 export { MusicianListingPage } from './components/MusicianListingPage/MusicianListingPage';

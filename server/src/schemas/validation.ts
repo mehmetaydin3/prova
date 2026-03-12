@@ -10,6 +10,7 @@ export const loginSchema = z.object({
   password: z.string(),
 });
 
+// Legacy schema (musician_profiles table) — kept for backward compatibility
 export const profileSchema = z.object({
   fullName: z.string().min(2),
   stageName: z.string().optional(),
@@ -18,4 +19,29 @@ export const profileSchema = z.object({
   location: z.string().optional(),
   website: z.string().url().optional().or(z.literal('')),
   socialLinks: z.string().optional(),
+});
+
+// Primary profile schema — maps to the musicians table
+export const musicianProfileSchema = z.object({
+  name: z.string().min(2, 'Display name must be at least 2 characters'),
+  headline: z.string().max(120).optional().or(z.literal('')),
+  bio: z.string().max(2000).optional().or(z.literal('')),
+  location: z.string().max(100).optional().or(z.literal('')),
+  remoteAvailable: z.boolean().optional().default(false),
+  instruments: z.array(z.string()).optional().default([]),
+  genres: z.array(z.string()).optional().default([]),
+  avatarSrc: z.string().url().optional().or(z.literal('')),
+});
+
+export const serviceSchema = z.object({
+  serviceType: z.enum(['remote', 'in-person', 'both']),
+  title: z.string().min(3).max(120),
+  description: z.string().max(1000).optional().or(z.literal('')),
+  deliverables: z.array(z.string()).optional().default([]),
+  startingPrice: z.number().min(0),
+  priceType: z.enum(['fixed', 'hourly', 'per-project']),
+  turnaroundTime: z.string().optional().or(z.literal('')),
+  revisionsIncluded: z.number().int().min(0).optional().default(0),
+  tags: z.array(z.string()).optional().default([]),
+  deliveryMode: z.enum(['remote', 'in-person', 'both']),
 });
