@@ -1,0 +1,121 @@
+.section {
+  width: 100%;
+}
+
+.title {
+  font-size: var(--font-size-xl) !important;
+  margin-bottom: var(--space-4) !important;
+  font-weight: var(--font-weight-bold) !important;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.card {
+  position: relative;
+  background: var(--color-surface-glass);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  backdrop-filter: var(--backdrop-blur);
+}
+
+.card:hover {
+  border-color: var(--accent);
+  background: var(--color-surface-glass-hover);
+}
+
+.cardSelected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--color-surface-glass));
+  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.cardAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--accent);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.tierBadge {
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.selectedMark {
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-success);
+}
+
+/* Pricing */
+.pricing {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.priceAmount {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-text-primary);
+}
+
+.delivery, .revisions {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Features */
+.features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-tight);
+}
+
+.checkIcon {
+  color: var(--color-success);
+  flex-shrink: 0;
+  font-size: 10px;
+}
+
+.cta {
+  margin-top: var(--space-2);
+}

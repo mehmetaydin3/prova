@@ -1,12 +1,14 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
 import { getDb } from '../db.js';
+import { mapVibeToKeywords } from '../utils/vibeMapper.js';
 
 const router = Router();
 
 // GET /api/musicians
 // Query params:
 //   q           - text search against name and headline
+//   vibe        - natural language "vibe" search (e.g. "moody cello")
 //   genre       - exact genre match (e.g. "Jazz")
 //   instrument  - instrument match (e.g. "Guitar")
 //   serviceType - service type: remote | in-person | etc.
@@ -17,6 +19,7 @@ router.get('/', async (req: Request, res: Response) => {
   try {
     const {
       q,
+      vibe,
       genre,
       instrument,
       service,
@@ -28,6 +31,36 @@ router.get('/', async (req: Request, res: Response) => {
 
     const conditions: string[] = [];
     const params: (string | number)[] = [];
+
+    // Vibe search: maps natural language to genres and instruments
+    if (vibe && vibe.trim()) {
+      const { genres, instruments } = mapVibeToKeywords(vibe);
+      
+      const vibeConditions: string[] = [];
+      
+      // If we found specific genres/instruments from the vibe, add them to OR conditions
+      if (genres.length > 0) {
+        genres.forEach(g => {
+          vibeConditions.push('genres LIKE ?');
+          params.push(`%"${g}"%`);
+        });
+      }
+      
+      if (instruments.length > 0) {
+        instruments.forEach(i => {
+          vibeConditions.push('instruments LIKE ? OR skills LIKE ?');
+          params.push(`%"${i}"%`, `%"${i}"%`);
+        });
+      }
+
+      // Also include general text search for the vibe string itself as a fallback
+      vibeConditions.push('name LIKE ? OR headline LIKE ? OR bio LIKE ?');
+      params.push(`%${vibe.trim()}%`, `%${vibe.trim()}%`, `%${vibe.trim()}%`);
+
+      if (vibeConditions.length > 0) {
+        conditions.push(`(${vibeConditions.join(' OR ')})`);
+      }
+    }
 
     // Text search: name or headline
     if (q && q.trim()) {

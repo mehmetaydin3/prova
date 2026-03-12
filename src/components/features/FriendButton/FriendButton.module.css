@@ -1,0 +1,28 @@
+.friendButton {
+  min-width: 140px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.friends {
+  background-color: var(--color-success-subtle, #e6f7ed);
+  color: var(--color-success-dark, #137333);
+  border-color: transparent;
+}
+
+.friends:hover {
+  background-color: var(--color-danger-subtle, #fce8e6);
+  color: var(--color-danger-dark, #d93025);
+}
+
+.friends:hover .label {
+  display: none;
+}
+
+.friends:hover::after {
+  content: 'Remove Friend';
+}
+
+.pending {
+  color: var(--color-text-secondary, #5f6368);
+  font-style: italic;
+}

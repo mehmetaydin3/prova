@@ -9,7 +9,7 @@ export const musiciansData = [
     location: 'Atlanta, GA',
     online: true,
     tier: 'pro',
-    badges: ['pro', 'topRated'],
+    badges: ['pro', 'topRated', 'fastResponder'],
     genres: ['Hip-Hop', 'Trap', 'R&B'],
     skills: ['Beat Making', 'Mixing', 'Sampling'],
     ensembleType: 'solo',
@@ -35,6 +35,7 @@ export const musiciansData = [
       { id: 'r1', author: 'DJ Phantom', avatar: 'https://i.pravatar.cc/40?img=20', rating: 5, date: '2025-02-10', text: 'Absolutely knocked it out. The beat had exactly the energy I was looking for.' },
       { id: 'r2', author: 'Lena Keys', avatar: 'https://i.pravatar.cc/40?img=22', rating: 5, date: '2025-01-28', text: 'Quick turnaround, professional communication, fire production!' },
     ],
+    friends: ['m2', 'm5', 'm9'],
   },
   {
     id: 'm2',
@@ -46,7 +47,7 @@ export const musiciansData = [
     location: 'Los Angeles, CA',
     online: true,
     tier: 'verified',
-    badges: ['verified', 'topRated'],
+    badges: ['verified', 'topRated', 'fastResponder'],
     genres: ['Pop', 'R&B', 'Soul'],
     skills: ['Mixing', 'Mastering', 'Dolby Atmos'],
     ensembleType: 'solo',
@@ -71,6 +72,7 @@ export const musiciansData = [
     reviews: [
       { id: 'r1', author: 'Sam Rivera', avatar: 'https://i.pravatar.cc/40?img=30', rating: 5, date: '2025-03-01', text: 'Sofia is an absolute genius. My EP sounds incredible.' },
     ],
+    friends: ['m1', 'm3', 'm11'],
   },
   {
     id: 'm3',
@@ -105,6 +107,7 @@ export const musiciansData = [
       { name: 'Premium', price: 180, delivery: '1 day', revisions: 'Unlimited', features: ['Full session', 'Exclusive rights', 'Backing vocals'] },
     ],
     reviews: [],
+    friends: ['m2', 'm12'],
   },
   {
     id: 'm4',
@@ -136,6 +139,7 @@ export const musiciansData = [
     reviews: [
       { id: 'r1', author: 'Arno B.', avatar: 'https://i.pravatar.cc/40?img=25', rating: 5, date: '2025-02-20', text: 'Devon explains modular synthesis unlike anyone I\'ve found online. Highly recommend.' },
     ],
+    friends: ['m12', 'm1'],
   },
   {
     id: 'm5',
@@ -147,7 +151,7 @@ export const musiciansData = [
     location: 'London, UK',
     online: true,
     tier: 'pro',
-    badges: ['pro'],
+    badges: ['pro', 'fastResponder'],
     genres: ['Classical', 'Acoustic', 'Pop', 'Cinematic'],
     skills: ['Violin', 'String Arrangements', 'Sight Reading', 'Wedding Sets'],
     ensembleType: 'duo',
@@ -172,6 +176,7 @@ export const musiciansData = [
     reviews: [
       { id: 'r1', author: 'James O.', avatar: 'https://i.pravatar.cc/40?img=40', rating: 5, date: '2025-01-15', text: 'Elena played at our wedding and it was truly magical. Couldn\'t have asked for more.' },
     ],
+    friends: ['m7', 'm10', 'm1'],
   },
   {
     id: 'm6',
