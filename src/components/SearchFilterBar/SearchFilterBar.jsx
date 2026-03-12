@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from './SearchFilterBar.module.css';
 
+const API_BASE = 'http://localhost:5001';
+
 const GENRES = ['All Genres', 'Hip-Hop', 'Pop', 'R&B', 'Jazz', 'Classical', 'Electronic', 'Afrobeats', 'Flamenco', 'World Music', 'Ambient', 'Rock', 'Soul', 'Gospel', 'Blues', 'Latin', 'Indian Classical', 'Fusion', 'Cinematic', 'Experimental'];
 const INSTRUMENTS = ['All Instruments', 'Guitar', 'Piano', 'Violin', 'Viola', 'Cello', 'Drums', 'Percussion', 'Vocals', 'Synthesizer', 'Bass', 'Saxophone', 'Trumpet', 'Mixing', 'Mastering', 'Sound Design', 'Ableton Live', 'Beat Making', 'Film Scoring'];
 const SERVICE_TYPES = [
@@ -32,6 +34,12 @@ const FilterIcon = () => (
   </svg>
 );
 
+const SparkleIcon = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 2l2.4 7.6H22l-6.4 4.6 2.4 7.6L12 17.2 5.9 22l2.4-7.6L2 9.6h7.6z"/>
+  </svg>
+);
+
 export function SearchFilterBar({
   onFilterChange,
   initialFilters = {},
@@ -45,12 +53,14 @@ export function SearchFilterBar({
   const [instrument, setInstrument] = useState(initialFilters.instrument || 'All Instruments');
   const [onlineOnly, setOnlineOnly] = useState(initialFilters.onlineOnly || false);
   const [sortBy, setSortBy] = useState(initialFilters.sortBy || 'featured');
+  const [isParsing, setIsParsing] = useState(false);
+  const [nlInterpretation, setNlInterpretation] = useState(null);
 
   const notify = (updates) => {
     onFilterChange?.({ search, serviceType, genre, instrument, onlineOnly, sortBy, ...updates });
   };
 
-  const handleSearch = (val) => { setSearch(val); notify({ search: val }); };
+  const handleSearch = (val) => { setSearch(val); setNlInterpretation(null); notify({ search: val }); };
   const handleService = (val) => { setServiceType(val); notify({ serviceType: val }); };
   const handleGenre = (val) => { setGenre(val); notify({ genre: val }); };
   const handleInstrument = (val) => { setInstrument(val); notify({ instrument: val }); };
@@ -58,8 +68,53 @@ export function SearchFilterBar({
   const handleSort = (val) => { setSortBy(val); notify({ sortBy: val }); };
 
   const clearAll = () => {
-    setSearch(''); setServiceType('all'); setGenre('All Genres'); setInstrument('All Instruments'); setOnlineOnly(false); setSortBy('featured');
+    setSearch(''); setServiceType('all'); setGenre('All Genres'); setInstrument('All Instruments'); setOnlineOnly(false); setSortBy('featured'); setNlInterpretation(null);
     onFilterChange?.({ search: '', serviceType: 'all', genre: 'All Genres', instrument: 'All Instruments', onlineOnly: false, sortBy: 'featured' });
+  };
+
+  // Natural language parsing: triggered on Enter when query has multiple words
+  const handleKeyDown = async (e) => {
+    if (e.key !== 'Enter') return;
+    const query = search.trim();
+    if (!query || !query.includes(' ')) return; // single words go through as plain text search
+
+    setIsParsing(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/search/parse`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      });
+      if (!res.ok) return;
+      const parsed = await res.json();
+
+      // Apply parsed filters
+      const newSearch = parsed.q ?? '';
+      const newGenre = parsed.genre ?? 'All Genres';
+      const newInstrument = parsed.instrument ?? 'All Instruments';
+      const newService = parsed.service ?? 'all';
+      const newSortBy = parsed.sortBy ?? 'featured';
+
+      setSearch(newSearch);
+      setGenre(newGenre);
+      setInstrument(newInstrument);
+      setServiceType(newService);
+      setSortBy(newSortBy);
+
+      // Build human-readable interpretation summary
+      const parts = [];
+      if (newGenre !== 'All Genres') parts.push(newGenre);
+      if (newInstrument !== 'All Instruments') parts.push(newInstrument);
+      if (newService !== 'all') parts.push(SERVICE_TYPES.find(s => s.value === newService)?.label ?? newService);
+      if (newSortBy !== 'featured') parts.push(SORT_OPTIONS.find(o => o.value === newSortBy)?.label ?? newSortBy);
+      setNlInterpretation(parts.length > 0 ? parts.join(' · ') : null);
+
+      onFilterChange?.({ search: newSearch, serviceType: newService, genre: newGenre, instrument: newInstrument, onlineOnly, sortBy: newSortBy });
+    } catch (_) {
+      // On failure, fall back to plain text search
+    } finally {
+      setIsParsing(false);
+    }
   };
 
   const hasActiveFilters = search !== '' || serviceType !== 'all' || genre !== 'All Genres' || instrument !== 'All Instruments' || onlineOnly;
@@ -73,16 +128,20 @@ export function SearchFilterBar({
     >
       <div className={styles.inner}>
         {/* Search input */}
-        <div className={styles.searchField}>
-          <SearchIcon />
+        <div className={[styles.searchField, isParsing ? styles.searchParsing : ''].filter(Boolean).join(' ')}>
+          {isParsing ? <span className={styles.parsingSpinner} aria-hidden="true" /> : <SearchIcon />}
           <input
             type="search"
             className={styles.searchInput}
-            placeholder='Search by name, genre, instrument…'
+            placeholder='Try "jazz pianist for a wedding" or search by name…'
             value={search}
             onChange={(e) => handleSearch(e.target.value)}
-            aria-label="Search musicians"
+            onKeyDown={handleKeyDown}
+            aria-label="Search musicians — supports natural language"
           />
+          <span className={styles.nlHint} title="Supports natural language — press Enter to parse">
+            <SparkleIcon />
+          </span>
         </div>
 
         {/* Divider */}
@@ -157,6 +216,16 @@ export function SearchFilterBar({
           </button>
         )}
       </div>
+
+      {/* Natural language interpretation badge */}
+      {nlInterpretation && (
+        <div className={styles.nlBadgeRow}>
+          <span className={styles.nlBadge}>
+            <SparkleIcon />
+            {nlInterpretation}
+          </span>
+        </div>
+      )}
 
       {resultCount != null && (
         <div className={styles.resultCount} aria-live="polite">
