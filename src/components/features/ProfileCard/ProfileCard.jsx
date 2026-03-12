@@ -104,20 +104,22 @@ export function ProfileCard({
               )}
             </div>
 
-            {tagline && (
-              <Typography variant="bodySmall" className={styles.tagline}>
-                {tagline}
-              </Typography>
-            )}
-
-            {location && (
-              <div className={styles.location}>
-                <LocationIcon />
-                <Typography as="span" variant="caption">
-                  {location}
+            <div className={styles.metaRow}>
+              {tagline && (
+                <Typography variant="bodySmall" className={styles.tagline}>
+                  {tagline}
                 </Typography>
-              </div>
-            )}
+              )}
+
+              {location && (
+                <div className={styles.location}>
+                  <LocationIcon />
+                  <Typography as="span" variant="caption">
+                    {location}
+                  </Typography>
+                </div>
+              )}
+            </div>
           </div>
 
           {badges.length > 0 && (
@@ -130,41 +132,46 @@ export function ProfileCard({
         </div>
       </div>
 
-      {/* Audio sample */}
-      {audioSample && (
-        <div className={styles.audioSection} onClick={(e) => e.stopPropagation()}>
-          <AudioPreview
-            src={audioSample.src}
-            duration={audioSample.duration}
-            title={audioSample.title || `${name} — Sample`}
-            waveformData={audioSample.waveformData}
-          />
-        </div>
-      )}
-
-      {/* Genres Section */}
-      {genres.length > 0 && (
-        <div className={styles.section} aria-label="Genres">
-          <Typography variant="caption" className={styles.sectionLabel}>Genres</Typography>
-          <div className={styles.tagsSection}>
-            {genres.map((g) => (
-              <Tag key={g} label={g} variant="genre" />
-            ))}
+      <div className={styles.mainContent}>
+        {/* Audio sample */}
+        {audioSample && (
+          <div className={styles.audioSection} onClick={(e) => e.stopPropagation()}>
+            <AudioPreview
+              src={audioSample.src}
+              duration={audioSample.duration}
+              title={audioSample.title || `${name} — Sample`}
+              waveformData={audioSample.waveformData}
+            />
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Skills Section */}
-      {skills.length > 0 && (
-        <div className={styles.section} aria-label="Skills">
-          <Typography variant="caption" className={styles.sectionLabel}>Skills</Typography>
-          <div className={styles.tagsSection}>
-            {skills.map((s) => (
-              <Tag key={s} label={s} variant="skill" />
-            ))}
+        {/* Attributes: Genres + Skills grouped for scannability */}
+        {(genres.length > 0 || skills.length > 0) && (
+          <div className={styles.attributes}>
+            {genres.length > 0 && (
+              <div className={styles.section} aria-label="Genres">
+                <Typography variant="caption" className={styles.sectionLabel}>Genres</Typography>
+                <div className={styles.tagsSection}>
+                  {genres.map((g) => (
+                    <Tag key={g} label={g} variant="genre" />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {skills.length > 0 && (
+              <div className={styles.section} aria-label="Skills">
+                <Typography variant="caption" className={styles.sectionLabel}>Skills</Typography>
+                <div className={styles.tagsSection}>
+                  {skills.map((s) => (
+                    <Tag key={s} label={s} variant="skill" />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Footer: Rating + Price + Buttons */}
       <div className={styles.footer}>
@@ -212,6 +219,7 @@ export function ProfileCard({
           <Button
             variant="primary"
             size="sm"
+            className={styles.bookBtn}
             onClick={handleBookClick}
             aria-label={`Book a session with ${name}`}
           >

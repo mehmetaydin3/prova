@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import { Typography } from '../../ui/Typography/Typography';
 import { MusicianGrid } from '../../features/MusicianGrid/MusicianGrid';
 import { Button } from '../../ui/Button/Button';
 import styles from './MusicianListingPage.module.css';
@@ -16,13 +15,56 @@ const SERVICE_TYPES = [
   { value: 'wedding', label: 'Wedding' },
   { value: 'online', label: 'Online Lessons' },
 ];
-
 const PRICE_RANGES = [
   { value: 'all', label: 'All Prices' },
   { value: 'low', label: 'Under $50' },
   { value: 'mid', label: '$50 – $150' },
   { value: 'high', label: 'Over $150' },
 ];
+
+/**
+ * Category strip — each entry maps to one or more filter states.
+ * The `icon` field is null until icon assets are provided.
+ */
+const CATEGORIES = [
+  { id: 'all',             label: 'All',            icon: null },
+  { id: 'new',             label: 'New',            icon: null, badge: 'new' },
+  { id: 'available',       label: 'Available',      icon: null, availability: 'online' },
+  { id: 'top-rated',       label: 'Top Rated',      icon: null, minRating: 4.5 },
+  { id: 'hip-hop',         label: 'Hip-Hop',        icon: null, genre: 'Hip-Hop' },
+  { id: 'rb',              label: 'R&B',            icon: null, genre: 'R&B' },
+  { id: 'pop',             label: 'Pop',            icon: null, genre: 'Pop' },
+  { id: 'jazz',            label: 'Jazz',           icon: null, genre: 'Jazz' },
+  { id: 'electronic',      label: 'Electronic',     icon: null, genre: 'Electronic' },
+  { id: 'rock',            label: 'Rock',           icon: null, genre: 'Rock' },
+  { id: 'classical',       label: 'Classical',      icon: null, genre: 'Classical' },
+  { id: 'gospel',          label: 'Gospel',         icon: null, genre: 'Gospel' },
+  { id: 'afrobeats',       label: 'Afrobeats',      icon: null, genre: 'Afrobeats' },
+  { id: 'soul',            label: 'Soul',           icon: null, genre: 'Soul' },
+  { id: 'blues',           label: 'Blues',          icon: null, genre: 'Blues' },
+  { id: 'latin',           label: 'Latin',          icon: null, genre: 'Latin' },
+  { id: 'cinematic',       label: 'Cinematic',      icon: null, genre: 'Cinematic' },
+  { id: 'producer',        label: 'Producer',       icon: null, skill: 'Beat Making' },
+  { id: 'vocalist',        label: 'Vocalist',       icon: null, skill: 'Vocals' },
+  { id: 'engineer',        label: 'Engineer',       icon: null, skill: 'Mixing' },
+  { id: 'instrumentalist', label: 'Instrumentalist',icon: null, skill: 'Guitar' },
+];
+
+function SearchIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.197 5.197a7.5 7.5 0 0 0 10.606 10.606Z" />
+    </svg>
+  );
+}
+
+function SlidersIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+    </svg>
+  );
+}
 
 function useDebounce(value, delay) {
   const [debounced, setDebounced] = useState(value);
@@ -50,9 +92,9 @@ export function MusicianListingPage({
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('recommended');
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState('all');
 
-  // API state
-  const [apiMusicians, setApiMusicians] = useState(null); // null = not yet fetched
+  const [apiMusicians, setApiMusicians] = useState(null);
   const [loading, setLoading] = useState(false);
   const [apiAvailable, setApiAvailable] = useState(true);
 
@@ -63,7 +105,6 @@ export function MusicianListingPage({
     if (abortRef.current) abortRef.current.abort();
     const controller = new AbortController();
     abortRef.current = controller;
-
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -73,7 +114,6 @@ export function MusicianListingPage({
       if (filters.service !== 'all') params.set('service', filters.service);
       if (filters.sortBy) params.set('sortBy', filters.sortBy);
       params.set('limit', '50');
-
       const res = await fetch(`${API_BASE}/api/musicians?${params}`, { signal: controller.signal });
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
@@ -90,49 +130,33 @@ export function MusicianListingPage({
   }, []);
 
   useEffect(() => {
-    fetchMusicians({
-      q: debouncedSearch,
-      genre,
-      instrument,
-      service: serviceType,
-      sortBy,
-    });
+    fetchMusicians({ q: debouncedSearch, genre, instrument, service: serviceType, sortBy });
   }, [debouncedSearch, genre, instrument, serviceType, sortBy, fetchMusicians]);
 
-  // If API is unavailable, fall back to client-side filtering on prop data
   const filteredMusicians = useMemo(() => {
     let result = apiAvailable && apiMusicians !== null ? apiMusicians : musiciansProp;
-
     return result.filter((m) => {
       const q = search.toLowerCase();
-      // Client-side fallback should also be "vibe-like" by checking genres/skills
       const matchesSearch = !q ||
         m.name.toLowerCase().includes(q) ||
         m.tagline?.toLowerCase().includes(q) ||
         m.genres?.some((g) => g.toLowerCase().includes(q)) ||
         m.skills?.some((s) => s.toLowerCase().includes(q)) ||
         m.bio?.toLowerCase().includes(q);
-
       const loc = locationSearch.toLowerCase();
       const matchesLocation = !loc || m.location?.toLowerCase().includes(loc);
-
       const matchesAvailability = availability === 'all' || (availability === 'online' && m.online);
       const matchesRating = minRating === 0 || m.rating >= minRating;
-
       const matchesService = serviceType === 'all' || m.services?.[serviceType];
       const matchesGenre = genre === 'All Genres' || m.genres?.includes(genre);
       const matchesInstrument = instrument === 'All Instruments' || m.skills?.includes(instrument);
-
       let matchesPrice = true;
       if (priceRange === 'low') matchesPrice = m.startingPrice < 50;
       else if (priceRange === 'mid') matchesPrice = m.startingPrice >= 50 && m.startingPrice <= 150;
       else if (priceRange === 'high') matchesPrice = m.startingPrice > 150;
-
       return matchesSearch && matchesLocation && matchesAvailability && matchesRating && matchesService && matchesGenre && matchesInstrument && matchesPrice;
     });
   }, [apiAvailable, apiMusicians, musiciansProp, search, locationSearch, availability, minRating, serviceType, genre, instrument, priceRange]);
-
-  const displayMusicians = filteredMusicians;
 
   const clearFilters = () => {
     setSearch('');
@@ -143,121 +167,158 @@ export function MusicianListingPage({
     setGenre('All Genres');
     setInstrument('All Instruments');
     setPriceRange('all');
+    setActiveCategory('all');
   };
 
-  const hasActiveFilters = search || locationSearch || availability !== 'all' || minRating !== 0 || serviceType !== 'all' || genre !== 'All Genres' || instrument !== 'All Instruments' || priceRange !== 'all';
+  /** Select a category chip — maps to the underlying filter states */
+  const handleCategorySelect = useCallback((cat) => {
+    setActiveCategory(cat.id);
+    setGenre(cat.genre || 'All Genres');
+    setInstrument(cat.skill || 'All Instruments');
+    setAvailability(cat.availability || 'all');
+    setMinRating(cat.minRating || 0);
+  }, []);
 
   const activeFilters = useMemo(() => {
     const list = [];
-    if (genre !== 'All Genres') list.push({ id: 'genre', label: `Genre: ${genre}`, onRemove: () => setGenre('All Genres') });
-    if (instrument !== 'All Instruments') list.push({ id: 'instrument', label: `Skill: ${instrument}`, onRemove: () => setInstrument('All Instruments') });
     if (serviceType !== 'all') {
       const label = SERVICE_TYPES.find(s => s.value === serviceType)?.label;
       list.push({ id: 'serviceType', label: `Service: ${label}`, onRemove: () => setServiceType('all') });
     }
     if (locationSearch) list.push({ id: 'location', label: `Location: ${locationSearch}`, onRemove: () => setLocationSearch('') });
-    if (availability !== 'all') list.push({ id: 'availability', label: 'Online Only', onRemove: () => setAvailability('all') });
-    if (minRating > 0) list.push({ id: 'rating', label: `${minRating}+ Stars`, onRemove: () => setMinRating(0) });
     if (priceRange !== 'all') {
       const label = PRICE_RANGES.find(p => p.value === priceRange)?.label;
       list.push({ id: 'price', label: `Price: ${label}`, onRemove: () => setPriceRange('all') });
     }
     return list;
-  }, [genre, instrument, serviceType, locationSearch, availability, minRating, priceRange]);
+  }, [serviceType, locationSearch, priceRange]);
 
   return (
     <div className={[styles.page, className].filter(Boolean).join(' ')} {...props}>
-      <header className={styles.header}>
-        <Typography as="h1" variant="display" className={styles.title}>
-          Find Your Sound
-        </Typography>
-        <Typography variant="body" className={styles.description}>
-          Discover and hire world-class musicians for remote sessions, live events, or private lessons.
-        </Typography>
-      </header>
 
-      <div className={styles.container}>
-        {/* Top Bar: Search & Drawer Toggle */}
-        <div className={styles.topBar}>
-          <div className={styles.searchBar}>
-            <span className={styles.searchIcon}>🔍</span>
+      {/* ── Compact Page Header: title + search ── */}
+      <div className={styles.pageHeader}>
+        <div className={styles.pageTitleRow}>
+          <h1 className={styles.pageTitle}>Musicians</h1>
+          <p className={styles.pageSubtitle}>
+            Hire world-class talent for remote sessions, live events &amp; lessons
+          </p>
+        </div>
+
+        <div className={styles.searchRow}>
+          <div className={styles.searchInputContainer}>
+            <span className={styles.searchIcon}><SearchIcon /></span>
             <input
               type="text"
-              placeholder="Search by name, vibe, or style..."
+              placeholder="Search by name, vibe, instrument, or genre…"
               className={styles.searchInput}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              aria-label="Search musicians"
             />
           </div>
-          <Button 
-            variant="outline" 
+          <button
+            className={styles.filterToggleBtn}
             onClick={() => setIsFilterDrawerOpen(true)}
-            className={styles.filterButton}
+            aria-label="Open advanced filters"
           >
-            Filters {hasActiveFilters && `(${activeFilters.length})`}
-          </Button>
+            <SlidersIcon />
+            Filters
+            {activeFilters.length > 0 && (
+              <span className={styles.filterCount}>{activeFilters.length}</span>
+            )}
+          </button>
         </div>
+      </div>
 
-        {/* Active Filters Row */}
-        <div className={styles.activeFiltersRow}>
-          {activeFilters.map(filter => (
-            <div key={filter.id} className={styles.chip}>
-              <span className={styles.chipLabel}>{filter.label}</span>
-              <button className={styles.removeChip} onClick={filter.onRemove}>×</button>
-            </div>
+      {/* ── Category Strip ── */}
+      <div className={styles.categoryStripWrapper}>
+        <div className={styles.categoryStrip} role="group" aria-label="Browse by category">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              className={[
+                styles.categoryItem,
+                activeCategory === cat.id ? styles.categoryItemActive : '',
+              ].filter(Boolean).join(' ')}
+              onClick={() => handleCategorySelect(cat)}
+              aria-pressed={activeCategory === cat.id}
+            >
+              {/* Icon slot — populated once icon assets are provided */}
+              <span className={styles.categoryIconSlot} aria-hidden="true">
+                {cat.icon}
+              </span>
+              <span className={styles.categoryLabel}>{cat.label}</span>
+            </button>
           ))}
-          {activeFilters.length > 0 && (
-            <Button variant="ghost" size="sm" onClick={clearFilters}>
-              Clear All
-            </Button>
-          )}
         </div>
+      </div>
+
+      {/* ── Listing Controls Bar ── */}
+      <div className={styles.listingControls}>
+        <p className={styles.listingCount} aria-live="polite">
+          {loading
+            ? 'Searching…'
+            : <><span className={styles.countBold}>{filteredMusicians.length}</span> musicians found</>
+          }
+          {!apiAvailable && <span className={styles.offlineNote}> · local results</span>}
+        </p>
+        <div className={styles.sortSelectWrapper}>
+          <span className={styles.sortLabel}>Sort</span>
+          <select
+            className={styles.sortSelect}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            aria-label="Sort musicians"
+          >
+            <option value="recommended">Recommended</option>
+            <option value="topRated">Top Rated</option>
+            <option value="mostReviewed">Most Reviewed</option>
+            <option value="priceLow">Lowest Price</option>
+            <option value="fastestResponse">Fastest Response</option>
+          </select>
+        </div>
+      </div>
+
+      {/* ── Container: Drawer + Main Grid ── */}
+      <div className={styles.container}>
+
+        {/* Filter Drawer Overlay */}
+        <div
+          className={[styles.drawerOverlay, isFilterDrawerOpen ? styles.drawerOverlayOpen : ''].join(' ')}
+          onClick={() => setIsFilterDrawerOpen(false)}
+          aria-hidden="true"
+        />
 
         {/* Filter Drawer */}
-        <div 
-          className={[styles.drawerOverlay, isFilterDrawerOpen ? styles.drawerOverlayOpen : ''].join(' ')} 
-          onClick={() => setIsFilterDrawerOpen(false)}
-        />
-        <aside className={[styles.drawer, isFilterDrawerOpen ? styles.drawerOpen : ''].join(' ')}>
+        <aside
+          className={[styles.drawer, isFilterDrawerOpen ? styles.drawerOpen : ''].join(' ')}
+          aria-label="Advanced filters"
+          aria-hidden={!isFilterDrawerOpen}
+        >
           <header className={styles.drawerHeader}>
-            <Typography variant="heading3">Refine Search</Typography>
-            <button className={styles.closeButton} onClick={() => setIsFilterDrawerOpen(false)}>×</button>
+            <span className={styles.drawerTitle}>Refine Search</span>
+            <button className={styles.closeButton} onClick={() => setIsFilterDrawerOpen(false)} aria-label="Close filters">×</button>
           </header>
-          
           <div className={styles.drawerContent}>
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>Instrument / Skill</label>
-              <select
-                className={styles.select}
-                value={instrument}
-                onChange={(e) => setInstrument(e.target.value)}
-              >
+              <select className={styles.select} value={instrument} onChange={(e) => setInstrument(e.target.value)}>
                 {INSTRUMENTS.map((i) => <option key={i} value={i}>{i}</option>)}
               </select>
             </div>
-
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>Genre</label>
-              <select
-                className={styles.select}
-                value={genre}
-                onChange={(e) => setGenre(e.target.value)}
-              >
+              <select className={styles.select} value={genre} onChange={(e) => setGenre(e.target.value)}>
                 {GENRES.map((g) => <option key={g} value={g}>{g}</option>)}
               </select>
             </div>
-
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>Service Type</label>
-              <select
-                className={styles.select}
-                value={serviceType}
-                onChange={(e) => setServiceType(e.target.value)}
-              >
+              <select className={styles.select} value={serviceType} onChange={(e) => setServiceType(e.target.value)}>
                 {SERVICE_TYPES.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
             </div>
-
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>Location</label>
               <input
@@ -268,86 +329,52 @@ export function MusicianListingPage({
                 onChange={(e) => setLocationSearch(e.target.value)}
               />
             </div>
-
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>Availability</label>
-              <select
-                className={styles.select}
-                value={availability}
-                onChange={(e) => setAvailability(e.target.value)}
-              >
+              <select className={styles.select} value={availability} onChange={(e) => setAvailability(e.target.value)}>
                 <option value="all">Any Availability</option>
                 <option value="online">Available Now</option>
               </select>
             </div>
-
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>Minimum Rating</label>
-              <select
-                className={styles.select}
-                value={minRating}
-                onChange={(e) => setMinRating(Number(e.target.value))}
-              >
+              <select className={styles.select} value={minRating} onChange={(e) => setMinRating(Number(e.target.value))}>
                 <option value="0">Any Rating</option>
                 <option value="4.5">4.5+ Stars</option>
                 <option value="4.0">4.0+ Stars</option>
               </select>
             </div>
-
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>Price Range</label>
-              <select
-                className={styles.select}
-                value={priceRange}
-                onChange={(e) => setPriceRange(e.target.value)}
-              >
+              <select className={styles.select} value={priceRange} onChange={(e) => setPriceRange(e.target.value)}>
                 {PRICE_RANGES.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
               </select>
             </div>
           </div>
-
           <footer className={styles.drawerFooter}>
             <Button variant="primary" fullWidth onClick={() => setIsFilterDrawerOpen(false)}>
               Show Results
             </Button>
-            <Button variant="ghost" onClick={clearFilters}>
-              Reset
-            </Button>
+            <Button variant="ghost" onClick={clearFilters}>Reset</Button>
           </footer>
         </aside>
 
-        {/* Main Results */}
+        {/* Main Content */}
         <main className={styles.main}>
-          <div className={styles.resultsHeader}>
-            <div className={styles.resultCount} aria-live="polite">
-              {loading
-                ? 'Searching…'
-                : <>Showing <span className={styles.countBold}>{displayMusicians.length}</span> musicians</>
-              }
+          {activeFilters.length > 0 && (
+            <div className={styles.activeFiltersRow}>
+              {activeFilters.map(filter => (
+                <div key={filter.id} className={styles.activeFilterChip}>
+                  <span className={styles.chipLabel}>{filter.label}</span>
+                  <button className={styles.removeChip} onClick={filter.onRemove} aria-label={`Remove ${filter.label} filter`}>×</button>
+                </div>
+              ))}
+              <Button variant="ghost" size="sm" onClick={clearFilters}>Clear All</Button>
             </div>
-            
-            <div className={styles.sortContainer}>
-              <Typography variant="caption" className={styles.sortLabel}>Sort by</Typography>
-              <select 
-                className={styles.sortSelect}
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                <option value="recommended">Recommended</option>
-                <option value="topRated">Top Rated</option>
-                <option value="mostReviewed">Most Reviewed</option>
-                <option value="priceLow">Lowest Price</option>
-                <option value="fastestResponse">Fastest Response</option>
-              </select>
-            </div>
-
-            {!apiAvailable && (
-              <span className={styles.offlineNote}>Showing local results</span>
-            )}
-          </div>
+          )}
 
           <MusicianGrid
-            musicians={displayMusicians}
+            musicians={filteredMusicians}
             loading={loading}
             onBook={onBook}
             onContact={onContact}

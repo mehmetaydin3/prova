@@ -1,117 +1,364 @@
+/* ============================================================
+   MUSICIAN LISTING PAGE — Dark-Luxe Editorial Theme
+   ============================================================ */
+
+/* ---- Page Shell — overrides design tokens for dark-luxe inheritance ---- */
 .page {
-  padding: var(--space-8) var(--space-6);
-  max-width: 1400px;
-  margin: 0 auto;
+  background: #111114;
   min-height: 100vh;
+  --color-brand-primary: #F5A623;
+  --glow-primary: 0 4px 12px rgba(245,166,35,0.25);
+  --color-surface-glass: rgba(245,240,232,0.04);
+  --color-surface-glass-hover: rgba(245,240,232,0.07);
+  --color-surface-elevated: rgba(245,240,232,0.03);
+  --backdrop-blur: none;
+  --color-border-subtle: rgba(245,240,232,0.08);
+  --color-border-default: rgba(245,240,232,0.15);
+  --color-text-primary: #F5F0E8;
+  --color-text-secondary: rgba(245,240,232,0.55);
+  --color-text-tertiary: rgba(245,240,232,0.35);
+  --color-text-disabled: rgba(245,240,232,0.25);
+  --color-success: #22C55E;
+  --shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
+  --shadow-md: 0 24px 64px rgba(0,0,0,0.4);
+  --color-neutral-200: rgba(245,240,232,0.15);
+  --color-neutral-300: rgba(245,240,232,0.2);
+  --font-family-base: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.title {
-  font-size: var(--font-size-display) !important;
-  font-weight: var(--font-weight-bold) !important;
-  letter-spacing: -0.04em !important;
-  margin-bottom: var(--space-base);
+/* ================================================================
+   PAGE HEADER — compact, contains title + search row
+   ================================================================ */
+.pageHeader {
+  background: #0D0D0F;
+  padding: 40px 48px 32px;
+  border-bottom: 1px solid rgba(245,240,232,0.06);
 }
 
-.description {
-  color: var(--color-text-secondary);
-  font-size: var(--font-size-body);
-  margin-bottom: var(--space-64);
-  max-width: 700px;
-  line-height: var(--line-height-relaxed);
+.pageTitleRow {
+  margin-bottom: 24px;
 }
 
-.topBar {
+.pageTitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #F5F0E8;
+  margin: 0 0 6px;
+  line-height: 1.1;
+}
+
+.pageSubtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(245,240,232,0.4);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ---- Search Row ---- */
+.searchRow {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
+  gap: 12px;
 }
 
-.searchBar {
+.searchInputContainer {
   flex: 1;
   position: relative;
 }
 
 .searchIcon {
   position: absolute;
-  left: var(--space-4);
+  left: 18px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--color-text-tertiary);
+  color: rgba(245,240,232,0.3);
   pointer-events: none;
+  display: flex;
+  align-items: center;
 }
 
 .searchInput {
   width: 100%;
-  background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-full);
-  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-10);
-  color: var(--color-text-primary);
-  font-size: var(--font-size-body);
-  transition: all var(--transition-base);
+  background: rgba(245,240,232,0.06);
+  border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 10px;
+  padding: 14px 18px 14px 48px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #F5F0E8;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
 }
+
+.searchInput::placeholder { color: rgba(245,240,232,0.3); }
 
 .searchInput:focus {
-  outline: none;
-  border-color: var(--color-brand-primary);
-  box-shadow: 0 0 0 2px var(--color-brand-faded);
+  border-color: rgba(245,166,35,0.5);
+  background: rgba(245,240,232,0.08);
 }
 
+.filterToggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(245,240,232,0.06);
+  border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 10px;
+  padding: 14px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(245,240,232,0.7);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filterToggleBtn:hover {
+  background: rgba(245,240,232,0.1);
+  border-color: rgba(245,240,232,0.2);
+  color: #F5F0E8;
+}
+
+.filterCount {
+  background: #F5A623;
+  color: #0D0D0F;
+  border-radius: 100px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* ================================================================
+   CATEGORY STRIP — ADPList-style horizontal scroll with icon slots
+   ================================================================ */
+.categoryStripWrapper {
+  background: #0D0D0F;
+  border-bottom: 1px solid rgba(245,240,232,0.08);
+  position: relative;
+}
+
+/* Fade-out edge to hint at more items */
+.categoryStripWrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 64px;
+  background: linear-gradient(to right, transparent, #0D0D0F);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.categoryStrip {
+  display: flex;
+  overflow-x: auto;
+  padding: 0 48px;
+  gap: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.categoryStrip::-webkit-scrollbar { display: none; }
+
+.categoryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 18px 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: border-color 0.15s;
+  position: relative;
+}
+
+.categoryItem:hover .categoryIconSlot {
+  border-color: rgba(245,240,232,0.25);
+  background: rgba(245,240,232,0.08);
+}
+
+.categoryItem:hover .categoryLabel {
+  color: rgba(245,240,232,0.8);
+}
+
+.categoryItemActive {
+  border-bottom-color: #F5A623;
+}
+
+.categoryItemActive .categoryIconSlot {
+  border-color: rgba(245,166,35,0.5);
+  background: rgba(245,166,35,0.08);
+}
+
+.categoryItemActive .categoryLabel {
+  color: #F5A623;
+  font-weight: 600;
+}
+
+/**
+ * Icon slot — 32×32 circle placeholder.
+ * Replace contents with <svg> icons once assets are ready.
+ */
+.categoryIconSlot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(245,240,232,0.12);
+  background: rgba(245,240,232,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s;
+  color: rgba(245,240,232,0.5);
+  flex-shrink: 0;
+}
+
+.categoryLabel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(245,240,232,0.45);
+  white-space: nowrap;
+  transition: color 0.15s;
+  line-height: 1;
+}
+
+/* ================================================================
+   LISTING CONTROLS BAR
+   ================================================================ */
+.listingControls {
+  background: #111114;
+  padding: 14px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(245,240,232,0.06);
+}
+
+.listingCount {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: rgba(245,240,232,0.35);
+  margin: 0;
+}
+
+.countBold {
+  color: #F5F0E8;
+  font-weight: 600;
+}
+
+.sortSelectWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sortLabel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(245,240,232,0.25);
+}
+
+.sortSelect {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(245,240,232,0.15);
+  padding: 4px 2px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(245,240,232,0.6);
+  cursor: pointer;
+  outline: none;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.sortSelect:focus, .sortSelect:hover {
+  color: #F5F0E8;
+  border-bottom-color: #F5A623;
+}
+
+.offlineNote {
+  font-size: 11px;
+  color: rgba(245,240,232,0.25);
+}
+
+/* ================================================================
+   CONTAINER / MAIN
+   ================================================================ */
+.container {
+  position: relative;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Active Filter Tags ---- */
 .activeFiltersRow {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-8);
-  min-height: 32px;
+  gap: 8px;
+  padding: 12px 48px;
+  background: #111114;
+  border-bottom: 1px solid rgba(245,240,232,0.06);
 }
 
-.chip {
+.activeFilterChip {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-1) var(--space-3);
-  background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-full);
-  font-size: var(--font-size-caption);
-  color: var(--color-text-secondary);
-  transition: all var(--transition-micro);
-}
-
-.chip:hover {
-  border-color: var(--color-text-tertiary);
-  color: var(--color-text-primary);
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(245,240,232,0.04);
+  border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: rgba(245,240,232,0.5);
 }
 
 .chipLabel {
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
+  font-weight: 500;
+  color: #F5F0E8;
 }
 
 .removeChip {
   background: none;
   border: none;
   padding: 0;
-  color: var(--color-text-tertiary);
+  color: rgba(245,240,232,0.4);
   cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
   display: flex;
   align-items: center;
-  font-size: 14px;
 }
 
-.removeChip:hover {
-  color: var(--color-error);
-}
+.removeChip:hover { color: #F5A623; }
 
-/* Drawer Styles */
+/* ================================================================
+   FILTER DRAWER
+   ================================================================ */
 .drawerOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
+  inset: 0;
+  background: rgba(0,0,0,0.6);
   backdrop-filter: blur(4px);
   z-index: 1000;
   opacity: 0;
@@ -131,165 +378,122 @@
   bottom: 0;
   width: 100%;
   max-width: 400px;
-  background: var(--color-surface-primary);
+  background: #111114;
+  border-left: 1px solid rgba(245,240,232,0.08);
   z-index: 1001;
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
 }
 
-.drawerOpen {
-  transform: translateX(0);
-}
+.drawerOpen { transform: translateX(0); }
 
 .drawerHeader {
-  padding: var(--space-6);
-  border-bottom: 1px solid var(--color-border-subtle);
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(245,240,232,0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.drawerTitle {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #F5F0E8;
 }
 
 .closeButton {
   background: none;
   border: none;
-  font-size: 24px;
-  color: var(--color-text-secondary);
+  font-size: 22px;
+  color: rgba(245,240,232,0.4);
   cursor: pointer;
-  padding: var(--space-2);
+  padding: 4px 8px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-full);
-  transition: background-color var(--transition-micro);
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
 }
 
 .closeButton:hover {
-  background-color: var(--color-surface-elevated);
-  color: var(--color-text-primary);
+  background: rgba(245,240,232,0.06);
+  color: #F5F0E8;
 }
 
 .drawerContent {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-6);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: 20px;
 }
 
 .drawerFooter {
-  padding: var(--space-6);
-  border-top: 1px solid var(--color-border-subtle);
+  padding: 20px 24px;
+  border-top: 1px solid rgba(245,240,232,0.08);
   display: flex;
-  gap: var(--space-3);
+  gap: 12px;
 }
 
 .filterGroup {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 6px;
 }
 
 .filterLabel {
-  font-size: var(--font-size-caption);
-  font-weight: var(--font-weight-bold);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-secondary);
+  letter-spacing: 0.1em;
+  color: rgba(245,240,232,0.35);
 }
 
 .select, .input {
-  background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
-  padding: var(--space-3);
-  color: var(--color-text-primary);
-  font-family: inherit;
-  font-size: var(--font-size-sm);
-  transition: border-color var(--transition-base);
-}
-
-.select:focus, .input:focus {
+  background: rgba(245,240,232,0.06);
+  border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #F5F0E8;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.2s;
   outline: none;
-  border-color: var(--color-brand-primary);
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
+.select:focus, .input:focus { border-color: rgba(245,166,35,0.4); }
+.input::placeholder { color: rgba(245,240,232,0.3); }
 
-.resultsHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-2);
-}
-
-.resultCount {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-}
-
-.countBold {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-bold);
-}
-
-.sortContainer {
-  display: flex;
-  align-items: center;
-  gap: var(--space-base);
-}
-
-.sortLabel {
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.sortSelect {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--color-border-subtle);
-  color: var(--color-text-primary);
-  font-family: inherit;
-  font-size: var(--font-size-caption);
-  padding: 4px;
-  cursor: pointer;
-  transition: border-color var(--transition-micro);
-}
-
-.sortSelect:focus {
-  outline: none;
-  border-color: var(--color-brand-primary);
-}
-
-.offlineNote {
-  font-size: var(--font-size-micro);
-  color: var(--color-text-secondary);
-  opacity: 0.6;
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 1024px) {
+  .pageHeader       { padding: 32px 32px 24px; }
+  .categoryStrip    { padding: 0 32px; }
+  .listingControls  { padding: 12px 32px; }
+  .activeFiltersRow { padding: 10px 32px; }
 }
 
 @media (max-width: 768px) {
-  .topBar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .searchInput {
-    font-size: var(--font-size-sm);
-  }
+  .pageHeader       { padding: 24px 20px 20px; }
+  .pageTitle        { font-size: 28px; }
+  .searchRow        { flex-direction: column; align-items: stretch; }
+  .filterToggleBtn  { justify-content: center; }
+  .categoryStrip    { padding: 0 20px; }
+  .listingControls  { padding: 10px 20px; flex-wrap: wrap; gap: 8px; }
+  .activeFiltersRow { padding: 8px 20px; }
+  .drawer           { max-width: 100%; }
+  /* Remove the fade-out edge on small screens where the strip fills the width */
+  .categoryStripWrapper::after { width: 32px; }
+}
 
-  .drawer {
-    max-width: 100%;
-  }
-
-  .title {
-    font-size: var(--font-size-h1) !important;
-  }
+@media (max-width: 480px) {
+  .pageTitle        { font-size: 24px; }
+  .categoryItem     { padding: 14px 12px 10px; }
+  .categoryIconSlot { width: 28px; height: 28px; }
 }

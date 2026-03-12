@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ProfileCard } from '../features/ProfileCard/ProfileCard';
+import { ProfileCard } from '../ProfileCard/ProfileCard';
 import { Typography } from '../../ui/Typography/Typography';
 import styles from './MusicianGrid.module.css';
 
@@ -41,7 +41,7 @@ export function MusicianGrid({
       {...props}
     >
       {musicians.map((musician) => (
-        <div key={musician.id} role="listitem">
+        <div key={musician.id} role="listitem" className={styles.listItem}>
           <ProfileCard
             musician={musician}
             pdpUrl={`/musician/${musician.id}`}

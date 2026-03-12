@@ -1,28 +1,55 @@
 .grid {
+  background: #111114;
+  padding: 32px 48px 80px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-5);
-  padding: var(--space-6);
-  max-width: 1280px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* Each listitem fills the grid cell so cards can be equal height */
+.listItem {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  animation: cardReveal 0.5s ease both;
+}
+
+/* Stagger delays for first 12 cards */
+.listItem:nth-child(1)  { animation-delay: 0.05s; }
+.listItem:nth-child(2)  { animation-delay: 0.10s; }
+.listItem:nth-child(3)  { animation-delay: 0.15s; }
+.listItem:nth-child(4)  { animation-delay: 0.20s; }
+.listItem:nth-child(5)  { animation-delay: 0.25s; }
+.listItem:nth-child(6)  { animation-delay: 0.30s; }
+.listItem:nth-child(7)  { animation-delay: 0.35s; }
+.listItem:nth-child(8)  { animation-delay: 0.40s; }
+.listItem:nth-child(9)  { animation-delay: 0.45s; }
+.listItem:nth-child(10) { animation-delay: 0.50s; }
+.listItem:nth-child(11) { animation-delay: 0.55s; }
+.listItem:nth-child(12) { animation-delay: 0.60s; }
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Skeleton loaders */
 .skeleton {
-  border-radius: var(--radius-2xl);
+  border-radius: 20px;
   background: linear-gradient(
     90deg,
-    var(--color-surface-elevated) 25%,
-    var(--color-border-default) 50%,
-    var(--color-surface-elevated) 75%
+    rgba(245,240,232,0.04) 25%,
+    rgba(245,240,232,0.08) 50%,
+    rgba(245,240,232,0.04) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  height: 380px;
+  height: 440px;
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
+  0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
 
@@ -33,8 +60,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-4);
-  padding: var(--space-20) var(--space-6);
+  gap: 16px;
+  padding: 96px 24px;
   text-align: center;
 }
 
@@ -45,18 +72,22 @@
 }
 
 .emptyTitle {
-  color: var(--color-text-primary) !important;
+  color: #F5F0E8 !important;
 }
 
 .emptyDesc {
-  color: var(--color-text-secondary) !important;
+  color: rgba(245,240,232,0.5) !important;
   max-width: 400px;
 }
 
-@media (max-width: 1200px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 1024px) {
+  .grid { padding: 24px 32px 64px; }
 }
 
 @media (max-width: 768px) {
-  .grid { grid-template-columns: 1fr; padding: var(--space-4); }
+  .grid { padding: 20px 20px 56px; gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; padding: 16px 16px 48px; gap: 14px; }
 }

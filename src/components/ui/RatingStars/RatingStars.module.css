@@ -12,14 +12,16 @@
 
 .ratingNumber {
   font-family: var(--font-family-base);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
 }
 
 .reviewCount {
   font-family: var(--font-family-base);
-  color: var(--color-text-secondary);
+  color: var(--color-text-tertiary);
   line-height: 1;
 }
 
