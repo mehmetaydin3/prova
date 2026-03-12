@@ -9,6 +9,43 @@ import { BookingDrawer } from '../BookingDrawer/BookingDrawer';
 import { Footer } from '../Footer/Footer';
 import styles from './MusicianDetailPage.module.css';
 
+/**
+ * Normalize a musician object so it works whether it comes from mock data or
+ * the live API. Key differences to bridge:
+ *
+ * - API returns `services[]` with {title, startingPrice, turnaroundTime,
+ *   revisionsIncluded, deliverables}; UI expects `packages[]` with
+ *   {name, price, delivery, revisions, features}.
+ * - API uses `headline` (aliased to `tagline` in the route, but handle both).
+ * - API uses `completedJobs`; hero reads `completedGigs`.
+ * - API uses `remoteAvailable`; hero reads `online`.
+ */
+function normalizeMusician(m) {
+  if (!m || typeof m !== 'object') return {};
+
+  const packages =
+    Array.isArray(m.packages) && m.packages.length > 0
+      ? m.packages
+      : (Array.isArray(m.services) ? m.services : []).map((s) => ({
+          name: s.title,
+          price: s.startingPrice,
+          delivery: s.turnaroundTime || '—',
+          revisions: s.revisionsIncluded ?? 0,
+          features:
+            Array.isArray(s.deliverables) && s.deliverables.length > 0
+              ? s.deliverables
+              : [s.description].filter(Boolean),
+        }));
+
+  return {
+    ...m,
+    tagline: m.tagline || m.headline,
+    completedGigs: m.completedGigs ?? m.completedJobs,
+    online: m.online ?? Boolean(m.remoteAvailable),
+    packages,
+  };
+}
+
 export function MusicianDetailPage({
   musician = {},
   relatedMusicians = [],
@@ -18,6 +55,7 @@ export function MusicianDetailPage({
   ...props
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const m = normalizeMusician(musician);
 
   return (
     <div className={[styles.page, className].filter(Boolean).join(' ')} {...props}>
@@ -25,43 +63,43 @@ export function MusicianDetailPage({
 
       <main>
         <MusicianDetailHero
-          musician={musician}
+          musician={m}
           onBook={() => setDrawerOpen(true)}
           onContact={() => {}}
         />
 
         {/* Bio section */}
-        {musician.bio && (
+        {m.bio && (
           <div className={styles.section}>
-            <p className={styles.bio}>{musician.bio}</p>
+            <p className={styles.bio}>{m.bio}</p>
           </div>
         )}
 
         {/* Audio sample */}
-        {musician.audioSample && (
+        {m.audioSample && (
           <div className={styles.section}>
             <AudioPreview
-              src={musician.audioSample.src}
-              title={musician.audioSample.title}
-              duration={musician.audioSample.duration}
+              src={m.audioSample.src}
+              title={m.audioSample.title}
+              duration={m.audioSample.duration}
             />
           </div>
         )}
 
         {/* Service packages */}
-        {musician.packages?.length > 0 && (
+        {m.packages?.length > 0 && (
           <ServicePackages
-            packages={musician.packages}
-            currency={musician.currency}
+            packages={m.packages}
+            currency={m.currency}
             onSelect={() => setDrawerOpen(true)}
           />
         )}
 
         {/* Reviews */}
         <ReviewList
-          reviews={musician.reviews || []}
-          rating={musician.rating}
-          reviewCount={musician.reviewCount}
+          reviews={m.reviews || []}
+          rating={m.rating}
+          reviewCount={m.reviewCount}
         />
 
         {/* Related musicians */}
@@ -69,7 +107,7 @@ export function MusicianDetailPage({
           <FeaturedMusicianRow
             musicians={relatedMusicians}
             title="You might also like"
-            onBook={(m) => {}}
+            onBook={() => {}}
           />
         )}
       </main>
@@ -78,7 +116,7 @@ export function MusicianDetailPage({
 
       <BookingDrawer
         isOpen={drawerOpen}
-        musician={musician}
+        musician={m}
         onClose={() => setDrawerOpen(false)}
       />
     </div>

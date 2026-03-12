@@ -55,13 +55,13 @@ router.post('/', authenticateToken, async (req: AuthRequest, res: Response) => {
 
     await db.run(
       `INSERT INTO services
-        (id, musicianId, serviceType, title, description, deliverables, startingPrice, priceType,
+        (id, musicianId, category, title, description, deliverables, startingPrice, priceType,
          turnaroundTime, revisionsIncluded, tags, deliveryMode)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         id,
         musicianId,
-        data.serviceType,
+        data.category ?? 'other',
         data.title,
         data.description ?? null,
         JSON.stringify(data.deliverables ?? []),
@@ -114,13 +114,13 @@ router.put('/:id', authenticateToken, async (req: AuthRequest, res: Response) =>
 
     await db.run(
       `UPDATE services SET
-        serviceType = ?, title = ?, description = ?, deliverables = ?,
+        category = ?, title = ?, description = ?, deliverables = ?,
         startingPrice = ?, priceType = ?, turnaroundTime = ?,
         revisionsIncluded = ?, tags = ?, deliveryMode = ?,
         updatedAt = CURRENT_TIMESTAMP
       WHERE id = ? AND musicianId = ?`,
       [
-        data.serviceType,
+        data.category ?? 'other',
         data.title,
         data.description ?? null,
         JSON.stringify(data.deliverables ?? []),

@@ -10,17 +10,6 @@ export const loginSchema = z.object({
   password: z.string(),
 });
 
-// Legacy schema (musician_profiles table) — kept for backward compatibility
-export const profileSchema = z.object({
-  fullName: z.string().min(2),
-  stageName: z.string().optional(),
-  bio: z.string().optional(),
-  instruments: z.string().optional(),
-  location: z.string().optional(),
-  website: z.string().url().optional().or(z.literal('')),
-  socialLinks: z.string().optional(),
-});
-
 // Primary profile schema — maps to the musicians table
 export const musicianProfileSchema = z.object({
   name: z.string().min(2, 'Display name must be at least 2 characters'),
@@ -33,8 +22,20 @@ export const musicianProfileSchema = z.object({
   avatarSrc: z.string().url().optional().or(z.literal('')),
 });
 
+export const SERVICE_CATEGORIES = [
+  'recording',
+  'mixing',
+  'mastering',
+  'production',
+  'lessons',
+  'live-performance',
+  'session-work',
+  'songwriting',
+  'other',
+] as const;
+
 export const serviceSchema = z.object({
-  serviceType: z.enum(['remote', 'in-person', 'both']),
+  category: z.enum(SERVICE_CATEGORIES).default('other'),
   title: z.string().min(3).max(120),
   description: z.string().max(1000).optional().or(z.literal('')),
   deliverables: z.array(z.string()).optional().default([]),

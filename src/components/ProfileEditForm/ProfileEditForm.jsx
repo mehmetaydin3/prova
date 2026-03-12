@@ -64,10 +64,20 @@ function TagInput({ label, values = [], onChange, placeholder }) {
 
 const DELIVERY_MODES = ['remote', 'in-person', 'both'];
 const PRICE_TYPES = ['fixed', 'hourly', 'per-project'];
-const SERVICE_TYPES = ['remote', 'in-person', 'both'];
+const SERVICE_CATEGORIES = [
+  'recording',
+  'mixing',
+  'mastering',
+  'production',
+  'lessons',
+  'live-performance',
+  'session-work',
+  'songwriting',
+  'other',
+];
 
 const blankService = {
-  serviceType: 'remote',
+  category: 'other',
   title: '',
   description: '',
   startingPrice: '',
@@ -120,6 +130,12 @@ function ServiceRow({ service, index, onChange, onRemove, onSave, saving }) {
 
       <div className={styles.fieldRow}>
         <div className={styles.fieldGroup}>
+          <label className={styles.label}>Category</label>
+          <select className={styles.select} value={service.category || 'other'} onChange={(e) => set('category', e.target.value)}>
+            {SERVICE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+        <div className={styles.fieldGroup}>
           <label className={styles.label}>Price type</label>
           <select className={styles.select} value={service.priceType} onChange={(e) => set('priceType', e.target.value)}>
             {PRICE_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
@@ -129,12 +145,6 @@ function ServiceRow({ service, index, onChange, onRemove, onSave, saving }) {
           <label className={styles.label}>Delivery mode</label>
           <select className={styles.select} value={service.deliveryMode} onChange={(e) => set('deliveryMode', e.target.value)}>
             {DELIVERY_MODES.map((m) => <option key={m} value={m}>{m}</option>)}
-          </select>
-        </div>
-        <div className={styles.fieldGroup}>
-          <label className={styles.label}>Service type</label>
-          <select className={styles.select} value={service.serviceType} onChange={(e) => set('serviceType', e.target.value)}>
-            {SERVICE_TYPES.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
         </div>
       </div>

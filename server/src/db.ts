@@ -21,21 +21,6 @@ export async function initDb(): Promise<Database> {
       updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE IF NOT EXISTS musician_profiles (
-      id TEXT PRIMARY KEY,
-      userId TEXT UNIQUE NOT NULL,
-      fullName TEXT NOT NULL,
-      stageName TEXT,
-      bio TEXT,
-      instruments TEXT,
-      location TEXT,
-      website TEXT,
-      socialLinks TEXT,
-      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
-    );
-
     CREATE TABLE IF NOT EXISTS musicians (
       id TEXT PRIMARY KEY,
       userId TEXT UNIQUE,
@@ -70,7 +55,7 @@ export async function initDb(): Promise<Database> {
     CREATE TABLE IF NOT EXISTS services (
       id TEXT PRIMARY KEY,
       musicianId TEXT NOT NULL,
-      serviceType TEXT NOT NULL,
+      category TEXT NOT NULL DEFAULT 'other',
       title TEXT NOT NULL,
       description TEXT,
       deliverables TEXT DEFAULT '[]',
@@ -88,12 +73,18 @@ export async function initDb(): Promise<Database> {
 
   // Migrations: add columns to existing tables if they don't exist yet
   const musicianCols = await db.all(`PRAGMA table_info(musicians)`);
-  const colNames = new Set((musicianCols as any[]).map((c) => c.name));
-  if (!colNames.has('userId')) {
+  const musicianColNames = new Set((musicianCols as any[]).map((c) => c.name));
+  if (!musicianColNames.has('userId')) {
     await db.exec(`ALTER TABLE musicians ADD COLUMN userId TEXT REFERENCES users(id) ON DELETE SET NULL`);
   }
-  if (!colNames.has('remoteAvailable')) {
+  if (!musicianColNames.has('remoteAvailable')) {
     await db.exec(`ALTER TABLE musicians ADD COLUMN remoteAvailable INTEGER DEFAULT 0`);
+  }
+
+  const serviceCols = await db.all(`PRAGMA table_info(services)`);
+  const serviceColNames = new Set((serviceCols as any[]).map((c) => c.name));
+  if (!serviceColNames.has('category')) {
+    await db.exec(`ALTER TABLE services ADD COLUMN category TEXT NOT NULL DEFAULT 'other'`);
   }
 
   return db;
