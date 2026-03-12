@@ -81,6 +81,26 @@ export async function initDb(): Promise<Database> {
       updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (musicianId) REFERENCES musicians(id) ON DELETE CASCADE
     );
+
+    CREATE TABLE IF NOT EXISTS bookings (
+      id TEXT PRIMARY KEY,
+      customerId TEXT NOT NULL,
+      musicianId TEXT NOT NULL,
+      serviceId TEXT,
+      status TEXT NOT NULL DEFAULT 'pending',
+      packageName TEXT,
+      packagePrice REAL,
+      platformFee REAL,
+      totalPrice REAL,
+      currency TEXT DEFAULT 'USD',
+      scheduledDate TEXT,
+      brief TEXT,
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (customerId) REFERENCES users(id) ON DELETE CASCADE,
+      FOREIGN KEY (musicianId) REFERENCES musicians(id) ON DELETE CASCADE,
+      FOREIGN KEY (serviceId) REFERENCES services(id) ON DELETE SET NULL
+    );
   `);
 
   return db;

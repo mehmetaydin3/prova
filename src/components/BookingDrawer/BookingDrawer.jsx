@@ -3,6 +3,8 @@ import { Typography } from '../Typography/Typography';
 import { Button } from '../Button/Button';
 import styles from './BookingDrawer.module.css';
 
+const API_BASE = import.meta.env?.VITE_API_URL || 'http://localhost:5000';
+
 const CloseIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
     <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -176,15 +178,63 @@ export function BookingDrawer({
   const [selectedPkg, setSelectedPkg] = useState(1);
   const [date, setDate] = useState('');
   const [brief, setBrief] = useState('');
+  const [bookingRef, setBookingRef] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const packages = musician.packages || [];
   const currency = musician.currency || 'USD';
-  const bookingRef = `MQ-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
 
   if (!isOpen) return null;
 
   const handleNext = () => setStep((s) => Math.min(s + 1, 2));
   const handleBack = () => setStep((s) => Math.max(s - 1, 0));
+
+  const handleConfirm = async () => {
+    const pkg = packages[selectedPkg] || packages[0];
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
+      const body = {
+        musicianId: musician.id,
+        serviceId: musician.serviceId || undefined,
+        packageName: pkg?.name,
+        packagePrice: pkg?.price,
+        currency,
+        scheduledDate: date || undefined,
+        brief: brief || undefined,
+      };
+
+      if (token) {
+        const response = await fetch(`${API_BASE}/api/bookings`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        });
+
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.message || 'Failed to create booking');
+        }
+
+        const data = await response.json();
+        setBookingRef(data.id.slice(0, 8).toUpperCase());
+      } else {
+        // Not authenticated — generate a local reference for display
+        setBookingRef(`MQ-${Math.random().toString(36).slice(2, 8).toUpperCase()}`);
+      }
+
+      setStep(2);
+    } catch (err) {
+      setSubmitError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -259,11 +309,21 @@ export function BookingDrawer({
         {/* Footer navigation */}
         {step < 2 && (
           <div className={styles.footer}>
-            {step > 0 && (
-              <Button variant="ghost" size="lg" onClick={handleBack}>Back</Button>
+            {submitError && (
+              <Typography variant="caption" className={styles.errorMsg}>{submitError}</Typography>
             )}
-            <Button variant="primary" size="lg" fullWidth={step === 0} onClick={handleNext} className={styles.nextBtn}>
-              {step === 0 ? 'Review Order →' : 'Confirm & Send →'}
+            {step > 0 && (
+              <Button variant="ghost" size="lg" onClick={handleBack} disabled={submitting}>Back</Button>
+            )}
+            <Button
+              variant="primary"
+              size="lg"
+              fullWidth={step === 0}
+              onClick={step === 0 ? handleNext : handleConfirm}
+              disabled={submitting}
+              className={styles.nextBtn}
+            >
+              {step === 0 ? 'Review Order →' : submitting ? 'Sending…' : 'Confirm & Send →'}
             </Button>
           </div>
         )}

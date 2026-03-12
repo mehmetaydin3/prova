@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
 import profileRoutes from './routes/profile.js';
 import musicianRoutes from './routes/musicians.js';
+import bookingRoutes from './routes/bookings.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/musicians', musicianRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
