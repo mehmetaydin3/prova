@@ -155,7 +155,7 @@ function ConfirmStep({ musician, bookingRef, onMessage, onBack }) {
       </Typography>
       <div className={styles.refBox}>
         <Typography variant="caption" className={styles.refLabel}>Booking reference</Typography>
-        <code className={styles.refCode}>{bookingRef}</code>
+        <code className={styles.refCode}>{bookingRef || '—'}</code>
       </div>
       <div className={styles.successActions}>
         <Button variant="primary" size="lg" fullWidth onClick={onMessage}>Message {musician.name}</Button>
@@ -176,15 +176,54 @@ export function BookingDrawer({
   const [selectedPkg, setSelectedPkg] = useState(1);
   const [date, setDate] = useState('');
   const [brief, setBrief] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [bookingRef, setBookingRef] = useState(null);
 
-  const packages = musician.packages || [];
+  const services = (musician.services || []).map(s => ({
+    id: s.id,
+    name: s.title,
+    price: s.startingPrice,
+    delivery: s.turnaroundTime,
+  }));
   const currency = musician.currency || 'USD';
-  const bookingRef = `MQ-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
 
   if (!isOpen) return null;
 
   const handleNext = () => setStep((s) => Math.min(s + 1, 2));
   const handleBack = () => setStep((s) => Math.max(s - 1, 0));
+
+  const handleConfirm = async () => {
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const token = localStorage.getItem('token');
+      const pkg = services[selectedPkg] || services[0];
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          musicianId: musician.id,
+          serviceId: pkg?.id,
+          packageName: pkg?.name,
+          packagePrice: pkg?.price,
+          scheduledDate: date || null,
+          brief: brief || null,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Booking failed');
+      setBookingRef(data.booking?.id || data.id || 'CONFIRMED');
+      setStep(2);
+    } catch (err) {
+      setSubmitError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -226,7 +265,7 @@ export function BookingDrawer({
           {step === 0 && (
             <DetailsStep
               musician={musician}
-              packages={packages}
+              packages={services}
               selectedPkg={selectedPkg}
               onPkgChange={setSelectedPkg}
               date={date}
@@ -239,7 +278,7 @@ export function BookingDrawer({
           {step === 1 && (
             <ReviewStep
               musician={musician}
-              packages={packages}
+              packages={services}
               selectedPkg={selectedPkg}
               date={date}
               brief={brief}
@@ -262,9 +301,14 @@ export function BookingDrawer({
             {step > 0 && (
               <Button variant="ghost" size="lg" onClick={handleBack}>Back</Button>
             )}
-            <Button variant="primary" size="lg" fullWidth={step === 0} onClick={handleNext} className={styles.nextBtn}>
-              {step === 0 ? 'Review Order →' : 'Confirm & Send →'}
+            <Button variant="primary" size="lg" fullWidth={step === 0} onClick={step === 0 ? handleNext : handleConfirm} disabled={submitting} className={styles.nextBtn}>
+              {step === 0 ? 'Review Order →' : submitting ? 'Sending…' : 'Confirm & Send →'}
             </Button>
+            {submitError && (
+              <p style={{ color: 'var(--color-error, #e53)', marginTop: 8, fontSize: 14 }}>
+                {submitError}
+              </p>
+            )}
           </div>
         )}
       </div>
