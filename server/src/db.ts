@@ -96,6 +96,33 @@ export async function initDb(): Promise<Database> {
     await db.exec(`ALTER TABLE musicians ADD COLUMN remoteAvailable INTEGER DEFAULT 0`);
   }
 
+  const tables = await db.all(`SELECT name FROM sqlite_master WHERE type='table'`);
+  const tableNames = new Set((tables as any[]).map((t) => t.name));
+
+  if (!tableNames.has('bookings')) {
+    await db.exec(`
+      CREATE TABLE bookings (
+        id TEXT PRIMARY KEY,
+        customerId TEXT NOT NULL,
+        musicianId TEXT NOT NULL,
+        serviceId TEXT,
+        status TEXT NOT NULL DEFAULT 'pending',
+        packageName TEXT,
+        packagePrice REAL,
+        platformFee REAL,
+        totalPrice REAL,
+        currency TEXT DEFAULT 'USD',
+        scheduledDate TEXT,
+        brief TEXT,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (customerId) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (musicianId) REFERENCES musicians(id) ON DELETE CASCADE,
+        FOREIGN KEY (serviceId) REFERENCES services(id) ON DELETE SET NULL
+      )
+    `);
+  }
+
   return db;
 }
 
