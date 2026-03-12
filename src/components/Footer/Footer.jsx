@@ -45,9 +45,9 @@ export function Footer({ className = '', ...props }) {
       <div className={styles.inner}>
         {/* Brand column */}
         <div className={styles.brand}>
-          <a href="#" className={styles.logo} aria-label="Musiq Home">
+          <a href="#" className={styles.logo} aria-label="Prova Home">
             <span className={styles.logoIcon}><MusicNoteIcon /></span>
-            <span className={styles.logoText}>musiq</span>
+            <span className={styles.logoText}>prova</span>
           </a>
           <Typography variant="bodySmall" className={styles.tagline}>
             The world's leading marketplace for professional musicians.
@@ -98,7 +98,7 @@ export function Footer({ className = '', ...props }) {
 
       <div className={styles.bottom}>
         <Typography variant="caption" className={styles.copyright}>
-          © 2026 Musiq Ltd. All rights reserved.
+          © 2026 Prova Ltd. All rights reserved.
         </Typography>
         <div className={styles.badges}>
           <span className={styles.badge}>🔒 Secure Payments</span>

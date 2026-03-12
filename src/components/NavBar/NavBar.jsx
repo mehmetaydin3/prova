@@ -67,9 +67,9 @@ export function NavBar({
     >
       <div className={styles.inner}>
         {/* Logo */}
-        <a href="#" className={styles.logo} aria-label="Musiq Home">
+        <a href="#" className={styles.logo} aria-label="Prova Home">
           <span className={styles.logoIcon}><MusicNoteIcon /></span>
-          <span className={styles.logoText}>musiq</span>
+          <span className={styles.logoText}>prova</span>
         </a>
 
         {/* Desktop nav links */}

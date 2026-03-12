@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import styles from './SearchFilterBar.module.css';
 
-const GENRES = ['All Genres', 'Hip-Hop', 'Pop', 'R&B', 'Jazz', 'Classical', 'Electronic', 'Afrobeats', 'Flamenco', 'World Music', 'Ambient', 'Rock'];
+const GENRES = ['All Genres', 'Hip-Hop', 'Pop', 'R&B', 'Jazz', 'Classical', 'Electronic', 'Afrobeats', 'Flamenco', 'World Music', 'Ambient', 'Rock', 'Soul', 'Gospel', 'Blues', 'Latin', 'Indian Classical', 'Fusion', 'Cinematic', 'Experimental'];
+const INSTRUMENTS = ['All Instruments', 'Guitar', 'Piano', 'Violin', 'Viola', 'Cello', 'Drums', 'Percussion', 'Vocals', 'Synthesizer', 'Bass', 'Saxophone', 'Trumpet', 'Mixing', 'Mastering', 'Sound Design', 'Ableton Live', 'Beat Making', 'Film Scoring'];
 const SERVICE_TYPES = [
   { value: 'all', label: 'All Services' },
   { value: 'tracks', label: 'Remote Session' },
@@ -41,25 +42,27 @@ export function SearchFilterBar({
   const [search, setSearch] = useState(initialFilters.search || '');
   const [serviceType, setServiceType] = useState(initialFilters.serviceType || 'all');
   const [genre, setGenre] = useState(initialFilters.genre || 'All Genres');
+  const [instrument, setInstrument] = useState(initialFilters.instrument || 'All Instruments');
   const [onlineOnly, setOnlineOnly] = useState(initialFilters.onlineOnly || false);
   const [sortBy, setSortBy] = useState(initialFilters.sortBy || 'featured');
 
   const notify = (updates) => {
-    onFilterChange?.({ search, serviceType, genre, onlineOnly, sortBy, ...updates });
+    onFilterChange?.({ search, serviceType, genre, instrument, onlineOnly, sortBy, ...updates });
   };
 
   const handleSearch = (val) => { setSearch(val); notify({ search: val }); };
   const handleService = (val) => { setServiceType(val); notify({ serviceType: val }); };
   const handleGenre = (val) => { setGenre(val); notify({ genre: val }); };
+  const handleInstrument = (val) => { setInstrument(val); notify({ instrument: val }); };
   const handleOnline = (val) => { setOnlineOnly(val); notify({ onlineOnly: val }); };
   const handleSort = (val) => { setSortBy(val); notify({ sortBy: val }); };
 
   const clearAll = () => {
-    setSearch(''); setServiceType('all'); setGenre('All Genres'); setOnlineOnly(false); setSortBy('featured');
-    onFilterChange?.({ search: '', serviceType: 'all', genre: 'All Genres', onlineOnly: false, sortBy: 'featured' });
+    setSearch(''); setServiceType('all'); setGenre('All Genres'); setInstrument('All Instruments'); setOnlineOnly(false); setSortBy('featured');
+    onFilterChange?.({ search: '', serviceType: 'all', genre: 'All Genres', instrument: 'All Instruments', onlineOnly: false, sortBy: 'featured' });
   };
 
-  const hasActiveFilters = search !== '' || serviceType !== 'all' || genre !== 'All Genres' || onlineOnly;
+  const hasActiveFilters = search !== '' || serviceType !== 'all' || genre !== 'All Genres' || instrument !== 'All Instruments' || onlineOnly;
 
   return (
     <div
@@ -95,6 +98,18 @@ export function SearchFilterBar({
             aria-label="Filter by service type"
           >
             {SERVICE_TYPES.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+        </div>
+
+        {/* Instrument */}
+        <div className={styles.filterGroup}>
+          <select
+            className={styles.select}
+            value={instrument}
+            onChange={(e) => handleInstrument(e.target.value)}
+            aria-label="Filter by instrument"
+          >
+            {INSTRUMENTS.map((i) => <option key={i} value={i}>{i}</option>)}
           </select>
         </div>
 
