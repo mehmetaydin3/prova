@@ -12,29 +12,35 @@ const VALID_STATUSES = ['pending', 'accepted', 'declined', 'in_progress', 'deliv
 // POST /api/bookings — create a new booking (authenticated customer)
 router.post('/', authenticateToken, async (req: AuthRequest, res: Response) => {
   try {
-    const { musicianId, serviceId, packageName, packagePrice, currency, scheduledDate, brief } = req.body;
+    const { musicianId, serviceId, scheduledDate, brief } = req.body;
 
     if (!musicianId) {
       return res.status(400).json({ message: 'musicianId is required' });
     }
+    if (!serviceId) {
+      return res.status(400).json({ message: 'serviceId is required' });
+    }
 
     const db = await getDb();
 
-    const musician = await db.get('SELECT id FROM musicians WHERE id = ?', musicianId);
+    const musician = await db.get('SELECT id, currency FROM musicians WHERE id = ?', musicianId);
     if (!musician) {
       return res.status(404).json({ message: 'Musician not found' });
     }
 
-    if (serviceId) {
-      const service = await db.get('SELECT id FROM services WHERE id = ? AND musicianId = ?', [serviceId, musicianId]);
-      if (!service) {
-        return res.status(404).json({ message: 'Service not found' });
-      }
+    const service = await db.get(
+      'SELECT id, title, startingPrice FROM services WHERE id = ? AND musicianId = ?',
+      [serviceId, musicianId]
+    );
+    if (!service) {
+      return res.status(404).json({ message: 'Service not found' });
     }
 
-    const price = typeof packagePrice === 'number' ? packagePrice : null;
-    const platformFee = price !== null ? Math.round(price * 0.1) : null;
-    const totalPrice = price !== null && platformFee !== null ? price + platformFee : null;
+    // Price derived entirely from the service record — never trusted from the client
+    const price = service.startingPrice;
+    const platformFee = Math.round(price * 0.1);
+    const totalPrice = price + platformFee;
+    const currency = musician.currency || 'USD';
 
     const id = uuidv4();
     const now = new Date().toISOString();
@@ -42,7 +48,7 @@ router.post('/', authenticateToken, async (req: AuthRequest, res: Response) => {
     await db.run(
       `INSERT INTO bookings (id, customerId, musicianId, serviceId, status, packageName, packagePrice, platformFee, totalPrice, currency, scheduledDate, brief, createdAt, updatedAt)
        VALUES (?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [id, req.user!.id, musicianId, serviceId || null, packageName || null, price, platformFee, totalPrice, currency || 'USD', scheduledDate || null, brief || null, now, now]
+      [id, req.user!.id, musicianId, serviceId, service.title, price, platformFee, totalPrice, currency, scheduledDate || null, brief || null, now, now]
     );
 
     const booking = await db.get('SELECT * FROM bookings WHERE id = ?', id);

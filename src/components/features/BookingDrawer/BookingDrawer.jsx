@@ -169,6 +169,7 @@ export function BookingDrawer({
   isOpen = false,
   musician = {},
   onClose,
+  apiBase = '',
   className = '',
   ...props
 }) {
@@ -180,12 +181,12 @@ export function BookingDrawer({
   const [submitError, setSubmitError] = useState(null);
   const [bookingRef, setBookingRef] = useState(null);
 
-  const services = (musician.services || []).map(s => ({
-    id: s.id,
-    name: s.title,
-    price: s.startingPrice,
-    delivery: s.turnaroundTime,
-  }));
+  // Adapt API service shape to internal { id, name, price, delivery }.
+  // Falls back to musician.packages for Storybook mock data compatibility.
+  const rawServices = Array.isArray(musician.services) ? musician.services : [];
+  const services = rawServices.length > 0
+    ? rawServices.map(s => ({ id: s.id, name: s.title, price: s.startingPrice, delivery: s.turnaroundTime }))
+    : (musician.packages || []);
   const currency = musician.currency || 'USD';
 
   if (!isOpen) return null;
@@ -199,7 +200,7 @@ export function BookingDrawer({
     try {
       const token = localStorage.getItem('token');
       const pkg = services[selectedPkg] || services[0];
-      const res = await fetch('/api/bookings', {
+      const res = await fetch(`${apiBase}/api/bookings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -208,8 +209,6 @@ export function BookingDrawer({
         body: JSON.stringify({
           musicianId: musician.id,
           serviceId: pkg?.id,
-          packageName: pkg?.name,
-          packagePrice: pkg?.price,
           scheduledDate: date || null,
           brief: brief || null,
         }),
