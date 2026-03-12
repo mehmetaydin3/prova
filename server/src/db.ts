@@ -38,10 +38,12 @@ export async function initDb(): Promise<Database> {
 
     CREATE TABLE IF NOT EXISTS musicians (
       id TEXT PRIMARY KEY,
+      userId TEXT UNIQUE,
       name TEXT NOT NULL,
       headline TEXT,
       bio TEXT,
       location TEXT,
+      remoteAvailable INTEGER DEFAULT 0,
       timezone TEXT,
       languages TEXT DEFAULT '[]',
       instruments TEXT DEFAULT '[]',
@@ -61,7 +63,8 @@ export async function initDb(): Promise<Database> {
       startingPrice REAL,
       currency TEXT DEFAULT 'USD',
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (userId) REFERENCES users(id) ON DELETE SET NULL
     );
 
     CREATE TABLE IF NOT EXISTS services (
@@ -82,6 +85,16 @@ export async function initDb(): Promise<Database> {
       FOREIGN KEY (musicianId) REFERENCES musicians(id) ON DELETE CASCADE
     );
   `);
+
+  // Migrations: add columns to existing tables if they don't exist yet
+  const musicianCols = await db.all(`PRAGMA table_info(musicians)`);
+  const colNames = new Set((musicianCols as any[]).map((c) => c.name));
+  if (!colNames.has('userId')) {
+    await db.exec(`ALTER TABLE musicians ADD COLUMN userId TEXT REFERENCES users(id) ON DELETE SET NULL`);
+  }
+  if (!colNames.has('remoteAvailable')) {
+    await db.exec(`ALTER TABLE musicians ADD COLUMN remoteAvailable INTEGER DEFAULT 0`);
+  }
 
   return db;
 }
