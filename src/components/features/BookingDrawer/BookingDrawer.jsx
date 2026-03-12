@@ -170,11 +170,12 @@ export function BookingDrawer({
   musician = {},
   onClose,
   apiBase = '',
+  initialSelectedPkg = 0,
   className = '',
   ...props
 }) {
   const [step, setStep] = useState(0);
-  const [selectedPkg, setSelectedPkg] = useState(1);
+  const [selectedPkg, setSelectedPkg] = useState(initialSelectedPkg);
   const [date, setDate] = useState('');
   const [brief, setBrief] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -214,7 +215,8 @@ export function BookingDrawer({
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Booking failed');
+      if (res.status === 401) throw new Error('Please log in to make a booking.');
+      if (!res.ok) throw new Error(data.message || data.error || 'Booking failed');
       setBookingRef(data.booking?.id || data.id || 'CONFIRMED');
       setStep(2);
     } catch (err) {

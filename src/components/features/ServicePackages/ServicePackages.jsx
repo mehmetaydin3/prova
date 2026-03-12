@@ -24,7 +24,7 @@ export function ServicePackages({
   className = '',
   ...props
 }) {
-  const [selected, setSelected] = useState(1); // default Standard
+  const [selected, setSelected] = useState(0);
   const currencySymbol = CURRENCY_SYMBOLS[currency] || currency;
 
   const handleSelect = (idx) => {

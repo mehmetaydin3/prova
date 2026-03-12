@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '../../ui/Button/Button';
 import { NavBar } from '../../features/NavBar/NavBar';
 import { MusicianDetailHero } from '../../features/MusicianDetailHero/MusicianDetailHero';
 import { AudioPreview } from '../../ui/AudioPreview/AudioPreview';
@@ -22,7 +23,20 @@ export function MusicianDetailPage({
   ...props
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedServiceIdx, setSelectedServiceIdx] = useState(0);
   const [friendshipStatus, setFriendshipStatus] = useState('none');
+
+  // Adapt API services shape or fall back to mock packages for Storybook compatibility.
+  const rawServices = Array.isArray(musician.services) ? musician.services : [];
+  const services = rawServices.length > 0
+    ? rawServices.map(s => ({
+        name: s.title,
+        price: s.startingPrice,
+        delivery: s.turnaroundTime,
+        revisions: s.revisionsIncluded ?? null,
+        features: Array.isArray(s.deliverables) ? s.deliverables : [],
+      }))
+    : (musician.packages || []);
 
   const handleFriendAction = () => {
     if (friendshipStatus === 'none') setFriendshipStatus('pending');
@@ -80,11 +94,15 @@ export function MusicianDetailPage({
 
           <aside className={styles.sidebar}>
             {/* Service packages */}
-            {musician.packages?.length > 0 && (
+            {services.length > 0 && (
               <ServicePackages
-                packages={musician.packages}
+                packages={services}
                 currency={musician.currency}
-                onSelect={() => setDrawerOpen(true)}
+                onSelect={(pkg) => {
+                  const idx = services.indexOf(pkg);
+                  if (idx !== -1) setSelectedServiceIdx(idx);
+                  setDrawerOpen(true);
+                }}
               />
             )}
 
@@ -129,6 +147,7 @@ export function MusicianDetailPage({
       <BookingDrawer
         isOpen={drawerOpen}
         musician={musician}
+        initialSelectedPkg={selectedServiceIdx}
         onClose={() => setDrawerOpen(false)}
       />
     </div>
