@@ -177,12 +177,18 @@ export function ProfileCard({
       <div className={styles.footer}>
         <div className={styles.footerInfo}>
           <div className={styles.trustGroup}>
-            <RatingStars
-              rating={rating}
-              reviewCount={reviewCount}
-              size="sm"
-              showCount={reviewCount > 0}
-            />
+            {rating > 0 ? (
+              <RatingStars
+                rating={rating}
+                reviewCount={reviewCount}
+                size="sm"
+                showCount={reviewCount > 0}
+              />
+            ) : (
+              <Typography as="span" variant="caption" className={styles.metric} style={{ color: 'var(--color-text-tertiary)' }}>
+                New on Prova
+              </Typography>
+            )}
             <div className={styles.trustMetrics}>
               {completedGigs > 0 && (
                 <Typography as="span" variant="caption" className={styles.metric}>

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Typography } from '../../ui/Typography/Typography';
 import { RatingStars } from '../../ui/RatingStars/RatingStars';
 import styles from './TestimonialCarousel.module.css';
@@ -11,6 +10,7 @@ const TESTIMONIALS = [
     role: 'Restaurant Owner, Paris',
     avatar: 'https://i.pravatar.cc/80?img=1',
     rating: 5,
+    category: 'Live Event',
   },
   {
     id: 't2',
@@ -19,6 +19,7 @@ const TESTIMONIALS = [
     role: 'Newlyweds, London',
     avatar: 'https://i.pravatar.cc/80?img=9',
     rating: 5,
+    category: 'Wedding',
   },
   {
     id: 't3',
@@ -27,6 +28,7 @@ const TESTIMONIALS = [
     role: 'Independent Producer, Atlanta',
     avatar: 'https://i.pravatar.cc/80?img=53',
     rating: 5,
+    category: 'Remote Session',
   },
   {
     id: 't4',
@@ -35,21 +37,11 @@ const TESTIMONIALS = [
     role: 'Music Student, Berlin',
     avatar: 'https://i.pravatar.cc/80?img=25',
     rating: 5,
+    category: 'Online Lesson',
   },
 ];
 
-export function TestimonialCarousel({ autoPlayMs = 4000, className = '', ...props }) {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActive((i) => (i + 1) % TESTIMONIALS.length);
-    }, autoPlayMs);
-    return () => clearInterval(timer);
-  }, [autoPlayMs]);
-
-  const current = TESTIMONIALS[active];
-
+export function TestimonialCarousel({ className = '', ...props }) {
   return (
     <section
       className={[styles.section, className].filter(Boolean).join(' ')}
@@ -61,36 +53,32 @@ export function TestimonialCarousel({ autoPlayMs = 4000, className = '', ...prop
           <Typography as="h2" variant="heading2" className={styles.title}>
             What our community says
           </Typography>
-        </div>
-
-        <div className={styles.card} aria-live="polite" aria-atomic="true">
-          <div className={styles.quoteDecor} aria-hidden="true">"</div>
-          <Typography as="blockquote" variant="body" className={styles.quote}>
-            {current.quote}
+          <Typography variant="body" className={styles.subtitle}>
+            Real stories from clients who found their perfect musician through Prova.
           </Typography>
-          <div className={styles.author}>
-            <img src={current.avatar} alt="" className={styles.avatar} loading="lazy" />
-            <div>
-              <Typography as="p" variant="label" className={styles.authorName}>{current.name}</Typography>
-              <Typography as="p" variant="caption" className={styles.authorRole}>{current.role}</Typography>
-            </div>
-            <div className={styles.stars}>
-              <RatingStars rating={current.rating} size="sm" showCount={false} />
-            </div>
-          </div>
         </div>
 
-        {/* Dot navigation */}
-        <div className={styles.dots} role="tablist" aria-label="Testimonials navigation">
-          {TESTIMONIALS.map((t, i) => (
-            <button
-              key={t.id}
-              className={[styles.dot, i === active ? styles.dotActive : ''].filter(Boolean).join(' ')}
-              onClick={() => setActive(i)}
-              role="tab"
-              aria-selected={i === active}
-              aria-label={`Testimonial ${i + 1}`}
-            />
+        <div className={styles.grid} role="list">
+          {TESTIMONIALS.map((t) => (
+            <article key={t.id} className={styles.card} role="listitem">
+              <div className={styles.cardTop}>
+                <span className={styles.category}>{t.category}</span>
+                <RatingStars rating={t.rating} size="sm" showCount={false} />
+              </div>
+
+              <blockquote className={styles.quote}>
+                <span className={styles.quoteDecor} aria-hidden="true">"</span>
+                {t.quote}
+              </blockquote>
+
+              <div className={styles.author}>
+                <img src={t.avatar} alt="" className={styles.avatar} loading="lazy" />
+                <div>
+                  <Typography as="p" variant="label" className={styles.authorName}>{t.name}</Typography>
+                  <Typography as="p" variant="caption" className={styles.authorRole}>{t.role}</Typography>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
       </div>

@@ -53,6 +53,7 @@ export function MusicianDetailHero({
     currency = 'USD',
     responseTime,
     completedGigs,
+    remoteAvailable,
     languages = [],
     ensembleType,
   } = musician;
@@ -95,11 +96,14 @@ export function MusicianDetailHero({
             {location && (
               <div className={styles.metaItem}><LocationIcon /><span>{location}</span></div>
             )}
+            {remoteAvailable && (
+              <div className={styles.metaItem}><span aria-hidden="true">🌍</span><span>Remote available</span></div>
+            )}
             {responseTime && (
               <div className={styles.metaItem}><ClockIcon /><span>Responds {responseTime}</span></div>
             )}
-            {completedGigs != null && (
-              <div className={styles.metaItem}><GigIcon /><span>{completedGigs} gigs</span></div>
+            {completedGigs > 0 && (
+              <div className={styles.metaItem}><GigIcon /><span>{completedGigs} completed</span></div>
             )}
             {ensembleType && ensembleType !== 'solo' && (
               <div className={styles.metaItem}>
@@ -124,7 +128,11 @@ export function MusicianDetailHero({
 
           {/* Rating + price */}
           <div className={styles.statsRow}>
-            <RatingStars rating={rating} reviewCount={reviewCount} size="md" showCount />
+            {rating > 0 ? (
+              <RatingStars rating={rating} reviewCount={reviewCount} size="md" showCount />
+            ) : (
+              <span style={{ fontSize: 'var(--font-size-sm)', color: 'rgba(255,255,255,0.7)' }}>New musician</span>
+            )}
             {startingPrice != null && (
               <div className={styles.price}>
                 <span className={styles.priceFrom}>From</span>

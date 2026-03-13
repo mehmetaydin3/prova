@@ -45,3 +45,10 @@ export const serviceSchema = z.object({
   tags: z.array(z.string()).optional().default([]),
   deliveryMode: z.enum(['remote', 'in-person', 'both']),
 });
+
+export const bookingSchema = z.object({
+  musicianId: z.string().min(1, 'musicianId is required'),
+  serviceId: z.string().min(1, 'serviceId is required'),
+  scheduledDate: z.string().max(200).nullable().optional(),
+  brief: z.string().max(2000, 'Brief must be 2000 characters or fewer').nullable().optional(),
+});

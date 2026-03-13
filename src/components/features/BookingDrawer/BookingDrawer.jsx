@@ -149,17 +149,29 @@ function ConfirmStep({ musician, bookingRef, onMessage, onBack }) {
   return (
     <div className={styles.successContent}>
       <div className={styles.successIcon}><CheckCircleIcon /></div>
-      <Typography as="h2" variant="heading2" className={styles.successTitle}>Booking Request Sent!</Typography>
+      <Typography as="h2" variant="heading2" className={styles.successTitle}>Request Sent!</Typography>
       <Typography variant="body" className={styles.successDesc}>
-        Your request has been sent to <strong>{musician.name}</strong>. You'll hear back within their typical response time.
+        Your booking request has been sent to <strong>{musician.name}</strong>.
+        No payment is taken until they accept and you confirm.
       </Typography>
+
       <div className={styles.refBox}>
         <Typography variant="caption" className={styles.refLabel}>Booking reference</Typography>
         <code className={styles.refCode}>{bookingRef || '—'}</code>
       </div>
+
+      {/* What happens next */}
+      <div style={{ textAlign: 'left', marginTop: 16, padding: '12px 16px', background: 'var(--color-surface-subtle, #f7f7f8)', borderRadius: 8 }}>
+        <Typography variant="caption" style={{ fontWeight: 600, display: 'block', marginBottom: 8 }}>What happens next</Typography>
+        <ol style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <li><Typography variant="caption">{musician.name} reviews your request and accepts or declines</Typography></li>
+          <li><Typography variant="caption">You'll be notified once they respond</Typography></li>
+          <li><Typography variant="caption">Confirm details and coordinate directly before the session</Typography></li>
+        </ol>
+      </div>
+
       <div className={styles.successActions}>
-        <Button variant="primary" size="lg" fullWidth onClick={onMessage}>Message {musician.name}</Button>
-        <Button variant="ghost" size="lg" fullWidth onClick={onBack}>Back to search</Button>
+        <Button variant="ghost" size="lg" fullWidth onClick={onBack}>Browse more musicians</Button>
       </div>
     </div>
   );
@@ -192,15 +204,23 @@ export function BookingDrawer({
 
   if (!isOpen) return null;
 
+  // Guard: a service with a resolvable id must exist before any step proceeds
+  const selectedService = services[selectedPkg] || services[0];
+  const canProceed = Boolean(selectedService?.id);
+
   const handleNext = () => setStep((s) => Math.min(s + 1, 2));
   const handleBack = () => setStep((s) => Math.max(s - 1, 0));
 
   const handleConfirm = async () => {
+    if (!canProceed) {
+      setSubmitError('No service selected. Please select a package before confirming.');
+      return;
+    }
     setSubmitting(true);
     setSubmitError(null);
     try {
       const token = localStorage.getItem('token');
-      const pkg = services[selectedPkg] || services[0];
+      const pkg = selectedService;
       const res = await fetch(`${apiBase}/api/bookings`, {
         method: 'POST',
         headers: {
@@ -302,7 +322,7 @@ export function BookingDrawer({
             {step > 0 && (
               <Button variant="ghost" size="lg" onClick={handleBack}>Back</Button>
             )}
-            <Button variant="primary" size="lg" fullWidth={step === 0} onClick={step === 0 ? handleNext : handleConfirm} disabled={submitting} className={styles.nextBtn}>
+            <Button variant="primary" size="lg" fullWidth={step === 0} onClick={step === 0 ? handleNext : handleConfirm} disabled={submitting || !canProceed} className={styles.nextBtn}>
               {step === 0 ? 'Review Order →' : submitting ? 'Sending…' : 'Confirm & Send →'}
             </Button>
             {submitError && (

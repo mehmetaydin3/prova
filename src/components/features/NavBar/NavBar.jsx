@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../../ui/Button/Button';
+import { useAuth } from '../../../context/AuthContext';
 import styles from './NavBar.module.css';
 
 const MusicNoteIcon = () => (
@@ -43,10 +44,10 @@ const CloseIcon = () => (
 );
 
 const NAV_LINKS = [
-  { label: 'Find Musicians', href: '#' },
-  { label: 'For Weddings', href: '#' },
-  { label: 'Teaching', href: '#' },
-  { label: 'How It Works', href: '#' },
+  { label: 'Find Musicians', href: '/musicians' },
+  { label: 'For Weddings', href: '/musicians?service=wedding' },
+  { label: 'Teaching', href: '/musicians?service=teach' },
+  { label: 'For Musicians', href: '/auth' },
 ];
 
 export function NavBar({
@@ -58,6 +59,12 @@ export function NavBar({
   ...props
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
+
+  function handleLogout() {
+    logout();
+    window.location.replace('/');
+  }
 
   return (
     <nav
@@ -67,7 +74,7 @@ export function NavBar({
     >
       <div className={styles.inner}>
         {/* Logo */}
-        <a href="#" className={styles.logo} aria-label="Prova Home">
+        <a href="/" className={styles.logo} aria-label="Prova Home">
           <span className={styles.logoIcon}><MusicNoteIcon /></span>
           <span className={styles.logoText}>prova</span>
         </a>
@@ -82,7 +89,14 @@ export function NavBar({
         </ul>
 
         {/* Desktop search */}
-        <div className={styles.searchWrap}>
+        <form
+          className={styles.searchWrap}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const q = e.currentTarget.querySelector('input').value.trim();
+            window.location.href = q ? `/musicians?q=${encodeURIComponent(q)}` : '/musicians';
+          }}
+        >
           <SearchIcon />
           <input
             type="search"
@@ -90,7 +104,7 @@ export function NavBar({
             className={styles.searchInput}
             aria-label="Search musicians"
           />
-        </div>
+        </form>
 
         {/* Desktop actions */}
         <div className={styles.actions}>
@@ -102,8 +116,18 @@ export function NavBar({
           >
             {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
-          <Button variant="ghost" size="sm" onClick={onLogin}>Log in</Button>
-          <Button variant="primary" size="sm" onClick={onSignUp}>Get Started</Button>
+          {isLoggedIn ? (
+            <>
+              <a href="/my-bookings" className={styles.navLink}>My Bookings</a>
+              <a href="/dashboard" className={styles.authCta}>Dashboard</a>
+              <Button variant="ghost" size="sm" onClick={handleLogout}>Sign out</Button>
+            </>
+          ) : (
+            <>
+              <a href="/auth" className={styles.navLink} onClick={onLogin}>Log in</a>
+              <a href="/auth" className={styles.authCta} onClick={onSignUp}>Get Started</a>
+            </>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -127,8 +151,18 @@ export function NavBar({
           ))}
           <div className={styles.mobileDivider} />
           <div className={styles.mobileActions}>
-            <Button variant="ghost" size="md" fullWidth onClick={onLogin}>Log in</Button>
-            <Button variant="primary" size="md" fullWidth onClick={onSignUp}>Get Started</Button>
+            {isLoggedIn ? (
+              <>
+                <a href="/my-bookings" className={styles.mobileNavLink}>My Bookings</a>
+                <a href="/dashboard" className={styles.mobileNavLink}>Dashboard</a>
+                <Button variant="ghost" size="md" fullWidth onClick={handleLogout}>Sign out</Button>
+              </>
+            ) : (
+              <>
+                <a href="/auth" className={styles.mobileNavLink} onClick={onLogin}>Log in</a>
+                <a href="/auth" className={styles.mobileNavLink} onClick={onSignUp}>Get Started</a>
+              </>
+            )}
           </div>
         </div>
       )}

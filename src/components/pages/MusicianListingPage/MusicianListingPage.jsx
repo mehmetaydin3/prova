@@ -1,6 +1,8 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { MusicianGrid } from '../../features/MusicianGrid/MusicianGrid';
 import { Button } from '../../ui/Button/Button';
+import { NavBar } from '../../features/NavBar/NavBar';
+import { Footer } from '../../features/Footer/Footer';
 import styles from './MusicianListingPage.module.css';
 
 const API_BASE = 'http://localhost:5001';
@@ -27,27 +29,25 @@ const PRICE_RANGES = [
  * The `icon` field is null until icon assets are provided.
  */
 const CATEGORIES = [
-  { id: 'all',             label: 'All',            icon: null },
-  { id: 'new',             label: 'New',            icon: null, badge: 'new' },
-  { id: 'available',       label: 'Available',      icon: null, availability: 'online' },
-  { id: 'top-rated',       label: 'Top Rated',      icon: null, minRating: 4.5 },
-  { id: 'hip-hop',         label: 'Hip-Hop',        icon: null, genre: 'Hip-Hop' },
-  { id: 'rb',              label: 'R&B',            icon: null, genre: 'R&B' },
-  { id: 'pop',             label: 'Pop',            icon: null, genre: 'Pop' },
-  { id: 'jazz',            label: 'Jazz',           icon: null, genre: 'Jazz' },
-  { id: 'electronic',      label: 'Electronic',     icon: null, genre: 'Electronic' },
-  { id: 'rock',            label: 'Rock',           icon: null, genre: 'Rock' },
-  { id: 'classical',       label: 'Classical',      icon: null, genre: 'Classical' },
-  { id: 'gospel',          label: 'Gospel',         icon: null, genre: 'Gospel' },
-  { id: 'afrobeats',       label: 'Afrobeats',      icon: null, genre: 'Afrobeats' },
-  { id: 'soul',            label: 'Soul',           icon: null, genre: 'Soul' },
-  { id: 'blues',           label: 'Blues',          icon: null, genre: 'Blues' },
-  { id: 'latin',           label: 'Latin',          icon: null, genre: 'Latin' },
-  { id: 'cinematic',       label: 'Cinematic',      icon: null, genre: 'Cinematic' },
-  { id: 'producer',        label: 'Producer',       icon: null, skill: 'Beat Making' },
-  { id: 'vocalist',        label: 'Vocalist',       icon: null, skill: 'Vocals' },
-  { id: 'engineer',        label: 'Engineer',       icon: null, skill: 'Mixing' },
-  { id: 'instrumentalist', label: 'Instrumentalist',icon: null, skill: 'Guitar' },
+  { id: 'all',             label: 'All',            icon: '🎵' },
+  { id: 'top-rated',       label: 'Top Rated',      icon: '⭐', minRating: 4.5 },
+  { id: 'remote',          label: 'Remote',         icon: '🌍', remoteOnly: true },
+  { id: 'new',             label: 'New',            icon: '✨', badge: 'new' },
+  { id: 'jazz',            label: 'Jazz',           icon: '🎷', genre: 'Jazz' },
+  { id: 'classical',       label: 'Classical',      icon: '🎻', genre: 'Classical' },
+  { id: 'hip-hop',         label: 'Hip-Hop',        icon: '🎤', genre: 'Hip-Hop' },
+  { id: 'rb',              label: 'R&B',            icon: '🎶', genre: 'R&B' },
+  { id: 'pop',             label: 'Pop',            icon: '🎤', genre: 'Pop' },
+  { id: 'electronic',      label: 'Electronic',     icon: '🎛️', genre: 'Electronic' },
+  { id: 'rock',            label: 'Rock',           icon: '🎸', genre: 'Rock' },
+  { id: 'afrobeats',       label: 'Afrobeats',      icon: '🥁', genre: 'Afrobeats' },
+  { id: 'soul',            label: 'Soul',           icon: '🎹', genre: 'Soul' },
+  { id: 'latin',           label: 'Latin',          icon: '🪗', genre: 'Latin' },
+  { id: 'cinematic',       label: 'Cinematic',      icon: '🎬', genre: 'Cinematic' },
+  { id: 'producer',        label: 'Producer',       icon: '🎚️', skill: 'Beat Making' },
+  { id: 'vocalist',        label: 'Vocalist',       icon: '🎙️', skill: 'Vocals' },
+  { id: 'engineer',        label: 'Engineer',       icon: '🎧', skill: 'Mixing' },
+  { id: 'instrumentalist', label: 'Instrumentalist',icon: '🎶', skill: 'Guitar' },
 ];
 
 function SearchIcon() {
@@ -79,14 +79,19 @@ export function MusicianListingPage({
   musicians: musiciansProp = [],
   onBook,
   onContact,
+  isDark = false,
+  onThemeToggle,
   className = '',
   ...props
 }) {
-  const [search, setSearch] = useState('');
+  // Read initial search/filter values from URL query params
+  const _urlParams = new URLSearchParams(window.location.search);
+
+  const [search, setSearch] = useState(_urlParams.get('q') || '');
   const [locationSearch, setLocationSearch] = useState('');
-  const [availability, setAvailability] = useState('all');
+  const [remoteOnly, setRemoteOnly] = useState(false);
   const [minRating, setMinRating] = useState(0);
-  const [serviceType, setServiceType] = useState('all');
+  const [serviceType, setServiceType] = useState(_urlParams.get('service') || 'all');
   const [genre, setGenre] = useState('All Genres');
   const [instrument, setInstrument] = useState('All Instruments');
   const [priceRange, setPriceRange] = useState('all');
@@ -145,23 +150,36 @@ export function MusicianListingPage({
         m.bio?.toLowerCase().includes(q);
       const loc = locationSearch.toLowerCase();
       const matchesLocation = !loc || m.location?.toLowerCase().includes(loc);
-      const matchesAvailability = availability === 'all' || (availability === 'online' && m.online);
-      const matchesRating = minRating === 0 || m.rating >= minRating;
-      const matchesService = serviceType === 'all' || m.services?.[serviceType];
+      const matchesRemote = !remoteOnly || m.remoteAvailable === true || m.remoteAvailable === 1;
+      const matchesRating = minRating === 0 || (m.rating ?? m.ratingAverage ?? 0) >= minRating;
+      const matchesService = serviceType === 'all' || (() => {
+        if (!m.services) return false;
+        if (Array.isArray(m.services)) {
+          return m.services.some((s) => {
+            if (serviceType === 'tracks' || serviceType === 'online') return s.deliveryMode === 'remote' || s.serviceType === 'remote';
+            if (serviceType === 'inPerson') return s.deliveryMode === 'in_person' || s.deliveryMode === 'in-person';
+            if (serviceType === 'teach') return /lesson|teach/i.test(s.title) || /lesson|teach/i.test(s.serviceType);
+            if (serviceType === 'wedding') return /wedding/i.test(s.title) || /wedding/i.test(s.serviceType);
+            return false;
+          });
+        }
+        // Mock data shape: object { tracks: true, teach: false, ... }
+        return Boolean(m.services[serviceType]);
+      })();
       const matchesGenre = genre === 'All Genres' || m.genres?.includes(genre);
       const matchesInstrument = instrument === 'All Instruments' || m.skills?.includes(instrument);
       let matchesPrice = true;
       if (priceRange === 'low') matchesPrice = m.startingPrice < 50;
       else if (priceRange === 'mid') matchesPrice = m.startingPrice >= 50 && m.startingPrice <= 150;
       else if (priceRange === 'high') matchesPrice = m.startingPrice > 150;
-      return matchesSearch && matchesLocation && matchesAvailability && matchesRating && matchesService && matchesGenre && matchesInstrument && matchesPrice;
+      return matchesSearch && matchesLocation && matchesRemote && matchesRating && matchesService && matchesGenre && matchesInstrument && matchesPrice;
     });
-  }, [apiAvailable, apiMusicians, musiciansProp, search, locationSearch, availability, minRating, serviceType, genre, instrument, priceRange]);
+  }, [apiAvailable, apiMusicians, musiciansProp, search, locationSearch, remoteOnly, minRating, serviceType, genre, instrument, priceRange]);
 
   const clearFilters = () => {
     setSearch('');
     setLocationSearch('');
-    setAvailability('all');
+    setRemoteOnly(false);
     setMinRating(0);
     setServiceType('all');
     setGenre('All Genres');
@@ -175,26 +193,29 @@ export function MusicianListingPage({
     setActiveCategory(cat.id);
     setGenre(cat.genre || 'All Genres');
     setInstrument(cat.skill || 'All Instruments');
-    setAvailability(cat.availability || 'all');
+    setRemoteOnly(Boolean(cat.remoteOnly));
     setMinRating(cat.minRating || 0);
   }, []);
 
   const activeFilters = useMemo(() => {
     const list = [];
+    if (remoteOnly) list.push({ id: 'remote', label: '🌍 Remote only', onRemove: () => setRemoteOnly(false) });
     if (serviceType !== 'all') {
       const label = SERVICE_TYPES.find(s => s.value === serviceType)?.label;
       list.push({ id: 'serviceType', label: `Service: ${label}`, onRemove: () => setServiceType('all') });
     }
-    if (locationSearch) list.push({ id: 'location', label: `Location: ${locationSearch}`, onRemove: () => setLocationSearch('') });
+    if (locationSearch) list.push({ id: 'location', label: `📍 ${locationSearch}`, onRemove: () => setLocationSearch('') });
+    if (minRating > 0) list.push({ id: 'rating', label: `${minRating}+ stars`, onRemove: () => setMinRating(0) });
     if (priceRange !== 'all') {
       const label = PRICE_RANGES.find(p => p.value === priceRange)?.label;
       list.push({ id: 'price', label: `Price: ${label}`, onRemove: () => setPriceRange('all') });
     }
     return list;
-  }, [serviceType, locationSearch, priceRange]);
+  }, [remoteOnly, serviceType, locationSearch, minRating, priceRange]);
 
   return (
     <div className={[styles.page, className].filter(Boolean).join(' ')} {...props}>
+      <NavBar isDark={isDark} onThemeToggle={onThemeToggle} />
 
       {/* ── Compact Page Header: title + search ── */}
       <div className={styles.pageHeader}>
@@ -330,11 +351,15 @@ export function MusicianListingPage({
               />
             </div>
             <div className={styles.filterGroup}>
-              <label className={styles.filterLabel}>Availability</label>
-              <select className={styles.select} value={availability} onChange={(e) => setAvailability(e.target.value)}>
-                <option value="all">Any Availability</option>
-                <option value="online">Available Now</option>
-              </select>
+              <label className={styles.filterLabel}>Work mode</label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14, paddingTop: 4 }}>
+                <input
+                  type="checkbox"
+                  checked={remoteOnly}
+                  onChange={(e) => setRemoteOnly(e.target.checked)}
+                />
+                Remote only (musicians who work worldwide)
+              </label>
             </div>
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>Minimum Rating</label>
@@ -381,6 +406,8 @@ export function MusicianListingPage({
           />
         </main>
       </div>
+
+      <Footer />
     </div>
   );
 }

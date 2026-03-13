@@ -28,6 +28,12 @@ export { MusicianDetailHero } from './components/features/MusicianDetailHero/Mus
 export { ServicePackages } from './components/features/ServicePackages/ServicePackages';
 export { ReviewList } from './components/features/ReviewList/ReviewList';
 export { BookingDrawer } from './components/features/BookingDrawer/BookingDrawer';
+export { MusicianCTA } from './components/features/MusicianCTA/MusicianCTA';
+
+// --- Layout ---
+export { AppShell } from './components/layout/AppShell';
+export { PageSection } from './components/layout/PageSection';
+
 export { HeroSection } from './components/features/HeroSection/HeroSection';
 export { FeatureSpotlight } from './components/features/FeatureSpotlight/FeatureSpotlight';
 export { MetricsGrid } from './components/features/MetricsGrid/MetricsGrid';

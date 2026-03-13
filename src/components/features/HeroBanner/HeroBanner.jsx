@@ -31,12 +31,12 @@ const EVENT_TYPES = [
 ];
 
 const CATEGORIES = [
-  { label: 'Remote Session', icon: '🎧' },
-  { label: 'Gig & Events', icon: '🎤' },
-  { label: 'Wedding Music', icon: '💍' },
-  { label: '1-on-1 Teaching', icon: '🎓' },
-  { label: 'Online Lessons', icon: '💻' },
-  { label: 'Live Performance', icon: '🎸' },
+  { label: 'Remote Session', icon: '🎧', service: 'tracks' },
+  { label: 'Gig & Events', icon: '🎤', service: 'inPerson' },
+  { label: 'Wedding Music', icon: '💍', service: 'wedding' },
+  { label: '1-on-1 Teaching', icon: '🎓', service: 'teach' },
+  { label: 'Online Lessons', icon: '💻', service: 'online' },
+  { label: 'Live Performance', icon: '🎸', service: 'inPerson' },
 ];
 
 const STATS = [
@@ -59,12 +59,21 @@ export function HeroBanner({
 
   const handleSearch = (e) => {
     e.preventDefault();
-    onSearch?.(searchValue);
+    const q = searchValue.trim();
+    if (onSearch) {
+      onSearch(q);
+    } else {
+      window.location.href = q ? `/musicians?q=${encodeURIComponent(q)}` : '/musicians';
+    }
   };
 
-  const handleCategory = (label) => {
-    setActiveCategory(label);
-    onCategorySelect?.(label);
+  const handleCategory = (cat) => {
+    setActiveCategory(cat.label);
+    if (onCategorySelect) {
+      onCategorySelect(cat.label);
+    } else {
+      window.location.href = cat.service ? `/musicians?service=${cat.service}` : '/musicians';
+    }
   };
 
   return (
@@ -120,7 +129,7 @@ export function HeroBanner({
               key={cat.label}
               role="listitem"
               className={[styles.chip, activeCategory === cat.label ? styles.chipActive : ''].filter(Boolean).join(' ')}
-              onClick={() => handleCategory(cat.label)}
+              onClick={() => handleCategory(cat)}
               aria-pressed={activeCategory === cat.label}
             >
               <span className={styles.chipIcon}>{cat.icon}</span>

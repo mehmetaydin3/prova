@@ -74,12 +74,18 @@ export function ServicePackages({
               </div>
 
               <ul className={styles.features} role="list">
-                {pkg.features.map((f) => (
-                  <li key={f} className={styles.featureItem}>
-                    <span className={styles.checkIcon}><CheckIcon /></span>
-                    {f}
+                {pkg.features && pkg.features.length > 0 ? (
+                  pkg.features.map((f) => (
+                    <li key={f} className={styles.featureItem}>
+                      <span className={styles.checkIcon}><CheckIcon /></span>
+                      {f}
+                    </li>
+                  ))
+                ) : (
+                  <li className={styles.featureItem} style={{ color: 'var(--color-text-secondary)', fontStyle: 'italic' }}>
+                    Details shared after booking request
                   </li>
-                ))}
+                )}
               </ul>
 
               <Button

@@ -61,7 +61,7 @@ export function FeaturedMusicianRow({
             <div key={musician.id} className={styles.cardWrap} role="listitem">
               <ProfileCard
                 musician={musician}
-                pdpUrl={`/musician/${musician.id}`}
+                pdpUrl={`/musicians/${musician.id}`}
                 onBook={onBook ? () => onBook(musician) : undefined}
                 onContact={onContact ? () => onContact(musician) : undefined}
               />

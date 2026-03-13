@@ -122,6 +122,24 @@
   color: var(--color-text-secondary);
 }
 
+/* Auth CTA link — styled like a primary button */
+.authCta {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-secondary));
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  transition: opacity var(--transition-fast);
+}
+
+.authCta:hover {
+  opacity: 0.9;
+}
+
 /* Actions */
 .actions {
   display: flex;

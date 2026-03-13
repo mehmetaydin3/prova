@@ -1,118 +1,428 @@
-# CLAUDE.md --- Master Project Index & Guide
+
+# CLAUDE.md — Master Project Guide
 
 ## Project Vision
-**Global Musician Services Marketplace**
-Transforming the way world-class talent is discovered and hired. We prioritize trust, creator-centricity, and an editorial, premium aesthetic.
+
+**Prova** is a global marketplace for discovering, evaluating, and hiring professional musicians for paid work.
+
+The platform connects:
+
+• People who need musicians  
+• Musicians offering professional services  
+
+The goal is to become the **primary platform musicians use to generate income opportunities globally.**
+
+Prova blends elements of:
+
+• SoundBetter (professional music services)  
+• Fiverr (service marketplace)  
+• Airbnb (marketplace booking model)  
+• LinkedIn (professional credibility & trust)
+
+But it is **purpose-built specifically for musicians and music services.**
 
 ---
 
-## 🧭 Source of Truth Index
+# Current Product Stage
 
-To maintain consistency, all implementations must reference these core documents:
+The project is currently in **Alpha Development**.
 
-### 🎨 [Design System](file:///Users/mehmetaydin/Desktop/musician-ds/docs/design-system/design-system-guidelines.md)
-*   **Contents:** Visual language, Typography (8px grid), Motion rules, and Component Library.
-*   **Focus:** Ensuring a high-end, cohesive look and feel.
+Primary objective:
 
-### 📄 [Page Templates](file:///Users/mehmetaydin/Desktop/musician-ds/docs/templates/)
-*   **[Musician PLP](file:///Users/mehmetaydin/Desktop/musician-ds/docs/templates/musician-plp-template.md):** Discovery and comparison strategy.
-*   **[Musician PDP](file:///Users/mehmetaydin/Desktop/musician-ds/docs/templates/musician-pdp-template.md):** Conversion and trust-building structure.
+Build a **working marketplace loop** before adding complexity.
 
-### 3. Architecture & Data
-**Path:** [/docs/architecture/](file:///Users/mehmetaydin/Desktop/musician-ds/docs/architecture/)
-*   **[Data Schema](file:///Users/mehmetaydin/Desktop/musician-ds/docs/architecture/data-schema.md):** Core models for Musicians, Services (with tiered pricing), and platform growth.
-*   **[Discovery & Search](file:///Users/mehmetaydin/Desktop/musician-ds/docs/architecture/discovery-and-search.md):** Ranking algorithms, search matching logic, and filtering rules.
+Core product flow:
 
-### 4. Strategy & Trust
-**Path:** [/docs/ux/trust-signals-and-conversion.md](file:///Users/mehmetaydin/Desktop/musician-ds/docs/ux/trust-signals-and-conversion.md)
-*Focus:* Reducing hiring uncertainty and optimizing the booking funnel.
+Musician Listing → Musician Profile → Service Selection → Booking Request → Musician Accept / Decline
 
----
+Only features required for this loop should be implemented.
 
-## 💎 UI Philosophy & Tone
-*   **Editorial over Utility:** The interface should feel like a high-end portfolio, not a generic spreadsheet.
-*   **Media-First:** Audio and video are the primary "proof" of quality.
-*   **Generous Space:** Leverage whitespace to emphasize high-value content.
-*   **Verification:** Prominently display trust signals (ratings, badges, response times).
+Avoid premature features such as:
+- advanced AI matching
+- escrow payments
+- availability calendars
+- messaging systems
+
+Those will come later.
 
 ---
 
-## 🛠️ Implementation Guardrails
-1.  **Check the Grid:** Always align with the 8px spacing system.
-2.  **Typography first:** Use font weights and sizes to define hierarchy before borders or shadows.
-3.  **Modular Logic:** Build for reusability without sacrificing the unique "editorial" feel of pages.
-4.  **Async Excellence:** Use skeleton states for all data fetching.
+# Target Marketplace Users
+
+## Musicians (Supply)
+
+Professional musicians offering services such as:
+
+• Session recording  
+• Wedding / event performances  
+• Touring musicians  
+• Studio musicians  
+• Music production  
+• Composition  
+• Music lessons  
+• Remote recording  
+• Arranging / orchestration  
+
+Musicians create profiles and define the services they offer.
 
 ---
 
-## 🏗️ Repository Structure
+## Clients (Demand)
 
-```
+People or organizations hiring musicians:
+
+• Event planners  
+• Wedding planners  
+• Music producers  
+• Recording studios  
+• Film / TV production  
+• Artists and bands  
+• Venues  
+• Private clients
+
+Clients browse musicians and submit booking requests.
+
+---
+
+# Core Product Principles
+
+1. **Trust First**
+Musicians must appear credible and professional.
+
+2. **Discovery Must Be Easy**
+Users should quickly find relevant musicians.
+
+3. **Booking Must Be Simple**
+Clients should easily send booking requests.
+
+4. **Media First**
+Audio and video are primary proof of quality.
+
+5. **Data Model First**
+Structured musician/service data enables future AI matching.
+
+---
+
+# Source of Truth Documentation
+
+All implementations should reference these documents.
+
+## Design System
+
+Path:
+/docs/design-system/
+
+Contains:
+
+• Visual language  
+• Typography scale  
+• 8px spacing grid  
+• Motion rules  
+• Component system  
+
+Design system ensures a **premium, editorial aesthetic**.
+
+---
+
+## Page Templates
+
+Path:
+/docs/templates/
+
+Includes:
+
+### Musician Listing Page (PLP)
+Discovery and comparison structure.
+
+### Musician Profile Page (PDP)
+Trust building and booking conversion.
+
+---
+
+## Architecture & Data
+
+Path:
+/docs/architecture/
+
+Includes:
+
+• Data schema  
+• Service model  
+• Discovery and search logic  
+• Ranking and filtering strategies
+
+---
+
+## UX Strategy
+
+Path:
+/docs/ux/
+
+Includes documentation on:
+
+• Trust signals
+• Conversion optimization
+• Hiring uncertainty reduction
+
+---
+
+# UI Philosophy
+
+Prova should feel **editorial and premium**, not utilitarian.
+
+Principles:
+
+**Editorial over Utility**
+Interface should resemble a high-end portfolio.
+
+**Media First**
+Audio and video showcase talent.
+
+**Generous Space**
+Whitespace emphasizes quality content.
+
+**Trust Signals**
+Ratings, verification, and response times are prominent.
+
+---
+
+# Implementation Guardrails
+
+1. Always follow **8px spacing grid**.
+
+2. Use **typography hierarchy before visual decoration**.
+
+3. Build **modular components** that remain editorial.
+
+4. Use **skeleton states for loading UI**.
+
+5. Avoid heavy visual clutter.
+
+---
+
+# Repository Structure
+
 prova/
-├── .storybook/              # Storybook config (main.js, preview.js)
-├── docs/                    # Centralized expert documentation
-├── src/                     # Frontend – React design system components
-│   ├── index.js             # Barrel export file for all components
-│   ├── components/          # ~37 component directories (each with .jsx + .module.css)
-│   ├── tokens/              # Design tokens (tokens.css — CSS custom properties)
-│   └── mocks/               # Mock data used in Storybook stories
-├── server/                  # Backend – Express REST API
-│   ├── src/
-│   │   ├── index.ts         # Server entry point (Express app setup)
-│   │   ├── db.ts            # SQLite database initialization & schema
-│   │   ├── seed.ts          # Database seeding script (12 musicians)
-│   │   ├── middleware/      # Auth middleware (JWT verification)
-│   │   ├── routes/          # API route handlers (auth, musicians, profile)
-│   │   └── schemas/         # Zod validation schemas
-│   ├── prisma/
-│   │   ├── schema.prisma    # Prisma schema (User, MusicianProfile, Service)
-│   │   └── migrations/      # Database migrations
-│   ├── package.json
-│   └── tsconfig.json
-├── package.json             # Frontend package (Storybook / design system)
-└── CLAUDE.md                # This file
-```
+
+.storybook/  
+Storybook configuration files
+
+docs/  
+Documentation for design system, architecture, and UX
+
+src/  
+Frontend React component library
+
+src/components/  
+Component directories
+
+src/tokens/  
+Design tokens (CSS variables)
+
+src/mocks/  
+Mock data used by Storybook
+
+server/  
+Backend Express API
+
+server/src/index.ts  
+Server entry point
+
+server/src/db.ts  
+SQLite initialization
+
+server/src/routes/  
+API route handlers
+
+server/src/middleware/  
+Auth middleware
+
+server/src/schemas/  
+Zod validation schemas
+
+server/prisma/schema.prisma  
+Database schema
 
 ---
 
-## 🚀 Common Workflows
+# Core Data Model Concepts
 
-### Start the frontend (Storybook)
-```bash
+The platform collects structured data enabling future matching.
+
+Important musician data includes:
+
+• Instruments  
+• Genres  
+• Skills  
+• Services  
+• Experience  
+• Location  
+• Travel capability  
+• Availability  
+• Social proof  
+• Portfolio media  
+
+AI matching will be implemented later.
+
+The priority is **data integrity first**.
+
+---
+
+# Service Model
+
+Musicians define services they offer.
+
+Examples:
+
+• Wedding performance  
+• Studio recording  
+• Remote recording  
+• Composition  
+• Music lessons  
+• Live events
+
+Pricing models supported:
+
+• Fixed price  
+• Starting price  
+• Custom quote
+
+---
+
+# Location Model
+
+Services support different location requirements.
+
+Possible types:
+
+remote  
+in_person  
+both
+
+Musicians can specify:
+
+• Base location  
+• Travel radius  
+• Remote availability
+
+This enables filtering and future matching logic.
+
+---
+
+# Booking Requests
+
+Clients submit booking requests including:
+
+• Selected service  
+• Event date  
+• Brief description  
+• Location  
+• Client contact info
+
+Musicians may:
+
+accept  
+decline  
+respond with details
+
+---
+
+# Development Workflow
+
+Start frontend:
+
 npm install
-npm run storybook        # Starts at http://localhost:6006
-```
+npm run storybook
 
-### Start the backend server
-```bash
+Storybook runs on:
+http://localhost:6006
+
+Start backend:
+
 cd server
 npm install
-npm run dev              # tsx watch mode
-```
+npm run dev
 
-### Seed the database
-```bash
+Backend runs on:
+http://localhost:5001
+
+Seed database:
+
 cd server
-npm run seed             # Populates SQLite with 12 musicians
-```
+npm run seed
+
+Seeds database with sample musicians.
 
 ---
 
-## 📖 Component Conventions
-*   **Named + Default Exports** on every component.
-*   **CSS Modules** (`.module.css`) for scoping.
-*   **Barrel Exports** in `src/index.js`.
-*   **Props Spread** for HTML attribute passthrough.
+# Component Conventions
+
+• Named + default exports  
+• CSS Modules (.module.css)  
+• Barrel exports in src/index.js  
+• Props spreading for HTML attributes
 
 ---
 
-## 🤖 Notes for AI Assistants
-1. **No test suite exists** — validate logic manually via Storybook.
-2. **Raw SQL over ORM** — routes use raw SQL parameterized queries in `db.ts`.
-3. **API fallback** — listing pages have client-side filtering fallback.
-4. **Ports** — Backend: `5001`, Storybook: `6006`.
+# Notes for AI Assistants
+
+Important constraints:
+
+1. No automated test suite exists.
+Manual verification via Storybook.
+
+2. Backend uses raw SQL queries.
+
+3. Some UI pages include client-side filtering fallback.
+
+4. Backend port: 5001  
+Storybook port: 6006
 
 ---
 
-## 🎯 North Star Metric
-**Help buyers trust, compare, and hire the right musician quickly while helping musicians clearly package and present their craft.**
+# Immediate Build Priorities
+
+Current engineering focus:
+
+1. Harden booking flow
+2. Expand service model
+3. Improve musician profile richness
+4. Support travel radius logic
+5. Ensure listing → profile → booking flow works reliably
+
+---
+
+# Long-Term Vision
+
+Prova becomes:
+
+• The primary platform musicians use to find paid work
+• A trusted professional network for music services
+• A discovery platform for hiring musicians globally
+
+Future features may include:
+
+• AI-powered musician matching
+• Reputation systems
+• Availability calendars
+• Escrow payments
+• Smart booking workflows
+
+---
+
+# North Star Metric
+
+Help buyers **trust, compare, and hire the right musician quickly** while helping musicians clearly package and present their craft.
+
+
+# Architectural Constraints
+
+Claude should NOT:
+
+• replace Storybook with another system  
+• migrate the backend to a new framework  
+• replace SQLite without explicit instruction  
+• introduce a monorepo toolchain  
+• redesign the design system structure  
+
+Focus on incremental improvements rather than architectural rewrites.

@@ -76,7 +76,13 @@ export function ReviewList({
       ) : (
         <div className={styles.noReviews}>
           <Typography variant="body" className={styles.noReviewsText}>
-            No reviews yet — be the first to book and leave feedback!
+            {reviewCount > 0
+              ? `This musician has ${reviewCount} verified review${reviewCount !== 1 ? 's' : ''} — detailed feedback visible after booking.`
+              : 'No reviews yet. Reviews are collected from verified bookings made through Prova.'
+            }
+          </Typography>
+          <Typography variant="caption" className={styles.noReviewsText} style={{ marginTop: 8, opacity: 0.7 }}>
+            All reviews on Prova come from real clients who completed a booking.
           </Typography>
         </div>
       )}

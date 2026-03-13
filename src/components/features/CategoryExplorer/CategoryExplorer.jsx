@@ -2,6 +2,16 @@ import { Typography } from '../../ui/Typography/Typography';
 import { Button } from '../../ui/Button/Button';
 import styles from './CategoryExplorer.module.css';
 
+// Maps category id → listing page service filter param
+const SERVICE_PARAM_MAP = {
+  remote:  'tracks',
+  gig:     'inPerson',
+  wedding: 'wedding',
+  teach:   'teach',
+  online:  'online',
+  live:    'inPerson',
+};
+
 const CATEGORIES = [
   {
     id: 'remote',
@@ -75,7 +85,14 @@ export function CategoryExplorer({ onSelect, className = '', ...props }) {
             key={cat.id}
             className={styles.tile}
             role="listitem"
-            onClick={() => onSelect?.(cat.id)}
+            onClick={() => {
+              if (onSelect) {
+                onSelect(cat.id);
+              } else {
+                const param = SERVICE_PARAM_MAP[cat.id];
+                window.location.href = param ? `/musicians?service=${param}` : '/musicians';
+              }
+            }}
             aria-label={`Browse ${cat.label}`}
             style={{ '--tile-gradient': cat.gradient }}
           >

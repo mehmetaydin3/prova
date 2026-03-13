@@ -44,7 +44,7 @@ export function MusicianGrid({
         <div key={musician.id} role="listitem" className={styles.listItem}>
           <ProfileCard
             musician={musician}
-            pdpUrl={`/musician/${musician.id}`}
+            pdpUrl={`/musicians/${musician.id}`}
             onBook={onBook ? () => onBook(musician) : undefined}
             onContact={onContact ? () => onContact(musician) : undefined}
           />
