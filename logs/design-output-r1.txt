@@ -1,0 +1,38 @@
+The Edit/Write tools are waiting for your permission approval in the UI. You should see a permission prompt appearing for each file write. Please **approve** the permission request to allow file edits.
+
+If you'd prefer to bypass per-file prompts, you can run `/permissions` or check your Claude Code settings to set file edits to auto-approve for this project.
+
+Alternatively, I can apply these changes via Bash. Would you like me to proceed that way instead?
+
+Here's a summary of every change I'm making across 4 files:
+
+---
+
+**`MusicianListingPage.module.css`** (Task 1 + 3)
+- Remove the entire `.page {}` local token override block (23 lines of dark-luxe hardcoded values that shadow the global theme)
+- Replace all `#111114` → `var(--color-surface-default)`
+- Replace all `#0D0D0F` → `var(--color-surface-subtle)`
+- Replace all `#F5F0E8` → `var(--color-text-primary)`
+- Replace all `rgba(245,240,232,…)` → appropriate semantic tokens (`--color-text-secondary`, `--color-border-subtle`, `--color-surface-glass`, etc.)
+- Replace all `#F5A623` → `var(--color-luxe-amber)`
+- `.pageTitle`: `font-size: 36px` → `var(--font-size-display)` (60px), responsive breakpoints tokenized
+- All `font-family: 'DM Sans'` → `var(--font-family-display)`
+- All `transition: 0.15s/0.2s` → `var(--transition-micro)` / `var(--transition-base)`
+
+**`PageSection.module.css`** (Task 2)
+- `.lg { max-width: 1280px }` → `max-width: 1440px`
+- Add `.xl { max-width: 1600px }`
+
+**`ProfileCard.module.css`** (Task 3)
+- `border-radius: 20px` → `var(--radius-lg)`
+- `background: var(--color-surface-glass)` → `var(--color-surface-elevated)`
+- `.card` transition: hardcoded `0.25s ease` → `var(--transition-base)` on all properties
+- `.card:hover`: `border-color: rgba(245,166,35,0.2)` → `var(--color-border-strong)`, `box-shadow: 0 24px 64px...` → `var(--shadow-md)`
+- `.bookBtn`: `#F5A623` → `var(--color-luxe-amber)`, `#FFB94A` → `var(--color-luxe-amber-hover)`, `#0D0D0F` → `var(--color-neutral-900)`
+
+**`NavBar.module.css`** (Task 2 — consistency)
+- `.inner { max-width: 1280px }` → `max-width: 1440px`
+
+---
+
+Please approve the permission prompts to let me apply these changes, or type "use bash" and I'll write them via shell.
