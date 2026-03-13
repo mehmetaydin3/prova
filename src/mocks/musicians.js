@@ -27,9 +27,9 @@ export const musiciansData = [
     },
     services: { tracks: true, teach: false, inPerson: false, wedding: false, online: true },
     packages: [
-      { name: 'Basic', price: 75, delivery: '3 days', revisions: 1, features: ['1 custom beat', 'WAV + MP3 delivery', 'Basic mixing'] },
-      { name: 'Standard', price: 150, delivery: '2 days', revisions: 2, features: ['2 custom beats', 'Stems included', 'Full mix & master'] },
-      { name: 'Premium', price: 300, delivery: '1 day', revisions: 'Unlimited', features: ['4 custom beats', 'Exclusive rights', 'Rush delivery', 'Producer credit'] },
+      { id: 'pkg-m1-0', name: 'Basic', price: 75, delivery: '3 days', revisions: 1, features: ['1 custom beat', 'WAV + MP3 delivery', 'Basic mixing'] },
+      { id: 'pkg-m1-1', name: 'Standard', price: 150, delivery: '2 days', revisions: 2, features: ['2 custom beats', 'Stems included', 'Full mix & master'] },
+      { id: 'pkg-m1-2', name: 'Premium', price: 300, delivery: '1 day', revisions: 'Unlimited', features: ['4 custom beats', 'Exclusive rights', 'Rush delivery', 'Producer credit'] },
     ],
     reviews: [
       { id: 'r1', author: 'DJ Phantom', avatar: 'https://i.pravatar.cc/40?img=20', rating: 5, date: '2025-02-10', text: 'Absolutely knocked it out. The beat had exactly the energy I was looking for.' },
@@ -65,9 +65,9 @@ export const musiciansData = [
     },
     services: { tracks: true, teach: true, inPerson: false, wedding: false, online: true },
     packages: [
-      { name: 'Basic', price: 120, delivery: '5 days', revisions: 1, features: ['Stereo mix of 1 song', 'Master for streaming'] },
-      { name: 'Standard', price: 220, delivery: '3 days', revisions: 2, features: ['Full mix + master', 'Stems', 'DDP image'] },
-      { name: 'Premium', price: 450, delivery: '2 days', revisions: 'Unlimited', features: ['Full EP mix & master', 'Atmos mix', 'Vinyl master', 'Priority slot'] },
+      { id: 'pkg-m2-0', name: 'Basic', price: 120, delivery: '5 days', revisions: 1, features: ['Stereo mix of 1 song', 'Master for streaming'] },
+      { id: 'pkg-m2-1', name: 'Standard', price: 220, delivery: '3 days', revisions: 2, features: ['Full mix + master', 'Stems', 'DDP image'] },
+      { id: 'pkg-m2-2', name: 'Premium', price: 450, delivery: '2 days', revisions: 'Unlimited', features: ['Full EP mix & master', 'Atmos mix', 'Vinyl master', 'Priority slot'] },
     ],
     reviews: [
       { id: 'r1', author: 'Sam Rivera', avatar: 'https://i.pravatar.cc/40?img=30', rating: 5, date: '2025-03-01', text: 'Sofia is an absolute genius. My EP sounds incredible.' },
@@ -102,9 +102,9 @@ export const musiciansData = [
     },
     services: { tracks: true, teach: false, inPerson: true, wedding: true, online: false },
     packages: [
-      { name: 'Basic', price: 45, delivery: '4 days', revisions: 1, features: ['1 vocal take', 'Dry + wet files'] },
-      { name: 'Standard', price: 90, delivery: '2 days', revisions: 2, features: ['Full song vocals', 'Harmonies', 'Comped final'] },
-      { name: 'Premium', price: 180, delivery: '1 day', revisions: 'Unlimited', features: ['Full session', 'Exclusive rights', 'Backing vocals'] },
+      { id: 'pkg-m3-0', name: 'Basic', price: 45, delivery: '4 days', revisions: 1, features: ['1 vocal take', 'Dry + wet files'] },
+      { id: 'pkg-m3-1', name: 'Standard', price: 90, delivery: '2 days', revisions: 2, features: ['Full song vocals', 'Harmonies', 'Comped final'] },
+      { id: 'pkg-m3-2', name: 'Premium', price: 180, delivery: '1 day', revisions: 'Unlimited', features: ['Full session', 'Exclusive rights', 'Backing vocals'] },
     ],
     reviews: [],
     friends: ['m2', 'm12'],
@@ -132,9 +132,9 @@ export const musiciansData = [
     currency: 'EUR',
     services: { tracks: false, teach: true, inPerson: false, wedding: false, online: true },
     packages: [
-      { name: 'Basic', price: 60, delivery: '—', revisions: null, features: ['60-min online lesson', 'Session recording'] },
-      { name: 'Standard', price: 200, delivery: '—', revisions: null, features: ['4 × 60-min lessons', 'Custom lesson plan', 'Homework tasks'] },
-      { name: 'Premium', price: 500, delivery: '—', revisions: null, features: ['10 × 60-min lessons', 'Full Ableton course', 'Project review', 'Certificate'] },
+      { id: 'pkg-m4-0', name: 'Basic', price: 60, delivery: '—', revisions: null, features: ['60-min online lesson', 'Session recording'] },
+      { id: 'pkg-m4-1', name: 'Standard', price: 200, delivery: '—', revisions: null, features: ['4 × 60-min lessons', 'Custom lesson plan', 'Homework tasks'] },
+      { id: 'pkg-m4-2', name: 'Premium', price: 500, delivery: '—', revisions: null, features: ['10 × 60-min lessons', 'Full Ableton course', 'Project review', 'Certificate'] },
     ],
     reviews: [
       { id: 'r1', author: 'Arno B.', avatar: 'https://i.pravatar.cc/40?img=25', rating: 5, date: '2025-02-20', text: 'Devon explains modular synthesis unlike anyone I\'ve found online. Highly recommend.' },
@@ -169,9 +169,9 @@ export const musiciansData = [
     },
     services: { tracks: true, teach: true, inPerson: true, wedding: true, online: true },
     packages: [
-      { name: 'Basic', price: 100, delivery: '5 days', revisions: 1, features: ['1 session recording', 'Dry violin track', 'WAV delivery'] },
-      { name: 'Standard', price: 220, delivery: '3 days', revisions: 2, features: ['Full arrangement', 'Multiple takes', 'Stems'] },
-      { name: 'Premium', price: 80, delivery: '—', revisions: null, features: ['60-min violin lesson (in-person or online)', 'Learning materials'] },
+      { id: 'pkg-m5-0', name: 'Basic', price: 100, delivery: '5 days', revisions: 1, features: ['1 session recording', 'Dry violin track', 'WAV delivery'] },
+      { id: 'pkg-m5-1', name: 'Standard', price: 220, delivery: '3 days', revisions: 2, features: ['Full arrangement', 'Multiple takes', 'Stems'] },
+      { id: 'pkg-m5-2', name: 'Premium', price: 80, delivery: '—', revisions: null, features: ['60-min violin lesson (in-person or online)', 'Learning materials'] },
     ],
     reviews: [
       { id: 'r1', author: 'James O.', avatar: 'https://i.pravatar.cc/40?img=40', rating: 5, date: '2025-01-15', text: 'Elena played at our wedding and it was truly magical. Couldn\'t have asked for more.' },
@@ -201,9 +201,9 @@ export const musiciansData = [
     currency: 'USD',
     services: { tracks: false, teach: true, inPerson: true, wedding: false, online: false },
     packages: [
-      { name: 'Basic', price: 50, delivery: '—', revisions: null, features: ['60-min in-person lesson'] },
-      { name: 'Standard', price: 180, delivery: '—', revisions: null, features: ['4 × in-person lessons', 'Practice plan'] },
-      { name: 'Premium', price: 400, delivery: '—', revisions: null, features: ['10 × lessons', 'Theory workbook', 'Video recap'] },
+      { id: 'pkg-m6-0', name: 'Basic', price: 50, delivery: '—', revisions: null, features: ['60-min in-person lesson'] },
+      { id: 'pkg-m6-1', name: 'Standard', price: 180, delivery: '—', revisions: null, features: ['4 × in-person lessons', 'Practice plan'] },
+      { id: 'pkg-m6-2', name: 'Premium', price: 400, delivery: '—', revisions: null, features: ['10 × lessons', 'Theory workbook', 'Video recap'] },
     ],
     reviews: [],
   },
@@ -235,9 +235,9 @@ export const musiciansData = [
     },
     services: { tracks: false, teach: false, inPerson: true, wedding: true, online: false },
     packages: [
-      { name: 'Ceremony', price: 800, delivery: '—', revisions: null, features: ['2 hours performance', 'Up to 3 custom songs', 'Travel (50mi)'] },
-      { name: 'Reception', price: 1400, delivery: '—', revisions: null, features: ['4 hours performance', 'Unlimited repertoire', 'Sound system', 'Travel (100mi)'] },
-      { name: 'Full Day', price: 2200, delivery: '—', revisions: null, features: ['Ceremony + reception', 'Rehearsal attendance', 'Bespoke arrangements'] },
+      { id: 'pkg-m7-0', name: 'Ceremony', price: 800, delivery: '—', revisions: null, features: ['2 hours performance', 'Up to 3 custom songs', 'Travel (50mi)'] },
+      { id: 'pkg-m7-1', name: 'Reception', price: 1400, delivery: '—', revisions: null, features: ['4 hours performance', 'Unlimited repertoire', 'Sound system', 'Travel (100mi)'] },
+      { id: 'pkg-m7-2', name: 'Full Day', price: 2200, delivery: '—', revisions: null, features: ['Ceremony + reception', 'Rehearsal attendance', 'Bespoke arrangements'] },
     ],
     reviews: [
       { id: 'r1', author: 'Emma & Jack T.', avatar: 'https://i.pravatar.cc/40?img=1', rating: 5, date: '2025-02-14', text: 'They made our day perfect. Every guest was blown away by the performance.' },
@@ -271,9 +271,9 @@ export const musiciansData = [
     },
     services: { tracks: true, teach: true, inPerson: false, wedding: false, online: true },
     packages: [
-      { name: 'Basic', price: 40, delivery: '4 days', revisions: 1, features: ['30-min vocal session', 'MP3 delivery'] },
-      { name: 'Standard', price: 80, delivery: '2 days', revisions: 2, features: ['Full song recording', 'Harmonies', 'Stems'] },
-      { name: 'Premium', price: 55, delivery: '—', revisions: null, features: ['60-min online lesson', 'Personalized practice plan'] },
+      { id: 'pkg-m8-0', name: 'Basic', price: 40, delivery: '4 days', revisions: 1, features: ['30-min vocal session', 'MP3 delivery'] },
+      { id: 'pkg-m8-1', name: 'Standard', price: 80, delivery: '2 days', revisions: 2, features: ['Full song recording', 'Harmonies', 'Stems'] },
+      { id: 'pkg-m8-2', name: 'Premium', price: 55, delivery: '—', revisions: null, features: ['60-min online lesson', 'Personalized practice plan'] },
     ],
     reviews: [
       { id: 'r1', author: 'Nikhil P.', avatar: 'https://i.pravatar.cc/40?img=15', rating: 5, date: '2025-01-22', text: 'Priya\'s teaching style is patient and incredibly effective. My raga improved drastically in 4 lessons.' },
@@ -307,9 +307,9 @@ export const musiciansData = [
     },
     services: { tracks: true, teach: true, inPerson: true, wedding: false, online: true },
     packages: [
-      { name: 'Basic', price: 65, delivery: '3 days', revisions: 1, features: ['1 drum track', 'WAV + stems'] },
-      { name: 'Standard', price: 140, delivery: '2 days', revisions: 2, features: ['Full session', 'Multiple grooves', 'Overhead + close mics'] },
-      { name: 'Premium', price: 70, delivery: '—', revisions: null, features: ['60-min drum lesson (online)', 'Video recap'] },
+      { id: 'pkg-m9-0', name: 'Basic', price: 65, delivery: '3 days', revisions: 1, features: ['1 drum track', 'WAV + stems'] },
+      { id: 'pkg-m9-1', name: 'Standard', price: 140, delivery: '2 days', revisions: 2, features: ['Full session', 'Multiple grooves', 'Overhead + close mics'] },
+      { id: 'pkg-m9-2', name: 'Premium', price: 70, delivery: '—', revisions: null, features: ['60-min drum lesson (online)', 'Video recap'] },
     ],
     reviews: [],
   },
@@ -341,9 +341,9 @@ export const musiciansData = [
     },
     services: { tracks: false, teach: false, inPerson: true, wedding: true, online: false },
     packages: [
-      { name: 'Aperitivo', price: 500, delivery: '—', revisions: null, features: ['1 hour performance', '3 flamenco pieces', 'Travel (100km)'] },
-      { name: 'Full Show', price: 900, delivery: '—', revisions: null, features: ['2 hours performance', 'Custom setlist', 'Costume included'] },
-      { name: 'Premium', price: 1400, delivery: '—', revisions: null, features: ['Full event (3 hrs)', 'Flamenco dancer included', 'Sound system'] },
+      { id: 'pkg-m10-0', name: 'Aperitivo', price: 500, delivery: '—', revisions: null, features: ['1 hour performance', '3 flamenco pieces', 'Travel (100km)'] },
+      { id: 'pkg-m10-1', name: 'Full Show', price: 900, delivery: '—', revisions: null, features: ['2 hours performance', 'Custom setlist', 'Costume included'] },
+      { id: 'pkg-m10-2', name: 'Premium', price: 1400, delivery: '—', revisions: null, features: ['Full event (3 hrs)', 'Flamenco dancer included', 'Sound system'] },
     ],
     reviews: [
       { id: 'r1', author: 'Carlos N.', avatar: 'https://i.pravatar.cc/40?img=55', rating: 5, date: '2025-01-05', text: 'Made our wedding reception absolutely spectacular. Guests were dancing and clapping all night!' },
@@ -372,9 +372,9 @@ export const musiciansData = [
     currency: 'CAD',
     services: { tracks: false, teach: true, inPerson: true, wedding: false, online: true },
     packages: [
-      { name: 'Trial', price: 30, delivery: '—', revisions: null, features: ['30-min trial lesson (online)', 'No commitment'] },
-      { name: 'Monthly', price: 200, delivery: '—', revisions: null, features: ['4 × 60-min lessons', 'Learning plan', 'Practice exercises'] },
-      { name: 'Premium', price: 380, delivery: '—', revisions: null, features: ['8 × 60-min lessons', 'Theory books', 'Exam coaching', 'Parent reports'] },
+      { id: 'pkg-m11-0', name: 'Trial', price: 30, delivery: '—', revisions: null, features: ['30-min trial lesson (online)', 'No commitment'] },
+      { id: 'pkg-m11-1', name: 'Monthly', price: 200, delivery: '—', revisions: null, features: ['4 × 60-min lessons', 'Learning plan', 'Practice exercises'] },
+      { id: 'pkg-m11-2', name: 'Premium', price: 380, delivery: '—', revisions: null, features: ['8 × 60-min lessons', 'Theory books', 'Exam coaching', 'Parent reports'] },
     ],
     reviews: [
       { id: 'r1', author: 'Sarah K.', avatar: 'https://i.pravatar.cc/40?img=9', rating: 5, date: '2025-03-05', text: 'My daughter went from zero piano to playing her first song in 8 lessons. Jade is a miracle worker.' },
@@ -408,9 +408,9 @@ export const musiciansData = [
     },
     services: { tracks: true, teach: false, inPerson: false, wedding: false, online: true },
     packages: [
-      { name: 'Basic', price: 90, delivery: '5 days', revisions: 1, features: ['1 ambient track (2 min)', 'Sync-ready WAV'] },
-      { name: 'Standard', price: 200, delivery: '3 days', revisions: 2, features: ['3 tracks', 'Stems', 'Broadcast license'] },
-      { name: 'Premium', price: 450, delivery: '5 days', revisions: 'Unlimited', features: ['Full EP (5 tracks)', 'Stems + MIDI', 'Worldwide forever license'] },
+      { id: 'pkg-m12-0', name: 'Basic', price: 90, delivery: '5 days', revisions: 1, features: ['1 ambient track (2 min)', 'Sync-ready WAV'] },
+      { id: 'pkg-m12-1', name: 'Standard', price: 200, delivery: '3 days', revisions: 2, features: ['3 tracks', 'Stems', 'Broadcast license'] },
+      { id: 'pkg-m12-2', name: 'Premium', price: 450, delivery: '5 days', revisions: 'Unlimited', features: ['Full EP (5 tracks)', 'Stems + MIDI', 'Worldwide forever license'] },
     ],
     reviews: [],
   },

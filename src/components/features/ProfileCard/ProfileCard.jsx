@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Avatar } from '../../ui/Avatar/Avatar';
 import { Badge } from '../../ui/Badge/Badge';
 import { Tag } from '../../ui/Tag/Tag';
@@ -55,19 +56,16 @@ export function ProfileCard({
 
   const currencySymbol = CURRENCY_SYMBOLS[currency] || currency;
 
+  const navigate = useNavigate();
+
   const handleCardClick = () => {
-    if (pdpUrl) {
-      window.location.href = pdpUrl;
-    }
+    if (pdpUrl) navigate(pdpUrl);
   };
 
   const handleBookClick = (e) => {
     e.stopPropagation();
-    if (pdpUrl) {
-      window.location.href = pdpUrl;
-    } else if (onBook) {
-      onBook();
-    }
+    if (pdpUrl) navigate(pdpUrl);
+    else if (onBook) onBook();
   };
 
   return (

@@ -17,10 +17,11 @@ export function MusicianDetailPage({
   relatedMusicians = [],
   isDark = false,
   onThemeToggle,
+  defaultDrawerOpen = false,
   className = '',
   ...props
 }) {
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(defaultDrawerOpen);
   const [selectedServiceIdx, setSelectedServiceIdx] = useState(0);
   const [friendshipStatus, setFriendshipStatus] = useState('none');
 

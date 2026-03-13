@@ -135,6 +135,7 @@ router.get('/', async (req: Request, res: Response) => {
         rating: row.ratingAverage,
         reviewCount: row.ratingCount,
         tagline: row.headline,
+        completedGigs: row.completedJobs,
       };
     }));
 
@@ -181,6 +182,7 @@ router.get('/:id', async (req: Request, res: Response) => {
       rating: row.ratingAverage,
       reviewCount: row.ratingCount,
       tagline: row.headline,
+      completedGigs: row.completedJobs,
     });
   } catch (error) {
     console.error(error);

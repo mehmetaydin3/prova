@@ -1,3 +1,5 @@
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import '../src/tokens/tokens.css';
 
 export const globalTypes = {
@@ -26,6 +28,8 @@ export const decorators = [
     }
     return Story();
   },
+  // Provide React Router context so components using useNavigate/Link work in Storybook
+  (Story) => React.createElement(MemoryRouter, null, React.createElement(Story)),
 ];
 
 export const parameters = {
