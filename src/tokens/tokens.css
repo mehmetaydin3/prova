@@ -1,17 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap');
 
 :root {
-  /* Dark-luxe editorial palette */
-  --color-luxe-bg: #0D0D0F;
-  --color-luxe-surface: #111114;
-  --color-luxe-card: rgba(245,240,232,0.03);
-  --color-luxe-card-border: rgba(245,240,232,0.08);
-  --color-luxe-text: #F5F0E8;
-  --color-luxe-text-muted: rgba(245,240,232,0.55);
-  --color-luxe-text-faint: rgba(245,240,232,0.35);
-  --color-luxe-amber: #F5A623;
-  --color-luxe-amber-hover: #FFB94A;
-
   /* Display font — DM Sans at heavy weight for editorial headings */
   --font-family-display: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-family-ui: 'DM Sans', var(--font-family-base);
@@ -150,11 +139,22 @@
   --glow-secondary: 0 4px 12px rgba(255, 0, 128, 0.2);
   --glow-accent: 0 4px 12px rgba(0, 223, 216, 0.2);
 
+  /* Alpha tint utilities */
+  --color-success-tint-10: rgba(16, 185, 129, 0.1);
+  --color-success-tint-20: rgba(16, 185, 129, 0.2);
+  --color-brand-primary-tint-05: rgba(121, 40, 202, 0.05);
+  --color-brand-primary-tint-15: rgba(121, 40, 202, 0.15);
+  --color-luxe-amber-tint-08: rgba(245, 166, 35, 0.08);
+  --color-luxe-amber-tint-40: rgba(245, 166, 35, 0.4);
+  --color-luxe-amber-tint-50: rgba(245, 166, 35, 0.5);
+
   /* Transition - Based on CLAUDE.md and design-system-guidelines.md */
   --transition-micro: 150ms ease-out; /* 120-180ms range */
   --transition-fast: 150ms ease-out;  /* alias used across components */
   --transition-base: 220ms ease-out;  /* 180-250ms range */
   --transition-section: 500ms ease-out; /* 400-600ms range */
+  --transition-section-cubic: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-section-opacity: 300ms ease;
 
   /* Background gradients (light mode — very subtle) */
   --bg-gradient-1: rgba(121, 40, 202, 0.04);
@@ -204,6 +204,17 @@
   /* Global Background Effects (Dark) */
   --bg-gradient-1: rgba(121, 40, 202, 0.08);
   --bg-gradient-2: rgba(0, 223, 216, 0.05);
+
+  /* Dark-luxe editorial palette — dark mode only */
+  --color-luxe-bg: #0D0D0F;
+  --color-luxe-surface: #111114;
+  --color-luxe-card: rgba(245,240,232,0.03);
+  --color-luxe-card-border: rgba(245,240,232,0.08);
+  --color-luxe-text: #F5F0E8;
+  --color-luxe-text-muted: rgba(245,240,232,0.55);
+  --color-luxe-text-faint: rgba(245,240,232,0.35);
+  --color-luxe-amber: #F5A623;
+  --color-luxe-amber-hover: #FFB94A;
 }
 
 *,

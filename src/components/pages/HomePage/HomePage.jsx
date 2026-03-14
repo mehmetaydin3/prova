@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { NavBar } from '../../features/NavBar/NavBar';
 import { HeroBanner } from '../../features/HeroBanner/HeroBanner';
 import { FeaturedMusicianRow } from '../../features/FeaturedMusicianRow/FeaturedMusicianRow';
@@ -15,8 +16,10 @@ export function HomePage({
   className = '',
   ...props
 }) {
+  const navigate = useNavigate();
+
   const handleBook = (musician) => {
-    window.location.href = `/musicians/${musician.id}`;
+    navigate(`/musicians/${musician.id}`);
   };
 
   return (

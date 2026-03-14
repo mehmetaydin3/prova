@@ -1,3 +1,8 @@
+// ROUTING DECISION — LandingPage vs HomePage:
+// LandingPage (src/components/pages/LandingPage/) uses a different set of components
+// (HeroSection, ContextBlock, FeatureSpotlight, MetricsGrid) and is a Storybook-only
+// portfolio/showcase page. It is NOT routed here intentionally — it exists purely for
+// design review in Storybook. HomePage is the live marketplace home page served at "/".
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AuthProvider } from './context/AuthContext';
