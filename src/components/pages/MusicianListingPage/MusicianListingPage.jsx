@@ -1,8 +1,10 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MusicianGrid } from '../../features/MusicianGrid/MusicianGrid';
 import { Button } from '../../ui/Button/Button';
 import { NavBar } from '../../features/NavBar/NavBar';
 import { Footer } from '../../features/Footer/Footer';
+import { musiciansData } from '../../../mocks/musicians';
 import styles from './MusicianListingPage.module.css';
 
 const API_BASE = 'http://localhost:5001';
@@ -84,20 +86,23 @@ export function MusicianListingPage({
   className = '',
   ...props
 }) {
-  // Read initial search/filter values from URL query params
+  const navigate = useNavigate();
+  // Read initial search/filter values from URL query params.
+  // ?category= maps to the CATEGORIES array — initialises all derived filter states.
   const _urlParams = new URLSearchParams(window.location.search);
+  const _initCat = CATEGORIES.find(c => c.id === _urlParams.get('category')) || CATEGORIES[0];
 
   const [search, setSearch] = useState(_urlParams.get('q') || '');
   const [locationSearch, setLocationSearch] = useState('');
-  const [remoteOnly, setRemoteOnly] = useState(false);
-  const [minRating, setMinRating] = useState(0);
+  const [remoteOnly, setRemoteOnly] = useState(Boolean(_initCat.remoteOnly));
+  const [minRating, setMinRating] = useState(_initCat.minRating || 0);
   const [serviceType, setServiceType] = useState(_urlParams.get('service') || 'all');
-  const [genre, setGenre] = useState('All Genres');
-  const [instrument, setInstrument] = useState('All Instruments');
+  const [genre, setGenre] = useState(_initCat.genre || 'All Genres');
+  const [instrument, setInstrument] = useState(_initCat.skill || 'All Instruments');
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('recommended');
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState(_initCat.id);
 
   const [apiMusicians, setApiMusicians] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -138,8 +143,16 @@ export function MusicianListingPage({
     fetchMusicians({ q: debouncedSearch, genre, instrument, service: serviceType, sortBy });
   }, [debouncedSearch, genre, instrument, serviceType, sortBy, fetchMusicians]);
 
+  const handleBook = useCallback((musician) => {
+    if (onBook) onBook(musician);
+    else navigate(`/musicians/${musician.id}`);
+  }, [onBook, navigate]);
+
   const filteredMusicians = useMemo(() => {
-    let result = apiAvailable && apiMusicians !== null ? apiMusicians : musiciansProp;
+    const base = apiAvailable && apiMusicians !== null ? apiMusicians
+      : musiciansProp.length ? musiciansProp
+      : musiciansData;
+    let result = base;
     return result.filter((m) => {
       const q = search.toLowerCase();
       const matchesSearch = !q ||
@@ -401,7 +414,7 @@ export function MusicianListingPage({
           <MusicianGrid
             musicians={filteredMusicians}
             loading={loading}
-            onBook={onBook}
+            onBook={handleBook}
             onContact={onContact}
           />
         </main>

@@ -27,7 +27,7 @@ export function HomePage({
       <NavBar isDark={isDark} onThemeToggle={onThemeToggle} />
 
       <main>
-        <HeroBanner />
+        <HeroBanner onSearch={(q) => navigate(`/musicians${q ? `?q=${encodeURIComponent(q)}` : ''}`)} />
 
         <FeaturedMusicianRow
           musicians={musicians.slice(0, 6)}
@@ -36,7 +36,7 @@ export function HomePage({
           onBook={handleBook}
         />
 
-        <CategoryExplorer />
+        <CategoryExplorer onSelect={(catId) => navigate(`/musicians?category=${catId}`)} />
 
         <HowItWorks />
 

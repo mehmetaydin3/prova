@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Typography } from '../../ui/Typography/Typography';
 import { Button } from '../../ui/Button/Button';
 import styles from './BookingDrawer.module.css';
@@ -145,7 +146,7 @@ function ReviewStep({ musician, packages, selectedPkg, date, brief, currency }) 
   );
 }
 
-function ConfirmStep({ musician, bookingRef, onMessage, onBack }) {
+function ConfirmStep({ musician, bookingRef, onViewBookings, onBack }) {
   return (
     <div className={styles.successContent}>
       <div className={styles.successIcon}><CheckCircleIcon /></div>
@@ -171,6 +172,7 @@ function ConfirmStep({ musician, bookingRef, onMessage, onBack }) {
       </div>
 
       <div className={styles.successActions}>
+        <Button variant="primary" size="lg" fullWidth onClick={onViewBookings}>View my bookings →</Button>
         <Button variant="ghost" size="lg" fullWidth onClick={onBack}>Browse more musicians</Button>
       </div>
     </div>
@@ -186,6 +188,7 @@ export function BookingDrawer({
   className = '',
   ...props
 }) {
+  const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [selectedPkg, setSelectedPkg] = useState(initialSelectedPkg);
   const [date, setDate] = useState('');
@@ -204,9 +207,9 @@ export function BookingDrawer({
 
   if (!isOpen) return null;
 
-  // Guard: a service with a resolvable id must exist before any step proceeds
+  // Guard: a real API service must have an id; mock/Storybook packages are identified by name.
   const selectedService = services[selectedPkg] || services[0];
-  const canProceed = Boolean(selectedService?.id);
+  const canProceed = Boolean(selectedService?.id || selectedService?.name);
 
   const handleNext = () => setStep((s) => Math.min(s + 1, 2));
   const handleBack = () => setStep((s) => Math.max(s - 1, 0));
@@ -235,7 +238,7 @@ export function BookingDrawer({
         }),
       });
       const data = await res.json();
-      if (res.status === 401) throw new Error('Please log in to make a booking.');
+      if (res.status === 401) { navigate('/auth'); throw new Error('Please log in to make a booking.'); }
       if (!res.ok) throw new Error(data.message || data.error || 'Booking failed');
       setBookingRef(data.booking?.id || data.id || 'CONFIRMED');
       setStep(2);
@@ -310,7 +313,7 @@ export function BookingDrawer({
             <ConfirmStep
               musician={musician}
               bookingRef={bookingRef}
-              onMessage={onClose}
+              onViewBookings={() => { onClose(); navigate('/my-bookings'); }}
               onBack={onClose}
             />
           )}

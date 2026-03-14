@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../ui/Button/Button';
 import { NavBar } from '../../features/NavBar/NavBar';
 import { MusicianDetailHero } from '../../features/MusicianDetailHero/MusicianDetailHero';
@@ -12,6 +13,8 @@ import { Footer } from '../../features/Footer/Footer';
 import { Typography } from '../../ui/Typography/Typography';
 import styles from './MusicianDetailPage.module.css';
 
+const API_BASE = 'http://localhost:5001';
+
 export function MusicianDetailPage({
   musician = {},
   relatedMusicians = [],
@@ -21,6 +24,7 @@ export function MusicianDetailPage({
   className = '',
   ...props
 }) {
+  const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(defaultDrawerOpen);
   const [selectedServiceIdx, setSelectedServiceIdx] = useState(0);
   const [friendshipStatus, setFriendshipStatus] = useState('none');
@@ -141,7 +145,7 @@ export function MusicianDetailPage({
           <FeaturedMusicianRow
             musicians={relatedMusicians}
             title="You might also like"
-            onBook={(m) => {}}
+            onBook={(rel) => navigate(`/musicians/${rel.id}`)}
           />
         )}
       </main>
@@ -167,6 +171,7 @@ export function MusicianDetailPage({
       <BookingDrawer
         isOpen={drawerOpen}
         musician={m}
+        apiBase={API_BASE}
         initialSelectedPkg={selectedServiceIdx}
         onClose={() => setDrawerOpen(false)}
       />
