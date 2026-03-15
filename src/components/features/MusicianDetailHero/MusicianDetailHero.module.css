@@ -118,7 +118,7 @@
 .metaItem {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-base);
   font-family: var(--font-family-base);
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
@@ -139,7 +139,7 @@
   background: var(--color-brand-primary-tint-05);
   border: 1px solid var(--color-brand-primary-tint-15);
   border-radius: var(--radius-full);
-  padding: 3px var(--space-base);
+  padding: var(--space-micro) var(--space-base);
 }
 
 .languages {
@@ -158,7 +158,7 @@
 .price {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: var(--space-base);
 }
 
 .priceFrom,

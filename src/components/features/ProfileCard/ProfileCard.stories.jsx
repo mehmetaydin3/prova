@@ -210,7 +210,56 @@ export const CardGrid = {
   ),
 };
 
-// ── Story 6: Dark Mode ────────────────────────────────────────────────────
+// ── Story 6: New with no rating — shows "New on Prova" state ──────────────
+export const NewWithNoRating = {
+  name: 'New — No Ratings Yet',
+  args: {
+    musician: {
+      name: 'Tomás Ferreira',
+      tagline: 'Classical guitarist & arranger — flamenco and fingerstyle',
+      avatarSrc: 'https://i.pravatar.cc/150?img=61',
+      location: 'Lisbon, Portugal',
+      online: true,
+      tier: 'none',
+      badges: ['new'],
+      genres: ['Classical', 'Flamenco', 'Acoustic'],
+      skills: ['Guitar', 'Arranging', 'Composition'],
+      rating: 0,
+      reviewCount: 0,
+      startingPrice: 35,
+      currency: 'EUR',
+    },
+  },
+};
+
+// ── Story 7: Many genres — overflow badge visible ──────────────────────────
+export const ManyGenres = {
+  name: 'Many Genres — Overflow Badge',
+  args: {
+    musician: {
+      name: 'Yuki Tanaka',
+      tagline: 'Multi-genre session musician & producer',
+      avatarSrc: 'https://i.pravatar.cc/150?img=52',
+      location: 'Tokyo, Japan',
+      online: false,
+      tier: 'verified',
+      badges: ['verified', 'pro'],
+      genres: ['Jazz', 'Fusion', 'Electronic', 'Soul', 'R&B', 'Blues'],
+      skills: ['Piano', 'Keys', 'Production'],
+      rating: 4.7,
+      reviewCount: 93,
+      startingPrice: 90,
+      currency: 'USD',
+      audioSample: {
+        src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+        duration: '2:15',
+        title: 'Midnight Fusion — Keys Session',
+      },
+    },
+  },
+};
+
+// ── Story 9: Dark Mode ────────────────────────────────────────────────────
 export const DarkMode = {
   name: 'Dark Mode',
   globals: { theme: 'dark' },

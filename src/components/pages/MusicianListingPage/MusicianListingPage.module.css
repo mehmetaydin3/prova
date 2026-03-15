@@ -19,11 +19,11 @@
 .pageHeaderInner {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 40px 0 32px;
+  padding: var(--space-48) 0 var(--space-32);
 }
 
 .pageTitleRow {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-16);
 }
 
 .pageTitle {
@@ -49,7 +49,7 @@
 .searchRow {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-base);
 }
 
 .searchInputContainer {
@@ -74,7 +74,7 @@
   background: var(--color-surface-subtle);
   border: 1.5px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
-  padding: 13px 16px 13px 46px;
+  padding: var(--space-3) var(--space-16) var(--space-3) 46px;
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   color: var(--color-text-primary);
@@ -95,11 +95,11 @@
 .filterToggleBtn {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-base);
   background: var(--color-surface-subtle);
   border: 1.5px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
-  padding: 13px 20px;
+  padding: var(--space-3) var(--space-5);
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -164,8 +164,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
-  padding: 14px 16px 10px;
+  gap: var(--space-base);
+  padding: var(--space-2) var(--space-16) var(--space-base);
   cursor: pointer;
   flex-shrink: 0;
   background: transparent;
@@ -254,7 +254,7 @@
 .listingControlsInner {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 13px 0;
+  padding: var(--space-3) 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -340,8 +340,8 @@
 .activeFilterChip {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: var(--space-base);
+  padding: var(--space-micro) var(--space-base);
   background: rgba(121, 40, 202, 0.06);
   border: 1px solid rgba(121, 40, 202, 0.2);
   border-radius: 100px;
@@ -464,7 +464,7 @@
 .filterGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-base);
 }
 
 .filterLabel {

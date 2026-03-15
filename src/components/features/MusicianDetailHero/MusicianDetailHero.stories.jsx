@@ -27,3 +27,10 @@ export const WeddingAct = {
     musician: musiciansData.find(m => m.id === 'm7'),
   },
 };
+
+export const DarkMode = {
+  globals: { theme: 'dark' },
+  args: {
+    musician: musiciansData.find(m => m.id === 'm1'),
+  },
+};

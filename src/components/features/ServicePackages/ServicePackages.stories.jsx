@@ -33,3 +33,11 @@ export const SinglePackage = {
     currency: m1.currency,
   },
 };
+
+export const DarkMode = {
+  globals: { theme: 'dark' },
+  args: {
+    packages: m1.packages,
+    currency: m1.currency,
+  },
+};

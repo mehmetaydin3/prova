@@ -21,3 +21,10 @@ export const WithSearchValue = {
     onCategorySelect: (cat) => console.log('Category:', cat),
   },
 };
+
+export const WithCategorySelected = {
+  name: 'With Category Pre-selected',
+  args: {
+    initialCategory: 'guitarists',
+  },
+};
