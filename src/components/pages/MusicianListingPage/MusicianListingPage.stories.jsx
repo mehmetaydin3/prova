@@ -46,6 +46,13 @@ export const LoadingState = {
   },
 };
 
+// ── JazzFiltered — Jazz subset passed as prop; no fetch mock, API falls back to prop ─
+export const JazzFiltered = {
+  args: {
+    musicians: musiciansData.filter((m) => m.genres?.includes('Jazz')),
+  },
+};
+
 // ── FilteredState — only Jazz musicians; API rejects immediately so mocks show ─
 export const FilteredState = {
   render: () => {

@@ -1,9 +1,9 @@
 .grid {
-  background: #111114;
+  background: var(--color-surface-default);
   padding: 32px 48px 80px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-6);
   align-items: stretch;
 }
 
@@ -39,9 +39,9 @@
   border-radius: 20px;
   background: linear-gradient(
     90deg,
-    rgba(245,240,232,0.04) 25%,
-    rgba(245,240,232,0.08) 50%,
-    rgba(245,240,232,0.04) 75%
+    var(--color-border-subtle) 25%,
+    var(--color-border-default) 50%,
+    var(--color-border-subtle) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
@@ -60,8 +60,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 96px 24px;
+  gap: var(--space-4);
+  padding: var(--space-96) var(--space-6);
   text-align: center;
 }
 
@@ -72,11 +72,11 @@
 }
 
 .emptyTitle {
-  color: #F5F0E8 !important;
+  color: var(--color-text-primary) !important;
 }
 
 .emptyDesc {
-  color: rgba(245,240,232,0.5) !important;
+  color: var(--color-text-secondary) !important;
   max-width: 400px;
 }
 

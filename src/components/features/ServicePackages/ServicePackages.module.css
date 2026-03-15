@@ -19,10 +19,10 @@
   background: var(--color-surface-glass);
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-xl);
-  padding: var(--space-5);
+  padding: var(--space-6);
   text-align: left;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base), background var(--transition-base);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -33,12 +33,13 @@
 .card:hover {
   border-color: var(--accent);
   background: var(--color-surface-glass-hover);
+  transform: translateY(-2px);
 }
 
 .cardSelected {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 5%, var(--color-surface-glass));
-  box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent);
+  box-shadow: var(--shadow-md);
 }
 
 .cardAccent {

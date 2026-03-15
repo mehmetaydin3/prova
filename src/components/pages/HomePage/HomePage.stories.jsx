@@ -19,14 +19,5 @@ export const DarkMode = {
     musicians: musiciansData,
     isDark: true,
   },
-  parameters: {
-    backgrounds: { default: 'dark' },
-  },
-  decorators: [
-    (Story) => (
-      <div data-theme="dark">
-        <Story />
-      </div>
-    ),
-  ],
+  globals: { theme: 'dark' },
 };

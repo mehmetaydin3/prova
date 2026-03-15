@@ -85,8 +85,8 @@
 }
 
 .name {
-  font-size: clamp(28px, 4vw, 48px) !important;
-  letter-spacing: -0.02em !important;
+  font-size: clamp(32px, 4vw, 56px) !important;
+  letter-spacing: var(--letter-spacing-tighter) !important;
   line-height: var(--line-height-tight) !important;
 }
 
@@ -161,7 +161,7 @@
 
 .priceAmount {
   font-family: var(--font-family-base);
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-extrabold);
   color: var(--color-text-primary);
   letter-spacing: -0.02em;

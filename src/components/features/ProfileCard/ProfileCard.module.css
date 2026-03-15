@@ -2,7 +2,7 @@
   background: var(--color-surface-glass);
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
-  border-radius: 20px;
+  border-radius: var(--radius-xl);
   padding: var(--space-24);
   box-shadow: var(--shadow-sm);
   display: flex;
@@ -137,7 +137,7 @@
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-widest);
   font-weight: var(--font-weight-bold);
-  font-size: 10px;
+  font-size: var(--font-size-micro);
 }
 
 .tagsSection {

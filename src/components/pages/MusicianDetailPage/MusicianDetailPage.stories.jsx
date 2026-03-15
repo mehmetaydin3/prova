@@ -9,7 +9,7 @@ export default {
 };
 
 const elena = musiciansData.find((m) => m.id === 'm5');
-const marcus = musiciansData[0];
+const marcus = musiciansData.find((m) => m.id === 'm1');
 const quartet = musiciansData.find((m) => m.id === 'm7');
 const related = musiciansData.filter((m) => m.id !== 'm5').slice(0, 4);
 
@@ -26,7 +26,7 @@ export const ElenaRostova = {
 export const MarcusJohnson = {
   args: {
     musician: marcus,
-    relatedMusicians: musiciansData.slice(1, 5),
+    relatedMusicians: musiciansData.filter((m) => m.id !== 'm1').slice(0, 4),
     isDark: false,
   },
 };
@@ -45,7 +45,7 @@ export const EmberQuartet = {
 export const ServiceSelected = {
   args: {
     musician: marcus,
-    relatedMusicians: musiciansData.slice(1, 5),
+    relatedMusicians: musiciansData.filter((m) => m.id !== 'm1').slice(0, 4),
     isDark: false,
     defaultDrawerOpen: true,
   },
@@ -74,7 +74,7 @@ export const BookingSuccess = {
     return (
       <MusicianDetailPage
         musician={marcus}
-        relatedMusicians={musiciansData.slice(1, 5)}
+        relatedMusicians={musiciansData.filter((m) => m.id !== 'm1').slice(0, 4)}
         isDark={false}
         defaultDrawerOpen={open}
         onThemeToggle={() => {}}

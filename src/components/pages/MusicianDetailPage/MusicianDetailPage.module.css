@@ -23,7 +23,7 @@ main {
 .sectionTitle {
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-bold);
-  letter-spacing: -0.03em;
+  letter-spacing: var(--letter-spacing-tighter);
   color: var(--color-text-primary);
   margin-bottom: var(--space-base);
 }

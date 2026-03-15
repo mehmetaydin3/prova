@@ -9,7 +9,7 @@ export default {
   },
   decorators: [
     (Story) => (
-      <div style={{ padding: '24px', maxWidth: '520px' }}>
+      <div style={{ padding: 'var(--space-6)', maxWidth: '520px' }}>
         <Story />
       </div>
     ),
@@ -127,8 +127,8 @@ export const CardGrid = {
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))',
-          gap: '20px',
-          padding: '24px',
+          gap: 'var(--space-5)',
+          padding: 'var(--space-6)',
         }}
       >
         <Story />
@@ -208,4 +208,32 @@ export const CardGrid = {
       />
     </>
   ),
+};
+
+// ── Story 6: Dark Mode ────────────────────────────────────────────────────
+export const DarkMode = {
+  name: 'Dark Mode',
+  globals: { theme: 'dark' },
+  args: {
+    musician: {
+      name: 'Marcus Johnson',
+      tagline: 'Grammy-nominated hip-hop producer & beatmaker',
+      avatarSrc: 'https://i.pravatar.cc/150?img=12',
+      location: 'Atlanta, GA',
+      online: true,
+      tier: 'pro',
+      badges: ['pro', 'topRated'],
+      genres: ['Hip-Hop', 'Trap', 'R&B'],
+      skills: ['Beat Making', 'Mixing', 'Sampling'],
+      rating: 4.9,
+      reviewCount: 214,
+      startingPrice: 75,
+      currency: 'USD',
+      audioSample: {
+        src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+        duration: '2:34',
+        title: 'Late Night Vibes (Instrumental)',
+      },
+    },
+  },
 };
