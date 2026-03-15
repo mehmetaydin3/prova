@@ -4,44 +4,52 @@
 
 .title {
   font-size: var(--font-size-xl) !important;
-  margin-bottom: var(--space-4) !important;
   font-weight: var(--font-weight-bold) !important;
+  margin-bottom: var(--space-16) !important;
+  letter-spacing: -0.015em !important;
 }
 
 .grid {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-16);
 }
 
+/* Package card */
 .card {
   position: relative;
-  background: var(--color-surface-glass);
-  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-elevated);
+  border: 1.5px solid var(--color-border-subtle);
   border-radius: var(--radius-xl);
-  padding: var(--space-6);
+  padding: var(--space-24);
   text-align: left;
   cursor: pointer;
-  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base), background var(--transition-base);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base),
+    background var(--transition-base);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  backdrop-filter: var(--backdrop-blur);
+  gap: var(--space-16);
+  width: 100%;
 }
 
 .card:hover {
   border-color: var(--accent);
   background: var(--color-surface-glass-hover);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .cardSelected {
   border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 5%, var(--color-surface-glass));
+  background: var(--color-surface-elevated);
   box-shadow: var(--shadow-md);
 }
 
+/* Left accent stripe */
 .cardAccent {
   position: absolute;
   top: 0;
@@ -49,74 +57,90 @@
   bottom: 0;
   width: 4px;
   background: var(--accent);
+  border-radius: var(--radius-xl) 0 0 var(--radius-xl);
 }
 
+/* Header row */
 .cardHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: var(--space-base);
 }
 
 .tierBadge {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 .selectedMark {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-success);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-/* Pricing */
+/* Pricing — price is the visual anchor */
 .pricing {
   display: flex;
   align-items: baseline;
-  gap: var(--space-2);
+  gap: var(--space-base);
+  flex-wrap: wrap;
 }
 
 .priceAmount {
-  font-size: var(--font-size-2xl);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-extrabold);
   color: var(--color-text-primary);
+  letter-spacing: -0.025em;
+  line-height: 1;
 }
 
-.delivery, .revisions {
+.delivery,
+.revisions {
   font-size: 11px;
-  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
-/* Features */
+/* Features list */
 .features {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-base);
 }
 
 .featureItem {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: var(--space-base);
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  line-height: var(--line-height-tight);
+  line-height: var(--line-height-snug);
 }
 
 .checkIcon {
   color: var(--color-success);
   flex-shrink: 0;
-  font-size: 10px;
+  margin-top: 2px;
 }
 
 .cta {
-  margin-top: var(--space-2);
+  margin-top: var(--space-base);
 }

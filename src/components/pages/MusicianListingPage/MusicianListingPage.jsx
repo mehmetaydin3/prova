@@ -232,36 +232,38 @@ export function MusicianListingPage({
 
       {/* ── Compact Page Header: title + search ── */}
       <div className={styles.pageHeader}>
-        <div className={styles.pageTitleRow}>
-          <h1 className={styles.pageTitle}>Musicians</h1>
-          <p className={styles.pageSubtitle}>
-            Hire world-class talent for remote sessions, live events &amp; lessons
-          </p>
-        </div>
-
-        <div className={styles.searchRow}>
-          <div className={styles.searchInputContainer}>
-            <span className={styles.searchIcon}><SearchIcon /></span>
-            <input
-              type="text"
-              placeholder="Search by name, vibe, instrument, or genre…"
-              className={styles.searchInput}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              aria-label="Search musicians"
-            />
+        <div className={styles.pageHeaderInner}>
+          <div className={styles.pageTitleRow}>
+            <h1 className={styles.pageTitle}>Musicians</h1>
+            <p className={styles.pageSubtitle}>
+              Hire world-class talent for remote sessions, live events &amp; lessons
+            </p>
           </div>
-          <button
-            className={styles.filterToggleBtn}
-            onClick={() => setIsFilterDrawerOpen(true)}
-            aria-label="Open advanced filters"
-          >
-            <SlidersIcon />
-            Filters
-            {activeFilters.length > 0 && (
-              <span className={styles.filterCount}>{activeFilters.length}</span>
-            )}
-          </button>
+
+          <div className={styles.searchRow}>
+            <div className={styles.searchInputContainer}>
+              <span className={styles.searchIcon}><SearchIcon /></span>
+              <input
+                type="text"
+                placeholder="Search by name, vibe, instrument, or genre…"
+                className={styles.searchInput}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search musicians"
+              />
+            </div>
+            <button
+              className={styles.filterToggleBtn}
+              onClick={() => setIsFilterDrawerOpen(true)}
+              aria-label="Open advanced filters"
+            >
+              <SlidersIcon />
+              Filters
+              {activeFilters.length > 0 && (
+                <span className={styles.filterCount}>{activeFilters.length}</span>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -290,27 +292,29 @@ export function MusicianListingPage({
 
       {/* ── Listing Controls Bar ── */}
       <div className={styles.listingControls}>
-        <p className={styles.listingCount} aria-live="polite">
-          {loading
-            ? 'Searching…'
-            : <><span className={styles.countBold}>{filteredMusicians.length}</span> musicians found</>
-          }
-          {!apiAvailable && <span className={styles.offlineNote}> · local results</span>}
-        </p>
-        <div className={styles.sortSelectWrapper}>
-          <span className={styles.sortLabel}>Sort</span>
-          <select
-            className={styles.sortSelect}
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            aria-label="Sort musicians"
-          >
-            <option value="recommended">Recommended</option>
-            <option value="topRated">Top Rated</option>
-            <option value="mostReviewed">Most Reviewed</option>
-            <option value="priceLow">Lowest Price</option>
-            <option value="fastestResponse">Fastest Response</option>
-          </select>
+        <div className={styles.listingControlsInner}>
+          <p className={styles.listingCount} aria-live="polite">
+            {loading
+              ? 'Searching…'
+              : <><span className={styles.countBold}>{filteredMusicians.length}</span> musicians found</>
+            }
+            {!apiAvailable && <span className={styles.offlineNote}> · local results</span>}
+          </p>
+          <div className={styles.sortSelectWrapper}>
+            <span className={styles.sortLabel}>Sort</span>
+            <select
+              className={styles.sortSelect}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              aria-label="Sort musicians"
+            >
+              <option value="recommended">Recommended</option>
+              <option value="topRated">Top Rated</option>
+              <option value="mostReviewed">Most Reviewed</option>
+              <option value="priceLow">Lowest Price</option>
+              <option value="fastestResponse">Fastest Response</option>
+            </select>
+          </div>
         </div>
       </div>
 

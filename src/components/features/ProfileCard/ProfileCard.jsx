@@ -54,6 +54,9 @@ export function ProfileCard({
     audioSample,
   } = musician;
 
+  const visibleGenres = genres.slice(0, 3);
+  const hiddenGenreCount = genres.length > 3 ? genres.length - 3 : 0;
+
   const currencySymbol = CURRENCY_SYMBOLS[currency] || currency;
 
   const navigate = useNavigate();
@@ -84,7 +87,7 @@ export function ProfileCard({
         <Avatar
           src={avatarSrc}
           name={name}
-          size="lg"
+          size="xl"
           online={online}
           tier={tier}
         />
@@ -143,37 +146,22 @@ export function ProfileCard({
           </div>
         )}
 
-        {/* Attributes: Genres + Skills grouped for scannability */}
-        {(genres.length > 0 || skills.length > 0) && (
-          <div className={styles.attributes}>
-            {genres.length > 0 && (
-              <div className={styles.section} aria-label="Genres">
-                <Typography variant="caption" className={styles.sectionLabel}>Genres</Typography>
-                <div className={styles.tagsSection}>
-                  {genres.map((g) => (
-                    <Tag key={g} label={g} variant="genre" />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {skills.length > 0 && (
-              <div className={styles.section} aria-label="Skills">
-                <Typography variant="caption" className={styles.sectionLabel}>Skills</Typography>
-                <div className={styles.tagsSection}>
-                  {skills.map((s) => (
-                    <Tag key={s} label={s} variant="skill" />
-                  ))}
-                </div>
-              </div>
+        {/* Genres — max 3 visible + overflow count */}
+        {visibleGenres.length > 0 && (
+          <div className={styles.genreRow} aria-label="Genres">
+            {visibleGenres.map((g) => (
+              <Tag key={g} label={g} variant="genre" />
+            ))}
+            {hiddenGenreCount > 0 && (
+              <span className={styles.genreOverflow}>+{hiddenGenreCount}</span>
             )}
           </div>
         )}
       </div>
 
-      {/* Footer: Rating + Price + Buttons */}
+      {/* Footer: Rating + Price row, then CTA row */}
       <div className={styles.footer}>
-        <div className={styles.footerInfo}>
+        <div className={styles.footerMeta}>
           <div className={styles.trustGroup}>
             {rating > 0 ? (
               <RatingStars
@@ -187,20 +175,13 @@ export function ProfileCard({
                 New on Prova
               </Typography>
             )}
-            <div className={styles.trustMetrics}>
-              {completedGigs > 0 && (
-                <Typography as="span" variant="caption" className={styles.metric}>
-                  {completedGigs} jobs
-                </Typography>
-              )}
-              {responseTime && (
-                <Typography as="span" variant="caption" className={styles.metric}>
-                  {completedGigs > 0 && ' · '}{responseTime}
-                </Typography>
-              )}
-            </div>
+            {completedGigs > 0 && (
+              <Typography as="span" variant="caption" className={styles.metric}>
+                · {completedGigs} jobs
+              </Typography>
+            )}
           </div>
-          
+
           {startingPrice != null && (
             <div className={styles.priceContainer}>
               <Typography as="span" variant="caption" className={styles.pricePrefix}>From</Typography>
@@ -227,7 +208,7 @@ export function ProfileCard({
             onClick={handleBookClick}
             aria-label={`Book a session with ${name}`}
           >
-            Book
+            Book Now
           </Button>
         </div>
       </div>

@@ -1,39 +1,44 @@
 /* ============================================================
-   MUSICIAN LISTING PAGE — Dark-Luxe Editorial Theme
+   MUSICIAN LISTING PAGE
    ============================================================ */
 
-/* ---- Page Shell ---- */
 .page {
   background: var(--color-surface-default);
   min-height: 100vh;
 }
 
 /* ================================================================
-   PAGE HEADER — compact, contains title + search row
+   PAGE HEADER — centered container, elevated surface
    ================================================================ */
 .pageHeader {
-  background: var(--color-surface-default);
-  padding: 40px 48px 32px;
+  background: var(--color-surface-elevated);
   border-bottom: 1px solid var(--color-border-subtle);
+  padding: 0 48px;
+}
+
+.pageHeaderInner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 0 32px;
 }
 
 .pageTitleRow {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .pageTitle {
   font-family: 'DM Sans', sans-serif;
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
   color: var(--color-text-primary);
-  margin: 0 0 6px;
-  line-height: 1.1;
+  margin: 0 0 4px;
+  line-height: 1.05;
 }
 
 .pageSubtitle {
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   color: var(--color-text-tertiary);
   margin: 0;
@@ -50,11 +55,12 @@
 .searchInputContainer {
   flex: 1;
   position: relative;
+  max-width: 600px;
 }
 
 .searchIcon {
   position: absolute;
-  left: 18px;
+  left: 16px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--color-text-tertiary);
@@ -65,32 +71,35 @@
 
 .searchInput {
   width: 100%;
-  background: var(--color-border-subtle);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 10px;
-  padding: 14px 18px 14px 48px;
+  background: var(--color-surface-subtle);
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 13px 16px 13px 46px;
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--color-text-primary);
   outline: none;
-  transition: border-color var(--transition-base), background var(--transition-base);
+  transition: border-color var(--transition-base), background var(--transition-base), box-shadow var(--transition-base);
 }
 
-.searchInput::placeholder { color: var(--color-text-tertiary); }
+.searchInput::placeholder {
+  color: var(--color-text-tertiary);
+}
 
 .searchInput:focus {
-  border-color: var(--color-luxe-amber-tint-50, rgba(245, 166, 35, 0.5));
-  background: var(--color-border-subtle);
+  border-color: var(--color-brand-primary);
+  background: var(--color-surface-default);
+  box-shadow: 0 0 0 3px rgba(121, 40, 202, 0.1);
 }
 
 .filterToggleBtn {
   display: flex;
   align-items: center;
-  gap: 7px;
-  background: var(--color-border-subtle);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 10px;
-  padding: 14px 20px;
+  gap: 8px;
+  background: var(--color-surface-subtle);
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 13px 20px;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -102,23 +111,23 @@
 }
 
 .filterToggleBtn:hover {
-  background: var(--color-border-subtle);
   border-color: var(--color-border-default);
   color: var(--color-text-primary);
+  background: var(--color-surface-default);
 }
 
 .filterCount {
-  background: var(--color-luxe-amber, var(--color-brand-primary));
-  color: var(--color-luxe-bg, var(--color-neutral-900));
+  background: var(--color-brand-primary);
+  color: var(--color-text-inverse);
   border-radius: 100px;
-  padding: 1px 6px;
+  padding: 1px 7px;
   font-size: 11px;
   font-weight: 700;
   line-height: 1.5;
 }
 
 /* ================================================================
-   CATEGORY STRIP — ADPList-style horizontal scroll with icon slots
+   CATEGORY STRIP
    ================================================================ */
 .categoryStripWrapper {
   background: var(--color-surface-default);
@@ -126,20 +135,21 @@
   position: relative;
 }
 
-/* Fade-out edge to hint at more items */
 .categoryStripWrapper::after {
   content: '';
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 64px;
+  width: 56px;
   background: linear-gradient(to right, transparent, var(--color-surface-default));
   pointer-events: none;
   z-index: 1;
 }
 
 .categoryStrip {
+  max-width: 1440px;
+  margin: 0 auto;
   display: flex;
   overflow-x: auto;
   padding: 0 48px;
@@ -154,8 +164,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 16px 18px 12px;
+  gap: 7px;
+  padding: 14px 16px 10px;
   cursor: pointer;
   flex-shrink: 0;
   background: transparent;
@@ -168,7 +178,7 @@
 
 .categoryItem:hover .categoryIconSlot {
   border-color: var(--color-border-default);
-  background: var(--color-border-subtle);
+  background: var(--color-surface-subtle);
 }
 
 .categoryItem:hover .categoryLabel {
@@ -176,42 +186,57 @@
 }
 
 .categoryItemActive {
-  border-bottom-color: var(--color-luxe-amber, var(--color-brand-primary));
+  border-bottom-color: var(--color-brand-primary);
 }
 
 .categoryItemActive .categoryIconSlot {
+  border-color: rgba(121, 40, 202, 0.4);
+  background: rgba(121, 40, 202, 0.06);
+}
+
+.categoryItemActive .categoryLabel {
+  color: var(--color-brand-primary);
+  font-weight: 600;
+}
+
+[data-theme="dark"] .categoryItemActive {
+  border-bottom-color: var(--color-luxe-amber, var(--color-brand-primary));
+}
+
+[data-theme="dark"] .categoryItemActive .categoryIconSlot {
   border-color: var(--color-luxe-amber-tint-50, rgba(245, 166, 35, 0.5));
   background: var(--color-luxe-amber-tint-08, rgba(245, 166, 35, 0.08));
 }
 
-.categoryItemActive .categoryLabel {
+[data-theme="dark"] .categoryItemActive .categoryLabel {
   color: var(--color-luxe-amber, var(--color-brand-primary));
-  font-weight: 600;
 }
 
-/**
- * Icon slot — 32×32 circle placeholder.
- * Replace contents with <svg> icons once assets are ready.
- */
+[data-theme="dark"] .filterCount {
+  background: var(--color-luxe-amber, var(--color-brand-primary));
+  color: var(--color-luxe-bg, var(--color-neutral-900));
+}
+
 .categoryIconSlot {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   border: 1.5px solid var(--color-border-subtle);
-  background: var(--color-border-subtle);
+  background: var(--color-surface-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: border-color var(--transition-fast), background var(--transition-fast);
   color: var(--color-text-secondary);
   flex-shrink: 0;
+  font-size: 14px;
 }
 
 .categoryLabel {
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color: var(--color-text-tertiary);
   white-space: nowrap;
   transition: color var(--transition-fast);
   line-height: 1;
@@ -222,11 +247,17 @@
    ================================================================ */
 .listingControls {
   background: var(--color-surface-default);
-  padding: 14px 48px;
+  padding: 0 48px;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.listingControlsInner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 13px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .listingCount {
@@ -270,9 +301,10 @@
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
-.sortSelect:focus, .sortSelect:hover {
+.sortSelect:focus,
+.sortSelect:hover {
   color: var(--color-text-primary);
-  border-bottom-color: var(--color-luxe-amber, var(--color-brand-primary));
+  border-bottom-color: var(--color-brand-primary);
 }
 
 .offlineNote {
@@ -300,6 +332,9 @@
   padding: 12px 48px;
   background: var(--color-surface-default);
   border-bottom: 1px solid var(--color-border-subtle);
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .activeFilterChip {
@@ -307,8 +342,8 @@
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  background: var(--color-border-subtle);
-  border: 1px solid var(--color-border-subtle);
+  background: rgba(121, 40, 202, 0.06);
+  border: 1px solid rgba(121, 40, 202, 0.2);
   border-radius: 100px;
   font-family: 'DM Sans', sans-serif;
   font-size: 12px;
@@ -317,7 +352,7 @@
 
 .chipLabel {
   font-weight: 500;
-  color: var(--color-text-primary);
+  color: var(--color-brand-primary);
 }
 
 .removeChip {
@@ -332,7 +367,9 @@
   align-items: center;
 }
 
-.removeChip:hover { color: var(--color-luxe-amber, var(--color-brand-primary)); }
+.removeChip:hover {
+  color: var(--color-brand-primary);
+}
 
 /* ================================================================
    FILTER DRAWER
@@ -340,7 +377,7 @@
 .drawerOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   z-index: 1000;
   opacity: 0;
@@ -369,7 +406,9 @@
   flex-direction: column;
 }
 
-.drawerOpen { transform: translateX(0); }
+.drawerOpen {
+  transform: translateX(0);
+}
 
 .drawerHeader {
   padding: 20px 24px;
@@ -381,9 +420,10 @@
 
 .drawerTitle {
   font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 16px;
   color: var(--color-text-primary);
+  letter-spacing: -0.01em;
 }
 
 .closeButton {
@@ -395,13 +435,13 @@
   padding: 4px 8px;
   display: flex;
   align-items: center;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   transition: background var(--transition-fast), color var(--transition-fast);
   line-height: 1;
 }
 
 .closeButton:hover {
-  background: var(--color-border-subtle);
+  background: var(--color-surface-subtle);
   color: var(--color-text-primary);
 }
 
@@ -436,10 +476,11 @@
   color: var(--color-text-tertiary);
 }
 
-.select, .input {
-  background: var(--color-border-subtle);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: 8px;
+.select,
+.input {
+  background: var(--color-surface-subtle);
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
   padding: 10px 12px;
   color: var(--color-text-primary);
   font-family: 'DM Sans', sans-serif;
@@ -448,34 +489,43 @@
   outline: none;
 }
 
-.select:focus, .input:focus { border-color: var(--color-luxe-amber-tint-40, rgba(245, 166, 35, 0.4)); }
-.input::placeholder { color: var(--color-text-tertiary); }
+.select:focus,
+.input:focus {
+  border-color: var(--color-brand-primary);
+  box-shadow: 0 0 0 3px rgba(121, 40, 202, 0.1);
+}
+
+.input::placeholder {
+  color: var(--color-text-tertiary);
+}
 
 /* ================================================================
    RESPONSIVE
    ================================================================ */
 @media (max-width: 1024px) {
-  .pageHeader       { padding: 32px 32px 24px; }
-  .categoryStrip    { padding: 0 32px; }
-  .listingControls  { padding: 12px 32px; }
-  .activeFiltersRow { padding: 10px 32px; }
+  .pageHeader        { padding: 0 32px; }
+  .pageHeaderInner   { padding: 32px 0 24px; }
+  .categoryStrip     { padding: 0 32px; }
+  .listingControls   { padding: 0 32px; }
+  .activeFiltersRow  { padding: 10px 32px; }
 }
 
 @media (max-width: 768px) {
-  .pageHeader       { padding: 24px 20px 20px; }
-  .pageTitle        { font-size: 28px; }
-  .searchRow        { flex-direction: column; align-items: stretch; }
-  .filterToggleBtn  { justify-content: center; }
-  .categoryStrip    { padding: 0 20px; }
-  .listingControls  { padding: 10px 20px; flex-wrap: wrap; gap: 8px; }
-  .activeFiltersRow { padding: 8px 20px; }
-  .drawer           { max-width: 100%; }
-  /* Remove the fade-out edge on small screens where the strip fills the width */
+  .pageHeader        { padding: 0 20px; }
+  .pageHeaderInner   { padding: 24px 0 20px; }
+  .pageTitle         { font-size: 30px; }
+  .searchRow         { flex-direction: column; align-items: stretch; }
+  .searchInputContainer { max-width: none; }
+  .filterToggleBtn   { justify-content: center; }
+  .categoryStrip     { padding: 0 20px; }
+  .listingControls   { padding: 0 20px; }
+  .activeFiltersRow  { padding: 8px 20px; }
+  .drawer            { max-width: 100%; }
   .categoryStripWrapper::after { width: 32px; }
 }
 
 @media (max-width: 480px) {
-  .pageTitle        { font-size: 24px; }
-  .categoryItem     { padding: 14px 12px 10px; }
-  .categoryIconSlot { width: 28px; height: 28px; }
+  .pageTitle         { font-size: 26px; }
+  .categoryItem      { padding: 12px 12px 8px; }
+  .categoryIconSlot  { width: 28px; height: 28px; }
 }

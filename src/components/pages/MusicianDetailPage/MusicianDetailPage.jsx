@@ -124,18 +124,15 @@ export function MusicianDetailPage({
             )}
 
             {/* Trust note */}
-            <div style={{
-              marginTop: 'var(--space-4, 16px)',
-              padding: '12px 16px',
-              background: 'var(--color-surface-subtle, #f7f7f8)',
-              borderRadius: 'var(--radius-md, 8px)',
-              fontSize: 'var(--font-size-xs, 12px)',
-              color: 'var(--color-text-secondary, #888)',
-              lineHeight: 1.6,
-            }}>
-              <strong style={{ color: 'var(--color-text-primary, #111)', display: 'block', marginBottom: 4 }}>Safe booking</strong>
-              No payment is taken until both parties agree.
-              Send a request, review the details, and confirm only when you're ready.
+            <div className={styles.trustNote}>
+              <span className={styles.trustNoteIcon} aria-hidden="true">🔒</span>
+              <div className={styles.trustNoteBody}>
+                <span className={styles.trustNoteTitle}>Safe booking</span>
+                <p className={styles.trustNoteText}>
+                  No payment is taken until both parties agree.
+                  Send a request, review the details, and confirm only when you're ready.
+                </p>
+              </div>
             </div>
           </aside>
         </div>
