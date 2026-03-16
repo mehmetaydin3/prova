@@ -1,0 +1,15 @@
+I need write permissions to `src/components/`. Please approve the file write permission (you should see a prompt), then I'll proceed with all the edits across the 6+ CSS files.
+
+Once approved, here's the full plan of changes I'll apply:
+
+**Task 1 — Typography:**
+- `HeroBanner`: `.statLabel` → `font-size: var(--font-size-micro)`, `letter-spacing: var(--letter-spacing-widest)`
+- `MusicianDetailHero`: `.onlinePill` → `letter-spacing: var(--letter-spacing-widest)` (was `0.06em`)
+- `MusicianListingPage`: Replace all hardcoded `'DM Sans', sans-serif` → `var(--font-family-base)`, hardcoded px font sizes → tokens, `font-weight: 500/700` → weight tokens, `font-size: 11px/13px/14px/15px/16px` → `var(--font-size-micro/xs/sm/md)`
+
+**Task 2 — Spacing:**
+- `HowItWorks`: `.title` margin-bottom `var(--space-4)` → `var(--space-8)` (16px → 32px)
+
+**Task 3 — Card elevation:** ProfileCard and ServicePackages are already fully compliant ✓
+
+Can you grant write access to `src/components/`?
