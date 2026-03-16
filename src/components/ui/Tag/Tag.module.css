@@ -83,7 +83,7 @@
 
 .removeBtn:hover {
   opacity: 1;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: var(--color-border-subtle);
 }
 
 .removeBtn:focus-visible {

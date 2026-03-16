@@ -151,6 +151,17 @@
   /* Accent alias */
   --color-accent: var(--color-brand-primary);
 
+  /* Disabled surface */
+  --color-surface-disabled: rgba(17, 17, 17, 0.3);
+
+  /* Always-dark section tokens (permanent dark backgrounds, theme-independent) */
+  --color-section-dark: #0a0612;
+  --color-section-dark-surface: rgba(245, 240, 232, 0.04);
+  --color-text-on-dark: #F5F0E8;
+  --color-text-on-dark-muted: rgba(245, 240, 232, 0.65);
+  --color-text-on-dark-faint: rgba(245, 240, 232, 0.45);
+  --color-border-on-dark: rgba(245, 240, 232, 0.08);
+
   /* Transition - Based on CLAUDE.md and design-system-guidelines.md */
   --transition-micro: 150ms ease-out; /* 120-180ms range */
   --transition-fast: 150ms ease-out;  /* alias used across components */

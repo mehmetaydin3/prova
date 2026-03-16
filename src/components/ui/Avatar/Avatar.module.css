@@ -50,7 +50,7 @@
 }
 
 .initials {
-  color: #ffffff;
+  color: var(--color-text-inverse);
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-semibold);
   line-height: 1;

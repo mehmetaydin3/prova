@@ -75,7 +75,7 @@
 }
 
 .disabled {
-  background: rgba(17, 17, 17, 0.3);
+  background: var(--color-surface-disabled);
   border-color: transparent;
   cursor: not-allowed;
   opacity: 0.6;
