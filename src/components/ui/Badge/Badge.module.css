@@ -33,25 +33,25 @@
 
 /* Variants */
 .verified {
-  background-color: rgba(121, 40, 202, 0.08);
+  background-color: var(--color-brand-primary-tint-05);
   color: var(--color-badge-verified);
-  border-color: rgba(121, 40, 202, 0.2);
-  box-shadow: 0 0 10px rgba(121, 40, 202, 0.1);
+  border-color: var(--color-brand-primary-tint-15);
+  box-shadow: 0 0 10px var(--color-brand-primary-tint-05);
 }
 
 .verified:hover {
-  box-shadow: 0 0 16px rgba(121, 40, 202, 0.2);
+  box-shadow: 0 0 16px var(--color-brand-primary-tint-15);
 }
 
 .topRated {
-  background-color: rgba(217, 119, 6, 0.08);
+  background-color: var(--color-warning-tint-08);
   color: var(--color-badge-top-rated);
-  border-color: rgba(217, 119, 6, 0.2);
-  box-shadow: 0 0 10px rgba(217, 119, 6, 0.1);
+  border-color: var(--color-warning-tint-20);
+  box-shadow: 0 0 10px var(--color-warning-tint-08);
 }
 
 .topRated:hover {
-  box-shadow: 0 0 16px rgba(217, 119, 6, 0.2);
+  box-shadow: 0 0 16px var(--color-warning-tint-20);
 }
 
 .pro {
@@ -65,14 +65,14 @@
 }
 
 .new {
-  background-color: rgba(5, 150, 105, 0.08);
+  background-color: var(--color-badge-new-tint-08);
   color: var(--color-badge-new);
-  border-color: rgba(5, 150, 105, 0.2);
-  box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
+  border-color: var(--color-badge-new-tint-20);
+  box-shadow: 0 0 10px var(--color-badge-new-tint-08);
 }
 
 .new:hover {
-  box-shadow: 0 0 16px rgba(5, 150, 105, 0.2);
+  box-shadow: 0 0 16px var(--color-badge-new-tint-20);
 }
 
 .fastResponder {

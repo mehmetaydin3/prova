@@ -71,7 +71,7 @@
 
 .error:focus-within {
   border-color: var(--color-error);
-  box-shadow: 0 0 0 1px var(--color-error), 0 0 12px rgba(239, 68, 68, 0.25);
+  box-shadow: 0 0 0 1px var(--color-error), 0 0 12px var(--color-error-tint-30);
 }
 
 .disabled {

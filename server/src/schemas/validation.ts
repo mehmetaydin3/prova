@@ -49,6 +49,23 @@ export const serviceSchema = z.object({
 export const bookingSchema = z.object({
   musicianId: z.string().min(1, 'musicianId is required'),
   serviceId: z.string().min(1, 'serviceId is required'),
+  // eventDate is the structured ISO date for the event (required, must not be in the past).
+  // scheduledDate remains accepted as a legacy free-text alias when eventDate is absent.
+  eventDate: z
+    .string()
+    .min(1, 'eventDate is required')
+    .refine((val) => {
+      const d = new Date(val);
+      return !isNaN(d.getTime());
+    }, { message: 'eventDate must be a valid date string' })
+    .refine((val) => {
+      const d = new Date(val);
+      // Compare against start-of-today (midnight UTC) so same-day bookings are allowed
+      const today = new Date();
+      today.setUTCHours(0, 0, 0, 0);
+      return d >= today;
+    }, { message: 'eventDate must not be in the past' })
+    .optional(),
   scheduledDate: z.string().max(200).nullable().optional(),
   brief: z.string().max(2000, 'Brief must be 2000 characters or fewer').nullable().optional(),
 });

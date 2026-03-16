@@ -144,12 +144,20 @@
   --color-success-tint-20: rgba(16, 185, 129, 0.2);
   --color-brand-primary-tint-05: rgba(121, 40, 202, 0.05);
   --color-brand-primary-tint-15: rgba(121, 40, 202, 0.15);
+  --color-warning-tint-08: rgba(217, 119, 6, 0.08);
+  --color-warning-tint-20: rgba(217, 119, 6, 0.2);
+  --color-badge-new-tint-08: rgba(5, 150, 105, 0.08);
+  --color-badge-new-tint-20: rgba(5, 150, 105, 0.2);
+  --color-error-tint-30: rgba(239, 68, 68, 0.3);
 
   /* Brand variants */
   --color-brand-primary-light: #A259FF;
 
   /* Accent alias */
   --color-accent: var(--color-brand-primary);
+
+  /* Error dark variant */
+  --color-error-dark: #B91C1C;
 
   /* Disabled surface */
   --color-surface-disabled: rgba(17, 17, 17, 0.3);

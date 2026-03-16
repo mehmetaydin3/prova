@@ -10,7 +10,7 @@
 }
 
 .friends:hover {
-  background-color: var(--color-danger-subtle, #fce8e6);
+  background-color: rgba(220, 38, 38, 0.06);
   color: var(--color-error);
 }
 

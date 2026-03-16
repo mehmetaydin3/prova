@@ -11,8 +11,15 @@ const router = Router();
 const VALID_STATUSES = ['pending', 'accepted', 'declined', 'in_progress', 'delivered', 'completed', 'cancelled'];
 
 // POST /api/bookings — create a new booking (authenticated customer)
+// Required fields: musicianId, serviceId, eventDate (ISO date string, not in the past)
+// Auth: Bearer JWT required — returns 401 if missing, 403 if invalid
 router.post('/', authenticateToken, async (req: AuthRequest, res: Response) => {
   try {
+    // Guard: authenticateToken sets req.user; if somehow absent, reject immediately
+    if (!req.user?.id) {
+      return res.status(401).json({ message: 'Authentication required' });
+    }
+
     // 1. Validate request body shape and field constraints
     const parsed = bookingSchema.safeParse(req.body);
     if (!parsed.success) {
@@ -22,17 +29,34 @@ router.post('/', authenticateToken, async (req: AuthRequest, res: Response) => {
       });
     }
 
-    const { musicianId, serviceId, scheduledDate, brief } = parsed.data;
+    const { musicianId, serviceId, eventDate, scheduledDate, brief } = parsed.data;
+
+    // 2. Require at least one date field — eventDate (structured) or scheduledDate (legacy free-text)
+    if (!eventDate && !scheduledDate) {
+      return res.status(400).json({
+        message: 'eventDate is required. Provide an ISO date string for the event.',
+      });
+    }
+
+    // 3. If eventDate is provided as a structured date, enforce it is not in the past
+    if (eventDate) {
+      const d = new Date(eventDate);
+      const today = new Date();
+      today.setUTCHours(0, 0, 0, 0);
+      if (d < today) {
+        return res.status(400).json({ message: 'eventDate must not be in the past' });
+      }
+    }
 
     const db = await getDb();
 
-    // 2. Resolve musician — must exist
+    // 4. Resolve musician — must exist
     const musician = await db.get('SELECT id, currency FROM musicians WHERE id = ?', musicianId);
     if (!musician) {
       return res.status(404).json({ message: 'Musician not found' });
     }
 
-    // 3. Resolve service — must exist and belong to this musician
+    // 5. Resolve service — must exist and belong to this musician
     const service = await db.get(
       'SELECT id, title, startingPrice FROM services WHERE id = ? AND musicianId = ?',
       [serviceId, musicianId]
@@ -41,33 +65,41 @@ router.post('/', authenticateToken, async (req: AuthRequest, res: Response) => {
       return res.status(404).json({ message: 'Service not found or does not belong to this musician' });
     }
 
-    // 4. Validate resolved price — must be a finite non-negative number
+    // 6. Validate resolved price — must be a finite positive number (not 0, not negative)
     const price: number = service.startingPrice;
-    if (typeof price !== 'number' || !isFinite(price) || price < 0) {
-      return res.status(422).json({ message: 'Service has an invalid price and cannot be booked' });
+    if (typeof price !== 'number' || !isFinite(price) || price <= 0) {
+      return res.status(400).json({ message: 'Service price must be greater than zero and cannot be booked at this time' });
     }
 
-    // 5. Validate resolved package name — must be a non-empty string
+    // 7. Validate resolved package name — must be a non-empty string
     const packageName: string = service.title;
     if (!packageName || typeof packageName !== 'string' || packageName.trim().length === 0) {
       return res.status(422).json({ message: 'Service title is missing and cannot be booked' });
     }
 
-    // 6. Calculate derived financial fields and assert they are finite
+    // 8. Calculate derived financial fields and assert they are finite
     const platformFee = Math.round(price * 0.1);
-    const totalPrice = price + platformFee;
-    if (!isFinite(platformFee) || !isFinite(totalPrice)) {
+    const totalAmount = price + platformFee;
+    if (!isFinite(platformFee) || !isFinite(totalAmount)) {
       return res.status(422).json({ message: 'Price calculation failed — booking cannot be created' });
+    }
+
+    // 9. Sanity-check the final totalAmount is positive
+    if (totalAmount <= 0) {
+      return res.status(400).json({ message: 'totalAmount must be greater than zero' });
     }
 
     const currency = musician.currency || 'USD';
     const id = uuidv4();
     const now = new Date().toISOString();
 
+    // Persist using eventDate when available, falling back to free-text scheduledDate
+    const persistedDate = eventDate ?? scheduledDate ?? null;
+
     await db.run(
       `INSERT INTO bookings (id, customerId, musicianId, serviceId, status, packageName, packagePrice, platformFee, totalPrice, currency, scheduledDate, brief, createdAt, updatedAt)
        VALUES (?, ?, ?, ?, 'pending', ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [id, req.user!.id, musicianId, serviceId, packageName.trim(), price, platformFee, totalPrice, currency, scheduledDate || null, brief || null, now, now]
+      [id, req.user.id, musicianId, serviceId, packageName.trim(), price, platformFee, totalAmount, currency, persistedDate, brief || null, now, now]
     );
 
     const booking = await db.get('SELECT * FROM bookings WHERE id = ?', id);
