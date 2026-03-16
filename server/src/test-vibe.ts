@@ -6,7 +6,7 @@ async function testVibe(query: string) {
   console.log(`\nTesting Vibe: "${query}"`);
   try {
     const res = await fetch(`${API_BASE}/api/musicians?vibe=${encodeURIComponent(query)}`);
-    const data = await res.json();
+    const data = await res.json() as any;
     console.log(`Results found: ${data.musicians.length}`);
     data.musicians.slice(0, 3).forEach((m: any) => {
       console.log(`- ${m.name}: ${m.headline}`);
