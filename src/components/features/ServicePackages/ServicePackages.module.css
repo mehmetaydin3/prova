@@ -37,14 +37,14 @@
 }
 
 .card:hover {
-  border-color: var(--accent);
+  border-color: var(--color-accent);
   background: var(--color-surface-glass-hover);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
 .cardSelected {
-  border-color: var(--accent);
+  border-color: var(--color-accent);
   background: var(--color-surface-elevated);
   box-shadow: var(--shadow-md);
 }
@@ -56,7 +56,7 @@
   left: 0;
   bottom: 0;
   width: 4px;
-  background: var(--accent);
+  background: var(--color-accent);
   border-radius: var(--radius-xl) 0 0 var(--radius-xl);
 }
 
@@ -73,11 +73,11 @@
   font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
   padding: var(--space-micro) var(--space-base);
   border-radius: var(--radius-full);
-  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
 }
 
 .selectedMark {
