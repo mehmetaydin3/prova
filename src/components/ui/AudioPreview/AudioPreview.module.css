@@ -29,7 +29,7 @@
   height: 44px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, var(--color-brand-primary) 0%, #A259FF 100%);
+  background: linear-gradient(135deg, var(--color-brand-primary) 0%, var(--color-brand-primary-light) 100%);
   color: var(--color-text-inverse);
   cursor: pointer;
   flex-shrink: 0;
@@ -62,7 +62,7 @@
 }
 
 .playing {
-  background: linear-gradient(135deg, #A259FF 0%, var(--color-brand-primary) 100%);
+  background: linear-gradient(135deg, var(--color-brand-primary-light) 0%, var(--color-brand-primary) 100%);
 }
 
 /* Loading spinner inside button */
@@ -71,7 +71,7 @@
   width: 18px;
   height: 18px;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #ffffff;
+  border-top-color: var(--color-text-inverse);
   border-radius: 50%;
   animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }

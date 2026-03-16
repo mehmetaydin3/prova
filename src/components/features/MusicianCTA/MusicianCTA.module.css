@@ -56,7 +56,7 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--color-brand-primary);
-  background: rgba(121, 40, 202, 0.15);
+  background: var(--color-brand-primary-tint-15);
   border: 1px solid rgba(121, 40, 202, 0.3);
   padding: 4px 14px;
   border-radius: var(--radius-full);
@@ -126,7 +126,7 @@
   align-items: center;
   padding: 14px 28px;
   background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-secondary));
-  color: #fff;
+  color: var(--color-text-inverse);
   text-decoration: none;
   border-radius: var(--radius-lg);
   font-family: var(--font-family-base);

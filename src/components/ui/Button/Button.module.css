@@ -84,7 +84,7 @@
 
 /* Primary - Vibrant Gradient */
 .primary {
-  background: linear-gradient(135deg, var(--color-brand-primary) 0%, #A259FF 100%);
+  background: linear-gradient(135deg, var(--color-brand-primary) 0%, var(--color-brand-primary-light) 100%);
   color: var(--color-text-inverse);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-full);
@@ -134,7 +134,7 @@
 .ghost:hover:not(:disabled) {
   color: var(--color-brand-primary);
   background: rgba(121, 40, 202, 0.07);
-  border-color: rgba(121, 40, 202, 0.15);
+  border-color: var(--color-brand-primary-tint-15);
   transform: translateY(-1px);
 }
 
