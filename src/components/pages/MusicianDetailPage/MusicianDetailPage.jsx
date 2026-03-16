@@ -64,7 +64,7 @@ export function MusicianDetailPage({
     <div className={[styles.page, className].filter(Boolean).join(' ')} {...props}>
       <NavBar isDark={isDark} onThemeToggle={onThemeToggle} />
 
-      <main>
+      <main className={styles.mainContent}>
         <MusicianDetailHero
           musician={m}
           onBook={() => setDrawerOpen(true)}

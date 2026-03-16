@@ -237,12 +237,12 @@
   gap: var(--space-base);
 }
 
-/* Book button — amber accent override */
+/* Book button — amber accent override (dark mode), primary purple (light mode) */
 .bookBtn {
   flex: 1;
   background: var(--color-luxe-amber, var(--color-brand-primary)) !important;
   background-image: none !important;
-  color: var(--color-luxe-bg, var(--color-neutral-900)) !important;
+  color: var(--color-luxe-bg, var(--color-text-inverse)) !important;
   box-shadow: none !important;
   border: none !important;
 }

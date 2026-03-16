@@ -162,9 +162,9 @@ function ConfirmStep({ musician, bookingRef, onViewBookings, onBack }) {
       </div>
 
       {/* What happens next */}
-      <div style={{ textAlign: 'left', marginTop: 16, padding: '12px 16px', background: 'var(--color-surface-subtle, #f7f7f8)', borderRadius: 8 }}>
-        <Typography variant="caption" style={{ fontWeight: 600, display: 'block', marginBottom: 8 }}>What happens next</Typography>
-        <ol style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div className={styles.nextSteps}>
+        <span className={styles.nextStepsTitle}>What happens next</span>
+        <ol className={styles.nextStepsList}>
           <li><Typography variant="caption">{musician.name} reviews your request and accepts or declines</Typography></li>
           <li><Typography variant="caption">You'll be notified once they respond</Typography></li>
           <li><Typography variant="caption">Confirm details and coordinate directly before the session</Typography></li>

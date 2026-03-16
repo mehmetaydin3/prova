@@ -422,6 +422,33 @@
   width: 100%;
 }
 
+/* What happens next */
+.nextSteps {
+  text-align: left;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-md);
+  width: 100%;
+}
+
+.nextStepsTitle {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+.nextStepsList {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
 /* Drawer footer */
 .footer {
   display: flex;
