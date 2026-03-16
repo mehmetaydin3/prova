@@ -11,7 +11,8 @@
       "Bash(echo \"=== $f ===\")",
       "Read(//Users/mehmetaydin/prova/**)",
       "Bash(done)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(ls:*)"
     ]
   }
 }
