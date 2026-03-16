@@ -1,5 +1,5 @@
 .section {
-  padding: var(--space-20) var(--space-6);
+  padding: var(--space-96) var(--space-6);
   background: linear-gradient(135deg, #0a0612 0%, #130a22 50%, #0d0518 100%);
   position: relative;
   overflow: hidden;
@@ -97,7 +97,7 @@
   gap: var(--space-3);
   font-family: var(--font-family-base);
   font-size: var(--font-size-md);
-  color: rgba(245, 240, 232, 0.85);
+  color: var(--color-text-on-dark-muted);
 }
 
 .checkIcon {
@@ -109,7 +109,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a855f7;
+  color: var(--color-brand-primary-light);
   flex-shrink: 0;
 }
 
@@ -144,16 +144,16 @@
 .secondaryLink {
   font-family: var(--font-family-base);
   font-size: var(--font-size-sm);
-  color: rgba(245, 240, 232, 0.5);
+  color: var(--color-text-on-dark-faint);
   text-decoration: none;
-  border-bottom: 1px solid rgba(245, 240, 232, 0.2);
+  border-bottom: 1px solid var(--color-border-on-dark);
   padding-bottom: 1px;
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .secondaryLink:hover {
-  color: rgba(245, 240, 232, 0.9);
-  border-color: rgba(245, 240, 232, 0.5);
+  color: var(--color-text-on-dark);
+  border-color: var(--color-text-on-dark-muted);
 }
 
 /* Stats panel */
@@ -179,7 +179,7 @@
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-extrabold);
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #F5F0E8 40%, rgba(245, 240, 232, 0.6));
+  background: linear-gradient(135deg, var(--color-text-on-dark) 40%, var(--color-text-on-dark-muted));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -206,7 +206,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 2px solid rgba(245, 240, 232, 0.15);
+  border: 2px solid var(--color-border-on-dark);
   object-fit: cover;
   margin-left: -8px;
 }
@@ -239,6 +239,6 @@
 }
 
 @media (max-width: 640px) {
-  .section { padding: var(--space-16) var(--space-4); }
+  .section { padding: var(--space-48) var(--space-4); }
   .actions { flex-direction: column; align-items: flex-start; }
 }

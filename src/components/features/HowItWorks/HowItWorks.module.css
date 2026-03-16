@@ -1,5 +1,5 @@
 .section {
-  padding: var(--space-20) var(--space-6);
+  padding: var(--space-96) var(--space-6);
   background: var(--color-surface-subtle);
   position: relative;
   overflow: hidden;
@@ -15,7 +15,7 @@
 
 .header {
   text-align: center;
-  margin-bottom: var(--space-16);
+  margin-bottom: var(--space-8);
 }
 
 .title {
@@ -101,5 +101,5 @@
 @media (max-width: 768px) {
   .steps { grid-template-columns: 1fr; gap: var(--space-4); }
   .connector { display: none; }
-  .section { padding: var(--space-16) var(--space-4); }
+  .section { padding: var(--space-48) var(--space-4); }
 }

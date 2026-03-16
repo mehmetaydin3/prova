@@ -1,5 +1,5 @@
 .section {
-  padding: var(--space-20) var(--space-6);
+  padding: var(--space-96) var(--space-6);
   background: var(--color-surface-default);
   position: relative;
 }
@@ -18,7 +18,7 @@
 
 .title {
   letter-spacing: -0.02em;
-  margin-bottom: var(--space-3) !important;
+  margin-bottom: var(--space-8) !important;
 }
 
 .subtitle {
@@ -31,7 +31,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-5);
+  gap: var(--space-6);
 }
 
 .card {
@@ -125,5 +125,5 @@
 
 @media (max-width: 768px) {
   .grid { grid-template-columns: 1fr; }
-  .section { padding: var(--space-16) var(--space-4); }
+  .section { padding: var(--space-48) var(--space-4); }
 }

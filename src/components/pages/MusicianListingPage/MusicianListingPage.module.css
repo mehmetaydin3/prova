@@ -27,22 +27,22 @@
 }
 
 .pageTitle {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 40px;
-  font-weight: 800;
-  letter-spacing: -0.035em;
+  font-family: var(--font-family-base);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tighter);
   color: var(--color-text-primary);
-  margin: 0 0 4px;
-  line-height: 1.05;
+  margin: 0 0 var(--space-base);
+  line-height: var(--line-height-tight);
 }
 
 .pageSubtitle {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 400;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
   color: var(--color-text-tertiary);
   margin: 0;
-  line-height: 1.5;
+  line-height: var(--line-height-relaxed);
 }
 
 /* ---- Search Row ---- */
@@ -279,12 +279,12 @@
 }
 
 .sortLabel {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-widest);
   text-transform: uppercase;
-  color: var(--color-text-disabled);
+  color: var(--color-text-tertiary);
 }
 
 .sortSelect {
@@ -468,11 +468,11 @@
 }
 
 .filterLabel {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: var(--letter-spacing-widest);
   color: var(--color-text-tertiary);
 }
 

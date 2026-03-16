@@ -104,7 +104,7 @@
 .tagline {
   color: var(--color-text-secondary) !important;
   font-size: var(--font-size-body) !important;
-  line-height: var(--line-height-normal) !important;
+  line-height: var(--line-height-relaxed) !important;
   max-width: 560px;
 }
 
@@ -171,10 +171,10 @@
 
 .priceAmount {
   font-family: var(--font-family-base);
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-4xl);
   font-weight: var(--font-weight-extrabold);
   color: var(--color-text-primary);
-  letter-spacing: -0.025em;
+  letter-spacing: var(--letter-spacing-tighter);
   line-height: 1;
 }
 
