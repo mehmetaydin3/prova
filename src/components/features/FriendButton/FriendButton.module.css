@@ -4,14 +4,14 @@
 }
 
 .friends {
-  background-color: var(--color-success-subtle, #e6f7ed);
-  color: var(--color-success-dark, #137333);
+  background-color: var(--color-success-tint-10);
+  color: var(--color-success);
   border-color: transparent;
 }
 
 .friends:hover {
   background-color: var(--color-danger-subtle, #fce8e6);
-  color: var(--color-danger-dark, #d93025);
+  color: var(--color-error);
 }
 
 .friends:hover .label {
@@ -23,6 +23,6 @@
 }
 
 .pending {
-  color: var(--color-text-secondary, #5f6368);
+  color: var(--color-text-secondary);
   font-style: italic;
 }
