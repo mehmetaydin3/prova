@@ -51,10 +51,10 @@ export function TestimonialCarousel({ className = '', ...props }) {
       <div className={styles.inner}>
         <div className={styles.header}>
           <Typography as="h2" variant="heading2" className={styles.title}>
-            What our community says
+            The booking experience
           </Typography>
           <Typography variant="body" className={styles.subtitle}>
-            Real stories from clients who found their perfect musician through Prova.
+            What connecting with the right musician through Prova can look like.
           </Typography>
         </div>
 

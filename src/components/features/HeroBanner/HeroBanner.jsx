@@ -39,11 +39,11 @@ const CATEGORIES = [
   { label: 'Live Performance', icon: '🎸', service: 'inPerson' },
 ];
 
-const STATS = [
-  { value: '12,400+', label: 'Musicians' },
-  { value: '98%', label: 'Satisfaction' },
-  { value: '24 hr', label: 'Avg. Response' },
-  { value: '50k+', label: 'Gigs Booked' },
+const VALUE_PROPS = [
+  { value: 'Direct', label: 'Booking & messaging' },
+  { value: 'Vetted', label: 'Musician profiles' },
+  { value: 'Flexible', label: 'Services & pricing' },
+  { value: 'Simple', label: 'Request process' },
 ];
 
 export function HeroBanner({
@@ -91,7 +91,7 @@ export function HeroBanner({
         {/* Eyebrow */}
         <div className={styles.eyebrow}>
           <span className={styles.dot} aria-hidden="true" />
-          <span>The premier musician marketplace</span>
+          <span>Musician marketplace — early access</span>
         </div>
 
         {/* Headline */}
@@ -138,12 +138,12 @@ export function HeroBanner({
           ))}
         </div>
 
-        {/* Stats */}
-        <div className={styles.stats} aria-label="Platform statistics">
-          {STATS.map((stat) => (
-            <div key={stat.label} className={styles.stat}>
-              <span className={styles.statValue}>{stat.value}</span>
-              <span className={styles.statLabel}>{stat.label}</span>
+        {/* Value props */}
+        <div className={styles.stats} aria-label="Platform highlights">
+          {VALUE_PROPS.map((prop) => (
+            <div key={prop.label} className={styles.stat}>
+              <span className={styles.statValue}>{prop.value}</span>
+              <span className={styles.statLabel}>{prop.label}</span>
             </div>
           ))}
         </div>

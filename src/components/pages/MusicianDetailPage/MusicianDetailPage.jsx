@@ -27,8 +27,6 @@ export function MusicianDetailPage({
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(defaultDrawerOpen);
   const [selectedServiceIdx, setSelectedServiceIdx] = useState(0);
-  const [friendshipStatus, setFriendshipStatus] = useState('none');
-
   // Normalize API field names to the canonical shape expected by child components.
   // API uses headline/ratingAverage/ratingCount/completedJobs/audioSamples[];
   // mocks use tagline/rating/reviewCount/completedGigs/audioSample.
@@ -54,12 +52,6 @@ export function MusicianDetailPage({
       }))
     : (m.packages || []);
 
-  const handleFriendAction = () => {
-    if (friendshipStatus === 'none') setFriendshipStatus('pending');
-    else if (friendshipStatus === 'pending') setFriendshipStatus('friends');
-    else setFriendshipStatus('none');
-  };
-
   return (
     <div className={[styles.page, className].filter(Boolean).join(' ')} {...props}>
       <NavBar isDark={isDark} onThemeToggle={onThemeToggle} />
@@ -69,8 +61,6 @@ export function MusicianDetailPage({
           musician={m}
           onBook={() => setDrawerOpen(true)}
           onContact={() => {}}
-          friendshipStatus={friendshipStatus}
-          onFriendAction={handleFriendAction}
         />
 
         <div className={styles.grid}>

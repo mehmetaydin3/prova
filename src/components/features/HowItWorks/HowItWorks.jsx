@@ -6,7 +6,7 @@ const STEPS = [
     number: '01',
     icon: '🔍',
     title: 'Search & Filter',
-    description: 'Browse 12,000+ musicians by genre, skill, location, and service type. Listen to audio samples before you commit.',
+    description: 'Browse musicians by genre, skill, location, and service type. Listen to audio samples before you commit.',
   },
   {
     number: '02',
@@ -18,7 +18,7 @@ const STEPS = [
     number: '03',
     icon: '✅',
     title: 'Book & Create',
-    description: 'Select your package, pay securely, and your musician gets to work. Revision rounds and final delivery all in one place.',
+    description: 'Select a package, send your request, and your musician gets to work. Coordinate the details and confirm when you\'re ready.',
   },
 ];
 

@@ -152,7 +152,7 @@
 }
 
 @media (max-width: 768px) {
-  main {
+  .mainContent {
     padding: 0 var(--space-16);
     gap: var(--space-48);
   }

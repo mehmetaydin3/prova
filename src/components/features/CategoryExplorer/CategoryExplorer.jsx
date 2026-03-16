@@ -18,7 +18,6 @@ const CATEGORIES = [
     label: 'Remote Session',
     description: 'Hire producers, vocalists & engineers to record tracks for you, delivered online.',
     icon: '🎧',
-    count: '3,200+ musicians',
     gradient: 'linear-gradient(135deg, #7928CA 0%, #5B0FA8 100%)',
   },
   {
@@ -26,7 +25,6 @@ const CATEGORIES = [
     label: 'Gig & Events',
     description: 'Book live acts, bands, and soloists for your next concert, party, or corporate event.',
     icon: '🎤',
-    count: '1,800+ musicians',
     gradient: 'linear-gradient(135deg, #D10068 0%, #9E0050 100%)',
   },
   {
@@ -34,7 +32,6 @@ const CATEGORIES = [
     label: 'Wedding Music',
     description: 'Elegant string quartets, jazz trios, and acoustic soloists for your perfect day.',
     icon: '💍',
-    count: '920+ musicians',
     gradient: 'linear-gradient(135deg, #B45309 0%, #78350F 100%)',
   },
   {
@@ -42,7 +39,6 @@ const CATEGORIES = [
     label: '1-on-1 Teaching',
     description: 'Expert tutors for guitar, piano, voice, production, and more — online or in-person.',
     icon: '🎓',
-    count: '2,100+ teachers',
     gradient: 'linear-gradient(135deg, #007B75 0%, #004D49 100%)',
   },
   {
@@ -50,7 +46,6 @@ const CATEGORIES = [
     label: 'Online Lessons',
     description: 'Learn from home with live video sessions tailored to your pace and goals.',
     icon: '💻',
-    count: '4,500+ teachers',
     gradient: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
   },
   {
@@ -58,7 +53,6 @@ const CATEGORIES = [
     label: 'Live Performance',
     description: 'Theatrical, concert, and festival performers ready to light up your stage.',
     icon: '🎸',
-    count: '1,400+ performers',
     gradient: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
   },
 ];
@@ -75,7 +69,7 @@ export function CategoryExplorer({ onSelect, className = '', ...props }) {
           What are you looking for?
         </Typography>
         <Typography variant="body" className={styles.subtitle}>
-          From intimate lessons to grand performances — we've got every musical need covered.
+          From intimate lessons to grand performances — find the right musician for any project.
         </Typography>
       </div>
 
@@ -101,7 +95,6 @@ export function CategoryExplorer({ onSelect, className = '', ...props }) {
               <span className={styles.tileIcon} aria-hidden="true">{cat.icon}</span>
               <Typography as="h3" variant="heading3" className={styles.tileLabel}>{cat.label}</Typography>
               <Typography variant="bodySmall" className={styles.tileDesc}>{cat.description}</Typography>
-              <span className={styles.tileCount}>{cat.count}</span>
             </div>
           </button>
         ))}

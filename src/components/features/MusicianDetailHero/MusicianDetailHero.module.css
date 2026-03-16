@@ -136,16 +136,26 @@
   font-family: var(--font-family-base);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  color: var(--color-brand-primary);
-  background: var(--color-brand-primary-tint-05);
-  border: 1px solid var(--color-brand-primary-tint-15);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-full);
   padding: var(--space-micro) var(--space-base);
 }
 
 .languages {
-  color: var(--color-text-tertiary) !important;
+  color: rgba(255, 255, 255, 0.55) !important;
   font-size: var(--font-size-xs) !important;
+}
+
+.ensembleText {
+  text-transform: capitalize;
+}
+
+.newMusician {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Rating + price row */
@@ -183,15 +193,9 @@
 .ctaBox {
   display: flex;
   flex-direction: column;
-  gap: var(--space-16);
+  gap: var(--space-base);
   align-self: flex-end;
   min-width: 200px;
-}
-
-.secondaryActions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-base);
 }
 
 /* Responsive */
@@ -205,11 +209,6 @@
   .ctaBox {
     flex-direction: row;
     min-width: 0;
-  }
-
-  .secondaryActions {
-    flex-direction: row;
-    flex: 1;
   }
 
   .cover { height: 260px; }

@@ -329,9 +329,7 @@ export function BookingDrawer({
               {step === 0 ? 'Review Order →' : submitting ? 'Sending…' : 'Confirm & Send →'}
             </Button>
             {submitError && (
-              <p style={{ color: 'var(--color-error, #e53)', marginTop: 8, fontSize: 14 }}>
-                {submitError}
-              </p>
+              <p className={styles.errorMsg}>{submitError}</p>
             )}
           </div>
         )}

@@ -32,7 +32,7 @@ export function HomePage({
         <FeaturedMusicianRow
           musicians={musicians.slice(0, 6)}
           title="Featured This Week"
-          subtitle="Handpicked top-rated musicians available for hire now."
+          subtitle="Sample profiles showing the kind of talent you can discover on Prova."
           onBook={handleBook}
         />
 

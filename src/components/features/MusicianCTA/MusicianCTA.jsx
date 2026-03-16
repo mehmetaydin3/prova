@@ -10,13 +10,13 @@ const BENEFITS = [
   'Set your own rates — no race to the bottom',
   'Accept or decline any request, freely',
   'Get discovered by clients worldwide',
-  'Zero commission on your first three bookings',
+  'Build a professional profile that showcases your work',
 ];
 
-const STATS = [
-  { value: '2,400+', label: 'Active musicians' },
-  { value: '$2.4M+', label: 'Paid to musicians' },
-  { value: '190+', label: 'Countries' },
+const PROPS = [
+  { value: 'Your terms', label: 'Set your own rates' },
+  { value: 'Full control', label: 'Accept or decline freely' },
+  { value: 'Global reach', label: 'Visible to clients worldwide' },
 ];
 
 export function MusicianCTA({ className = '', ...props }) {
@@ -35,9 +35,9 @@ export function MusicianCTA({ className = '', ...props }) {
           </h2>
 
           <p className={styles.desc}>
-            Join thousands of professional musicians already earning through Prova.
-            Create your profile in minutes, define your services, and start receiving
-            bookings from clients around the world.
+            Create your profile, define your services, and start receiving
+            booking requests from clients around the world.
+            Prova is built around musicians — you stay in control.
           </p>
 
           <ul className={styles.benefits} role="list">
@@ -60,10 +60,10 @@ export function MusicianCTA({ className = '', ...props }) {
         </div>
 
         <div className={styles.statsPanel}>
-          {STATS.map((s) => (
-            <div key={s.label} className={styles.stat}>
-              <span className={styles.statValue}>{s.value}</span>
-              <span className={styles.statLabel}>{s.label}</span>
+          {PROPS.map((p) => (
+            <div key={p.label} className={styles.stat}>
+              <span className={styles.statValue}>{p.value}</span>
+              <span className={styles.statLabel}>{p.label}</span>
             </div>
           ))}
 
@@ -78,7 +78,7 @@ export function MusicianCTA({ className = '', ...props }) {
                 loading="lazy"
               />
             ))}
-            <span className={styles.stackLabel}>and 2,394 others</span>
+            <span className={styles.stackLabel}>Join the early cohort</span>
           </div>
         </div>
       </div>

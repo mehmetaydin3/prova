@@ -3,7 +3,6 @@ import { Badge } from '../../ui/Badge/Badge';
 import { RatingStars } from '../../ui/RatingStars/RatingStars';
 import { Typography } from '../../ui/Typography/Typography';
 import { Button } from '../../ui/Button/Button';
-import { FriendButton } from '../FriendButton/FriendButton';
 import styles from './MusicianDetailHero.module.css';
 
 const CURRENCY_SYMBOLS = { USD: '$', EUR: '€', GBP: '£', CAD: 'CA$' };
@@ -31,8 +30,6 @@ export function MusicianDetailHero({
   musician = {},
   onBook,
   onContact,
-  friendshipStatus = 'none',
-  onFriendAction,
   className = '',
   ...props
 }) {
@@ -107,7 +104,7 @@ export function MusicianDetailHero({
             )}
             {ensembleType && ensembleType !== 'solo' && (
               <div className={styles.metaItem}>
-                <span>👥</span><span style={{ textTransform: 'capitalize' }}>{ensembleType}</span>
+                <span>👥</span><span className={styles.ensembleText}>{ensembleType}</span>
               </div>
             )}
           </div>
@@ -131,7 +128,7 @@ export function MusicianDetailHero({
             {rating > 0 ? (
               <RatingStars rating={rating} reviewCount={reviewCount} size="md" showCount />
             ) : (
-              <span style={{ fontSize: 'var(--font-size-sm)', color: 'rgba(255,255,255,0.7)' }}>New musician</span>
+              <span className={styles.newMusician}>New on Prova</span>
             )}
             {startingPrice != null && (
               <div className={styles.price}>
@@ -143,21 +140,14 @@ export function MusicianDetailHero({
           </div>
         </div>
 
-        {/* Sticky CTA */}
+        {/* CTA column */}
         <div className={styles.ctaBox}>
           <Button variant="primary" size="lg" fullWidth onClick={onBook}>
             Book Now
           </Button>
-          <div className={styles.secondaryActions}>
-            <Button variant="ghost" size="lg" fullWidth onClick={onContact}>
-              Message
-            </Button>
-            <FriendButton 
-              status={friendshipStatus} 
-              onClick={onFriendAction} 
-              fullWidth
-            />
-          </div>
+          <Button variant="ghost" size="lg" fullWidth onClick={onContact}>
+            Message
+          </Button>
         </div>
       </div>
     </div>
