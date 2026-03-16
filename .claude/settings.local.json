@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(cat -n /Users/mehmetaydin/prova/src/hooks/useMusicians.js 2>/dev/null || find /Users/mehmetaydin/prova/src -name \"useMusicians*\" | xargs cat -n 2>/dev/null)",
+      "Bash(git commit:*)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(echo \"=== $f ===\")",
+      "Read(//Users/mehmetaydin/prova/**)",
+      "Bash(done)",
+      "Bash(cd:*)"
+    ]
+  }
+}
